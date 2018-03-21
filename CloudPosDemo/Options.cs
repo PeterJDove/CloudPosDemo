@@ -129,7 +129,7 @@ namespace Touch.CloudPosDemo
         public static string DefaultHomeFolder()
         {
             var docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            return Path.Combine(docs, "Test Recorder");
+            return Path.Combine(docs, "CloudPosDemo");
         }
 
         public static Dictionary<string, ClientSize> ClientSizes()

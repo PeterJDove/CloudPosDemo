@@ -46,7 +46,7 @@ namespace Touch.CloudPosDemo
 
             if (_iniFile == null)
             {
-                var fileName = Path.Combine(CloudPosDemo.Options.DefaultHomeFolder(), "TestRecorder.ini");
+                var fileName = Path.Combine(CloudPosDemo.Options.DefaultHomeFolder(), "CloudPosDemo.ini");
                 _iniFile = new IniFile(fileName);
             }
             return _iniFile;
