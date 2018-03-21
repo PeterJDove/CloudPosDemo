@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher Preview</title>
+    <style>
+        div.voucher {
+            float: left;
+            width: 20vw;
+            padding: 0.5vh 2vw 0.5vh 0.5vw;
+            font-size: 1.5vmin;
+            font-family: Arial, Helvetica, sans-serif;
+            border: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin-right: 0.5vmin;
+        }
+
+            div.voucher * {
+                padding: 0;
+                margin: 0;
+            }
+
+        table.graphics {
+            width: 100%;
+            overflow: hidden;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: 0;
+        }
+
+            table.graphics td:first-child {
+                width: 75%;
+            }
+
+            table.graphics td:nth-child(2) {
+                width: 25%;
+            }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        h1, h2, h3, h4 {
+            text-align: center;
+            font-weight: 400;
+        }
+
+            h1[align="left"],
+            h2[align="left"],
+            h3[align="left"],
+            h4[align="left"] {
+                text-align: left;
+            }
+
+            h1[align="right"],
+            h2[align="right"],
+            h3[align="right"],
+            h4[align="right"] {
+                text-align: right;
+            }
+
+        h1 {
+            font-size: 3vmin;
+        }
+
+        h2 {
+            font-size: 3vmin;
+            font-family: Arial, Helvetica, sans-serif-condensed;
+        }
+
+        h3 {
+            font-size: 2vmin;
+        }
+
+        h4 {
+            font-size: 2vmin;
+            font-family: Arial, Helvetica, sans-serif-condensed;
+        }
+
+        small {
+            font-size: 0.7vmin;
+            font-family: Arial, Helvetica, sans-serif-condensed;
+        }
+
+        hr {
+            background-color: #000;
+            color: #000;
+            height: 2px;
+            margin: 4px 0;
+            border: 0;
+        }
+
+        div.cut::after {
+            content: "";
+            display: block;
+            height: 1px;
+            background: #f00;
+        }
+
+        .hanging-indent {
+            padding-left: 15px;
+            text-indent: -15px;
+        }
+
+        .hanging-indent-large {
+            padding-left: 45px;
+            text-indent: -45px;
+        }
+
+        dt {
+            float: left;
+        }
+
+        dd {
+            text-align: right;
+        }
+
+            dt.deleted, dd.deleted {
+                text-decoration: line-through;
+                color: salmon;
+            }
+
+        ol, ul {
+            padding-left: 15px;
+        }
+
+        .barcode img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="voucher">
+        {content}
+    </div>
+</body>
+
+</html>
