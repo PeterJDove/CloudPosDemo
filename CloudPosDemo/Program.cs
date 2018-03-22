@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Touch.Tools;
+using static System.Environment;
 
 namespace Touch.CloudPosDemo
 {
@@ -46,8 +47,18 @@ namespace Touch.CloudPosDemo
 
             if (_iniFile == null)
             {
-                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CloudPosDemo.ini");
-                _iniFile = new IniFile(fileName);
+                var appData = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), "CloudPOS");
+                string iniFileName = Path.Combine(appData, "CloudPosDemo.ini");
+                if (File.Exists(iniFileName) == false)
+                {
+                    var source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(iniFileName));
+                    if (File.Exists(source))
+                    {
+                        Util.EnsureFolderExists(appData);
+                        File.Copy(source, iniFileName);
+                    }
+                }
+                _iniFile = new IniFile(iniFileName);
             }
             return _iniFile;
         }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using YamlDotNet.Serialization;
+using static System.Environment;
 
 namespace CloudPos
 {
     internal class CredentialsRepository
     {
         private Dictionary<String, PosActivator.Credentials> _dictionary;
-        private string _filename = "CloudPos.auth";
+        private const string _filename = "CloudPos.auth";
 
         internal CredentialsRepository()
         { }
@@ -71,9 +72,8 @@ namespace CloudPos
 
         private string GetFileLocation()
         {
-            var path = Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
-
-            string filePath = Path.Combine(path, _filename).ToString();
+            var appData = Environment.GetFolderPath(SpecialFolder.CommonApplicationData);
+            string filePath = Path.Combine(appData, "CloudPOS", _filename);
             return filePath;
         }
 
