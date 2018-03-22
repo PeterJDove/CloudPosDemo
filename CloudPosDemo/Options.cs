@@ -103,13 +103,6 @@ namespace Touch.CloudPosDemo
         }
         public string Operator { get; set; }
 
-        // Folders
-        public string HomeFolder { get; set; }
-        public string ScriptsFolder { get; set; }
-        public string SnapshotsFolder { get; set; }
-        public string LogsFolder { get; set; }
-
-
         // CloudPOS Options
         public string CloudPosUrl { get; set; }
         public string Secret { get; set; }
@@ -126,12 +119,6 @@ namespace Touch.CloudPosDemo
 
         private static Dictionary<string, ClientSize> _clientSizes = new Dictionary<string, ClientSize>();
 
-        public static string DefaultHomeFolder()
-        {
-            var docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            return Path.Combine(docs, "CloudPosDemo");
-        }
-
         public static Dictionary<string, ClientSize> ClientSizes()
         {
             return _clientSizes;
@@ -143,16 +130,6 @@ namespace Touch.CloudPosDemo
             KeepOnTop = ini.GetBoolean("GENERAL", "topmost", false);
             if (string.IsNullOrEmpty(Operator))
                 Operator = Environment.UserName;
-
-            HomeFolder = ini.GetString("FOLDERS", "home", DefaultHomeFolder());
-            ScriptsFolder = ini.GetString("FOLDERS", "scripts", Path.Combine(HomeFolder, "scripts"));
-            SnapshotsFolder = ini.GetString("FOLDERS", "snapshots", Path.Combine(HomeFolder, "snapshots"));
-            LogsFolder = ini.GetString("FOLDERS", "logs", Path.Combine(HomeFolder, "logs"));
-
-            Util.EnsureFolderExists(HomeFolder);
-            Util.EnsureFolderExists(ScriptsFolder);
-            Util.EnsureFolderExists(SnapshotsFolder);
-            Util.EnsureFolderExists(LogsFolder);
 
             CloudPosUrl = ini.GetString("CLOUDPOS", "url");
             Secret = ini.GetString("CLOUDPOS", "secret");
@@ -177,11 +154,6 @@ namespace Touch.CloudPosDemo
             IniFile ini = Program.IniFile();
             ini.Write("GENERAL", "operator", Operator);
             ini.Write("GENERAL", "topmost", KeepOnTop);
-
-            ini.Write("FOLDERS", "home", HomeFolder, DefaultHomeFolder());
-            ini.Write("FOLDERS", "scripts", ScriptsFolder, Path.Combine(HomeFolder, "scripts"));
-            ini.Write("FOLDERS", "snapshots", SnapshotsFolder, Path.Combine(HomeFolder, "snapshots"));
-            ini.Write("FOLDERS", "logs", LogsFolder, Path.Combine(HomeFolder, "logs"));
 
             ini.Write("CLOUDPOS", "url", CloudPosUrl);
             ini.Write("CLOUDPOS", "secret", Secret);
