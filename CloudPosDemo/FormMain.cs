@@ -88,7 +88,8 @@ namespace Touch.CloudPosDemo
                 ClearLogs();
                 if (CloudPOS == null)
                 {
-                    EnsureCloudPosReady();
+                    if (EnsureCloudPosReady() == false)
+                        chkCloudPos.Checked = false;
                 }
             }
             else
@@ -120,9 +121,11 @@ namespace Touch.CloudPosDemo
             }
             catch (ApplicationException appEx)
             {
-                var message = "Failed to Activate:\n\n" + appEx.Message;
-                MessageBox.Show(message, "Activate CloudPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var message = "Failed to Activate:\n\n" + appEx.Message
+                    + "\n\nCheck CloudPOS URL and Secret in Options.";
+                MessageBox.Show(message, "Activate CloudPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 chkCloudPos.BackColor = SystemColors.Control;
+                UpdateGUI(() => this.Cursor = Cursors.Default);
                 return false;
             }
             chkCloudPos.BackColor = Color.FromArgb(200, 255, 0);
@@ -133,7 +136,7 @@ namespace Touch.CloudPosDemo
             CloudPOS.InitPosWindow(config, token);
 
             UpdateGUI(() => this.Cursor = Cursors.Default);
-            return false;
+            return true;
         }
 
         private void DestroyCloudPos()

@@ -101,7 +101,7 @@ namespace CloudPos
                 }
                 else
                 {
-                    var message = "Login failed: " + response.StatusCode.ToString();
+                    var message = "Login failed: " + (int)response.StatusCode + " " + response.StatusCode;
                     // MessageBox.Show(message);
                     throw new ApplicationException(message);
                 }
