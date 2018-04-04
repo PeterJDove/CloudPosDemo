@@ -6,35 +6,53 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using static CloudPos.PosActivator;
 
 namespace CloudPos
 {
+    /*
+     *  This class provides a .NET API by which the CloudPOS application can be accessed.
+     *  It hides the complexity of creating the JSON messages passed into the javascript
+     *  application, and deconstructing those that are received in return.
+     *  
+     *  This class raises a number of .NET events that should be listened for by the
+     *  POS application.
+     *  
+     * 
+     * 
+     * 
+     *  This class also manages the expiry of the access token, and will automatically 
+     *  renew it well before it is due to expire.
+     */
+
     public class CloudPos : IDisposable
     {
+        private Configuration _config;
+        private PosToken _posToken;
+        private Timer _tokenTimer;
+
         private CloudPosUI.ICloudPosUI _ui;
         private string _operator = "";
         public PosBasket _basket = new PosBasket();
 
 
-        public EventHandler Ready;
-        public EventHandler ShowGUI;
-        public EventHandler HideGUI;
-        public EventHandler<BasketItem> ItemAdded;
-        public EventHandler<BasketItem> ItemRemoved;
-        public EventHandler<PosBasket> BasketCommitted;
-        public EventHandler<string> VoucherAvailable;
-        public EventHandler<string> StartDevice;
-        public EventHandler<string> StopDevice;
-        public EventHandler<string> DisplayMessage;
-        public EventHandler SyncBasket;
-        public EventHandler<string> Error;
+        public EventHandler Ready;  // Raised when the javascript application reports that it is ready.
+        public EventHandler ShowGUI; // Raised when the browser window is to be (or has been) brought to the fore.
+        public EventHandler HideGUI; // Raised when the browser window is hidden, surrendering control to the POS.
+        public EventHandler<BasketItem> ItemAdded; // Raised when an Item is to be added to the POS basket.
+        public EventHandler<BasketItem> ItemRemoved; // Raised when an Item is to be taken out of the POS basket.
+        public EventHandler<PosBasket> BasketCommitted; // Raised when the basket of eServices items is finalised.
+        public EventHandler<string> VoucherAvailable; // Raised (usually after BasketCommitted) for each voucher to be printed.
+        public EventHandler<string> StartDevice; // Raised when we want the POS to turn on an input device: Bar Code Reader or Card Swipe.
+        public EventHandler<string> StopDevice; // Raised when we want the POS to turn off an input device.
+        public EventHandler<string> DisplayMessage; // Raised when we want the POS to display a message.
+        public EventHandler SyncBasket; // Not used. 
+        public EventHandler<string> Error; // Raised when Touchpoint encounters a problem.
 
         public static string DEV_KEYBOARD = "KEYBOARD";
         public static string DEV_BARCODE = "BARCODE_SCANNER";
         public static string DEV_MAGSTRIPE = "MAGNETIC_STRIPE_READER";
-
-
 
 
         public CloudPos()
@@ -57,34 +75,56 @@ namespace CloudPos
         }
 
 
-        private void InstantiateBrowser(string type, string title)
+        public void InitPosWindow(Configuration config)
         {
-            switch (type.ToLower())
+            try
             {
-                case "ie":
-                    _ui = new CloudPosIE.UI(title, false);
-                    _ui.Notify += _ui_Notify;
-                    break;
-                //case "essential":
-                //    _ui = new CloudPosEO.UI(title);
-                //    _ui.Notify += _ui_Notify;
-                //    break;
-                //case "awesomium":
-                //    _ui = new CloudPosAwesomium.UI(title);
-                //    _ui.Notify += _ui_Notify;
-                //    break;
+                _config = config;
+                RefreshPosToken();
+
+                _ui.SetPosition(config.ClientLeft, config.ClientTop);
+                _ui.SetClientSize(config.ClientWidth, config.ClientHeight);
+                string url = config.GetBrowserUrl(_posToken.AccessToken);
+                _ui.Navigate(url);
+            }
+            catch (ApplicationException)
+            {
+                throw;
             }
         }
 
-        public void InitPosWindow(Configuration config, PosToken posToken)
+        private void RefreshPosToken()
         {
-            _ui.SetPosition(config.ClientLeft, config.ClientTop);
-            _ui.SetClientSize(config.ClientWidth, config.ClientHeight);
-            string url = config.GetBrowserUrl(posToken.AccessToken);
-            _ui.Navigate(url);
+            try
+            {
+                var posActivator = new PosActivator(_config);
+                _posToken = posActivator.ActivateIfNeededAndRenewToken();
+
+                if (_posToken.ShouldRenewTokenInSeconds > 1800) // 30 minutes
+                {
+                    _tokenTimer = new Timer();
+                    _tokenTimer.Elapsed += _tokenTimer_Elapsed;
+                    _tokenTimer.Interval = 1000 * (_posToken.ShouldRenewTokenInSeconds - 1800);
+                    _tokenTimer.Enabled = true;
+                }
+            }
+            catch (ApplicationException)
+            {
+                throw;
+            }
         }
 
+        private void _tokenTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _tokenTimer.Enabled = false;
+            RefreshPosToken();
 
+            var message = new SetDeviceAccessTokenMessage
+            {
+                AccessToken = _posToken.AccessToken
+            };
+            SendJsonRequest(message);
+        }
 
         public string Operator
         {
@@ -299,6 +339,24 @@ namespace CloudPos
             }
         }
 
+        private void InstantiateBrowser(string type, string title)
+        {
+            switch (type.ToLower())
+            {
+                case "ie":
+                    _ui = new CloudPosIE.UI(title, false);
+                    _ui.Notify += _ui_Notify;
+                    break;
+                    //case "essential":
+                    //    _ui = new CloudPosEO.UI(title);
+                    //    _ui.Notify += _ui_Notify;
+                    //    break;
+                    //case "awesomium":
+                    //    _ui = new CloudPosAwesomium.UI(title);
+                    //    _ui.Notify += _ui_Notify;
+                    //    break;
+            }
+        }
 
 
     }

@@ -7,6 +7,12 @@ using static System.Environment;
 
 namespace CloudPos
 {
+    /*
+     *  This class simply manages the persistent storage of the PosActivator.Credentials
+     *  in a file on disk called "CloudPos.auth".  This goes in the Windows 
+     *  "CommonApplicationData" folder, e.g. C:\ProgramData\CloudPOS\
+     */
+
     internal class CredentialsRepository
     {
         private Dictionary<String, PosActivator.Credentials> _dictionary;

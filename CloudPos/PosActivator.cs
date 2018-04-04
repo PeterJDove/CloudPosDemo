@@ -4,20 +4,50 @@ using System.Net;
 
 namespace CloudPos
 {
-    public class PosActivator
+    /*
+     *  CloudPOS is a secure system.  Each POS must be known to the system.
+     *  
+     *  Initially the POS is activated using a shared "Secret" (here contained
+     *  in the _config.Secret.  A successful activation results in the return 
+     *  of a "Credentials" object, returned as JSON, but modelled below.
+     *  The Credentials object is persisted to disk, making the shared "Secret"
+     *  redundant.  
+     *  
+     *  The Credentials are used periodically to a device access Token, which is
+     *  forms part of the URL sent to the browser to open the CloudPOS session.
+     *  It is then used within every request sent from the javascript application
+     *  to the Afterpay Touch server.
+     *  
+     *  A token must be fetched each time this code is started; and periodically
+     *  before it expires.  
+     *  
+     */
+    internal class PosActivator
     {
+        /*
+         *  This inner class, PosActivator.Credentials, encapsulates the credentials
+         *  obtained when you activate a device.  They are used to get or refresh 
+         *  the token used for all subsequent requests. 
+         */
         public class Credentials
         {
             public string DeviceId { get; set; }
             public string DeviceKey { get; set; }
             public string Sequence { get; set; }
         }
-        
+
+        /*
+         *  This inner class, PosActivator.PosToken, encapuslates a newly fetched
+         *  access token.  It also contains a number of seconds representing the 
+         *  life of that token.  It is best to renew the token before it expires. 
+         */
         public class PosToken
         {
             public string AccessToken { get; set; }
             public int ShouldRenewTokenInSeconds { get; set; }
         }
+
+
 
 
 
@@ -32,54 +62,48 @@ namespace CloudPos
             _config = config;
         }
 
-        public PosToken ActivateAndRenewToken()
+        /*
+         *  This method simply wraps the Activate and RenewToken methods
+         *  (below) into one convenient form.   Activate is called if needed,
+         *  and then RenewToken is called, and the renewed Token returned.
+         */
+        public PosToken ActivateIfNeededAndRenewToken()
         {
             PosToken token = null;
             Credentials credentials = _repo.GetIfPresent(_config.ApiUrl);
             try
             {
-                // existing credentials
-                if (credentials != null)
+                while (true)
                 {
-                    token = RenewToken(credentials);
-                    if (token == null)
+                    if (credentials == null)
                     {
-                        // incorrect credentials, need to activate
                         credentials = Activate();
-                        if (credentials != null)
-                        {
-                            token = RenewToken(credentials);
-                        }
                     }
-                }
-                else
-                {
-                    // no existing credentials
-                    credentials = Activate();
                     if (credentials != null)
                     {
                         token = RenewToken(credentials);
+                        if (token != null)
+                        {
+                            _repo.SaveCredentials(_config.ApiUrl, credentials);
+                            break;
+                        }
+                        // incorrect credentials, need to activate
+                        credentials = null; 
                     }
-                    else
-                    {
-                        return null;
-                    }
-                }
-
-                if (token != null)
-                {
-                    _repo.SaveCredentials(_config.ApiUrl, credentials);
                 }
                 return token;
             }
-            catch (ApplicationException e)
+            catch (ApplicationException)
             {
-                e.ToString();
                 throw;
             }
         }
 
-        public Credentials Activate()
+        /*
+         *  This method Activates the device using the "secret", and returns a
+         *  new Credentials object which is later used to get a new access token.         * 
+         */ 
+        private Credentials Activate()
         {
             var activationUrl = _config.GetActivationUrl();
             var client = new RestClient();
@@ -113,7 +137,11 @@ namespace CloudPos
             }
         }
 
-
+        /*
+         *  This method gets a new access token using the device Credentials.
+         *  If the Credentials are invalid, nothing is returned, and the device
+         *  will need to be (re)activated.        
+         */
         public PosToken RenewToken(Credentials credentials)
         {
             var client = new RestClient

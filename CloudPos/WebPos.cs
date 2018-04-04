@@ -6,10 +6,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static CloudPos.PosActivator;
+
 
 namespace CloudPos
 {
+    /*
+     *  Strictly speaking, WebPOS, is a different creature to CloudPOS and this 
+     *  class does not play a part in using CloudPOS.
+     *  
+     *  WebPOS is the alternative browser-based way of accessing Afterpay Touch 
+     *  eServices when there is _no_ POS integration.   It is a stand-alone product
+     *  which offers no API.
+     *  
+     *  It is included here is for demonstration purposes only.
+     * 
+     */ 
     public class WebPos : IDisposable
     {
         private CloudPosUI.ICloudPosUI _ui;

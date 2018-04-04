@@ -109,32 +109,29 @@ namespace Touch.CloudPosDemo
             {
                 this.Cursor = Cursors.WaitCursor;
                 tabControl.SelectedIndex = 0;
+                chkCloudPos.BackColor = Color.Yellow;
             });
-            CloudPos.PosActivator.PosToken token = null;
 
-            chkCloudPos.BackColor = Color.Yellow;
             var config = Program.Options().CloudPosConfiguration();
+            CloudPOS = new CloudPos.CloudPos();
+            CloudPOS.Ready += CloudPos_Ready;
+            CloudPOS.Operator = config.Operator;
             try
             {
-                var posActivator = new CloudPos.PosActivator(config);
-                token = posActivator.ActivateAndRenewToken();
+                CloudPOS.InitPosWindow(config);
             }
             catch (ApplicationException appEx)
             {
                 var message = "Failed to Activate:\n\n" + appEx.Message
                     + "\n\nCheck CloudPOS URL and Secret in Options.";
                 MessageBox.Show(message, "Activate CloudPOS", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                chkCloudPos.BackColor = SystemColors.Control;
-                UpdateGUI(() => this.Cursor = Cursors.Default);
+                
+                UpdateGUI(() => {
+                    chkCloudPos.BackColor = SystemColors.Control;
+                    this.Cursor = Cursors.Default;
+                });
                 return false;
             }
-            chkCloudPos.BackColor = Color.FromArgb(200, 255, 0);
-
-            CloudPOS = new CloudPos.CloudPos();
-            CloudPOS.Ready += CloudPos_Ready;
-            CloudPOS.Operator = config.Operator;
-            CloudPOS.InitPosWindow(config, token);
-
             UpdateGUI(() => this.Cursor = Cursors.Default);
             return true;
         }
