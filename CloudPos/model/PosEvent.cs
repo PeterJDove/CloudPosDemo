@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace CloudPos
 {
-    public class PosEventType
+    internal class PosEventType
     {
         public const string READY = "ready";
         public const string HIDE_GUI = "hideGui";
@@ -24,7 +24,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public abstract class PosEvent
+    internal abstract class PosEvent
     {
         public PosEvent(string eventName)
         {
@@ -35,17 +35,17 @@ namespace CloudPos
         public string EventName { get; private set; }
     }
 
-    public class ReadyEvent : PosEvent
+    internal class ReadyEvent : PosEvent
     {
         public ReadyEvent() : base(PosEventType.READY) { }
     }
 
-    public class ShowGuiEvent : PosEvent
+    internal class ShowGuiEvent : PosEvent
     {
         public ShowGuiEvent() : base(PosEventType.SHOW_GUI) { }
     }
 
-    public class HideGuiEvent: PosEvent
+    internal class HideGuiEvent: PosEvent
     {
         public HideGuiEvent() : base(PosEventType.HIDE_GUI) { }
         
@@ -56,7 +56,7 @@ namespace CloudPos
         public string Message { get; set; }
     }
 
-    public class AddToBasketEvent : PosEvent
+    internal class AddToBasketEvent : PosEvent
     {
         public AddToBasketEvent() : base(PosEventType.ADD_TO_BASKET) { }
 
@@ -68,7 +68,7 @@ namespace CloudPos
         public BasketItem BasketItem { get; set; }
     }
 
-    public class RemoveFromBasketEvent : PosEvent
+    internal class RemoveFromBasketEvent : PosEvent
     {
         public RemoveFromBasketEvent() : base(PosEventType.REMOVE_FROM_BASKET) { }
 
@@ -80,7 +80,7 @@ namespace CloudPos
 
     }
 
-    public class BasketCommittedEvent : PosEvent
+    internal class BasketCommittedEvent : PosEvent
     {
         public BasketCommittedEvent() : base(PosEventType.BASKET_COMMITTED) { }
 
@@ -93,7 +93,7 @@ namespace CloudPos
 
     }
 
-    public class PrintVoucherEvent : PosEvent
+    internal class PrintVoucherEvent : PosEvent
     {
         public PrintVoucherEvent() : base(PosEventType.PRINT_VOUCHER) { }
 
@@ -104,7 +104,7 @@ namespace CloudPos
         public string Data { get; set; }
     }
 
-    public class VoucherHtmlEvent : PosEvent
+    internal class VoucherHtmlEvent : PosEvent
     {
         public VoucherHtmlEvent() : base(PosEventType.VOUCHER_HTML) { }
 
@@ -118,7 +118,7 @@ namespace CloudPos
         public string VoucherHtml { get; set; }
     }
 
-    public class StartDeviceEvent : PosEvent
+    internal class StartDeviceEvent : PosEvent
     {
         public StartDeviceEvent() : base(PosEventType.START_DEVICE) { }
 
@@ -126,7 +126,7 @@ namespace CloudPos
         public string Device { get; set; }
     }
 
-    public class StopDeviceEvent : PosEvent
+    internal class StopDeviceEvent : PosEvent
     {
         public StopDeviceEvent() : base(PosEventType.STOP_DEVICE) { }
 
@@ -134,7 +134,7 @@ namespace CloudPos
         public string Device { get; set; }
     }
 
-    public class DisplayMessageEvent : PosEvent
+    internal class DisplayMessageEvent : PosEvent
     {
         public DisplayMessageEvent() : base(PosEventType.DISPLAY_MESSAGE) { }
 
@@ -148,7 +148,7 @@ namespace CloudPos
         public int Timeout { get; set; }
     }
 
-    public class SyncBasketEvent : PosEvent
+    internal class SyncBasketEvent : PosEvent
     {
         public SyncBasketEvent() : base(PosEventType.SYNC_BASKET) { }
 
@@ -157,7 +157,7 @@ namespace CloudPos
     }
 
 
-    public class ErrorEvent : PosEvent
+    internal class ErrorEvent : PosEvent
     {
         public ErrorEvent() : base(PosEventType.ERROR) { }
 

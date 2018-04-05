@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace CloudPos
 {
     [Serializable]
-    public class PosMessageType
+    internal class PosMessageType
     {
         //
         //  These strings end in "Event" because they are events from the Javascript POV.
@@ -22,7 +22,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public abstract class PosMessage
+    internal abstract class PosMessage
     {
         public PosMessage(string eventIdentifier)
         {
@@ -34,7 +34,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class SetDeviceAccessTokenMessage : PosMessage
+    internal class SetDeviceAccessTokenMessage : PosMessage
     {
         public SetDeviceAccessTokenMessage() : base(PosMessageType.DEVICE_ACCESS_TOKEN) { }
 
@@ -43,7 +43,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class ShowUserInterfaceMessage : PosMessage
+    internal class ShowUserInterfaceMessage : PosMessage
     {
         public ShowUserInterfaceMessage() : base(PosMessageType.SHOW_UI) { }
 
@@ -61,7 +61,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class AddToBasketMessage : PosMessage
+    internal class AddToBasketMessage : PosMessage
     {
         public AddToBasketMessage() : base(PosMessageType.ADD_TO_BASKET) { }
 
@@ -82,7 +82,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class RemoveFromBasketMessage : PosMessage
+    internal class RemoveFromBasketMessage : PosMessage
     {
         public RemoveFromBasketMessage() : base(PosMessageType.REMOVE_FROM_BASKET) { }
 
@@ -100,7 +100,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class ClearBasketMessage : PosMessage
+    internal class ClearBasketMessage : PosMessage
     {
         public ClearBasketMessage() : base(PosMessageType.CLEAR_BASKET) { }
 
@@ -109,7 +109,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class CommitBasketMessage : PosMessage
+    internal class CommitBasketMessage : PosMessage
     {
         public CommitBasketMessage() : base(PosMessageType.COMMIT_BASKET) { }
 
@@ -124,7 +124,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class GetVoucherMessage : PosMessage
+    internal class GetVoucherMessage : PosMessage
     {
         public GetVoucherMessage() : base(PosMessageType.GET_VOUCHER) { }
 
@@ -133,7 +133,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class DeviceDataMessage : PosMessage
+    internal class DeviceDataMessage : PosMessage
     {
         public DeviceDataMessage() : base(PosMessageType.DEVICE_DATA) { }
 
@@ -145,7 +145,7 @@ namespace CloudPos
     }
 
     [Serializable]
-    public class SyncBasketMessage : PosMessage
+    internal class SyncBasketMessage : PosMessage
     {
         public SyncBasketMessage() : base(PosMessageType.SYNC_BASKET) { }
 

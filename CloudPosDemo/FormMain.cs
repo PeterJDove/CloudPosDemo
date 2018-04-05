@@ -16,8 +16,6 @@ namespace Touch.CloudPosDemo
         public CloudPos.CloudPos CloudPOS;
         public CloudPos.WebPos WebPOS;
 
-        private List<Button> _cloudPosButtons = new List<Button>();
-        private Dictionary<string, string> _knownSecrets = new Dictionary<string, string>();
 
         #region Form Instantiation and Closing
         public FormMain()
@@ -153,12 +151,14 @@ namespace Touch.CloudPosDemo
         #endregion
 
         #region CloudPOS ButtonStates
+        private List<Button> _cloudPosButtons = new List<Button>();
+
         /*
          *  This method simply enables or disables the buttons on the main
          *  tab, depending on whether or not CloudPOS is instantiated and,
          *  if it is, on the state of the Basket: whether it contains items,
          *  and whether the basket is committed.
-         */ 
+         */
         private void RefreshButtonStates()
         {
             if (CloudPOS == null)
@@ -631,6 +631,8 @@ namespace Touch.CloudPosDemo
         #endregion Logging
 
         #region Options Tab
+        private Dictionary<string, string> _knownSecrets = new Dictionary<string, string>();
+
         private void InitializeOptions()
         {
             foreach (var combo in new[] { cboURL, cboSecret, cboSkin, cboLocale, cboClientSize })

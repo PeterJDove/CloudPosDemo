@@ -74,7 +74,16 @@ namespace CloudPos
             }
         }
 
-
+        /*
+         *  InitPosWindow must be called first to initiate a CloudPOS session running
+         *  in the browser.  It takes a populated Configuration object to define which 
+         *  URL to connect to, how to identify the device, where to put the browser
+         *  window, etc.
+         *  
+         *  You might think that this could have been incorporated into the CloudPos
+         *  Constructor; however the client (POS) needs to hook into the Ready event
+         *  of the newly created CloudPos object, before calling this method.
+         */
         public void InitPosWindow(Configuration config)
         {
             try
@@ -93,6 +102,14 @@ namespace CloudPos
             }
         }
 
+        /*
+         *  RefreshPosToken is called from InitPosWindow (above) when the CloudPOS session
+         *  is first started; and again from _tokenTimer_Elapsed (below) when the access token
+         *  is about to expire.
+         *  
+         *  This method also starts the Expiry timer, set to trigger 30 minutes before the 
+         *  newly obtained token is due to expire.
+         */
         private void RefreshPosToken()
         {
             try
@@ -114,6 +131,9 @@ namespace CloudPos
             }
         }
 
+        /*
+         *  This timer event fires when the access token is approaching expiry.
+         */ 
         private void _tokenTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _tokenTimer.Enabled = false;
@@ -137,12 +157,26 @@ namespace CloudPos
             get { return _basket; }
         }
 
+        /*
+         *  _ui_Notify is the listener hooked to listen for messages from the CloudPOS
+         *  application.  The real work is done in HandlePosEvent.
+         */
         private void _ui_Notify(object sender, string json)
         {
             var posEvent = JsonConvert.DeserializeObject<PosEvent>(json, new PosEventJsonConverter());
             HandlePosEvent(posEvent);
         }
 
+        /*
+         *  ShowTouchpointUI is called to make the browser window be displayed.
+         *  Arguments:
+         *      shortcutOrEan - the application screen to be presented first.   
+         *                      If empty, the default "home" or main menu is presented.
+         *      retailerTransactionId - Optionally allows a POS transaction reference
+         *                      to be attached to the eServices transaction/s.
+         *                      
+         *  If necessary, this method will automatically clear a previously committed basket.                      
+         */
         public void ShowTouchpointUI(string shortcutOrEan, string retailerTransactionId = "")
         {
             if (_basket != null && _basket.Committed)
@@ -160,6 +194,36 @@ namespace CloudPos
             _ui.Show();
         }
 
+        /*
+         *  AddItem is called to add an item to the basket WITHOUT showing the CloudPOS GUI.
+         *  Arguments:
+         *      shortcutOrEan - the product to be added.
+         *      retailerTransactionId - Optionally allows a POS transaction reference
+         *                      to be attached to the eServices transaction/s.
+         *                      
+         *  If necessary, this method will automatically clear a previously committed basket.                      
+         */
+        public void AddItem(string shortcutOrEan, string retailerTransactionId = "")
+        {
+            if (_basket != null && _basket.Committed)
+            {
+                _basket.Clear();
+            }
+            var message = new AddToBasketMessage()
+            {
+                ShortcutOrEan = shortcutOrEan,
+                OperatorId = _operator,
+                RetailerTransactionId = retailerTransactionId,
+                BasketId = _basket.StrId,
+            };
+            SendJsonRequest(message);
+        }
+
+        /*
+         *  CommitBasket finalises all pending transactions, committing all of the 
+         *  eService transactions in the basket.  This method should be called
+         *  after the POS basket has been paid for (tendered).
+         */
         public void CommitBasket()
         {
             var message = new CommitBasketMessage()
@@ -171,6 +235,11 @@ namespace CloudPos
             SendJsonRequest(message);
         }
 
+        /*
+         *  RemoveItem is used to remove, cancel or void and item from the basket
+         *  before the basket is committed.  This should be used, for example, if 
+         *  an item is added in error, or the customer changes their mind.
+         */
         public void RemoveItem(string purchaseId, string reason)
         {
             var message = new RemoveFromBasketMessage()
@@ -183,6 +252,15 @@ namespace CloudPos
             SendJsonRequest(message);
         }
 
+        /*
+         *  ClearBasket is used to ready the Basket for use by ensuring
+         *  it is empty, and refreshed with no "Basket ID".
+         *  
+         *  This method may be called by the POS client before the basket 
+         *  is committed, to cancel the entire customer transaction.
+         *  In that case, a ClearBasketMessage is sent to the javascript 
+         *  application.  
+         */
         public void ClearBasket()
         {
             if (_basket != null && !_basket.Committed)
@@ -196,15 +274,11 @@ namespace CloudPos
             _basket = new PosBasket();
         }
 
-        public void GetVoucher(string voucherUrl)
-        {
-            var message = new GetVoucherMessage()
-            {
-                VoucherUrl = voucherUrl
-            };
-            SendJsonRequest(message);
-        }
-
+        /*
+         *  DeviceData is called from a POS client when it has accepted input
+         *  from a peripheral device - such as a Bar Code Reader or Mag Stripe
+         *  Reader - in response to a StartDevice event.
+         */
         public void DeviceData(string device, string data)
         {
             var message = new DeviceDataMessage()
@@ -215,18 +289,24 @@ namespace CloudPos
             SendJsonRequest(message);
         }
 
-        public void AddItem(string shortcutOrEan, string retailerTransactionId = "")
+        /*
+         *  GetVoucher is called from within HandlePosEvent (below) when processing 
+         *  the BASKET_COMMITTED event.  It is called to fetch each voucher resulting
+         *  from the transactions in the basket.
+         */
+        private void GetVoucher(string voucherUrl)
         {
-            var message = new AddToBasketMessage()
+            var message = new GetVoucherMessage()
             {
-                ShortcutOrEan = shortcutOrEan,
-                OperatorId = _operator,
-                RetailerTransactionId = retailerTransactionId,
-                BasketId = _basket.StrId,
+                VoucherUrl = voucherUrl
             };
             SendJsonRequest(message);
         }
-        
+
+        /*
+         *  SendJsonRequest serializes and sends the PosMessage resulting from the 
+         *  methods above, into the javascript application running in the browser.
+         */
         private void SendJsonRequest(PosMessage posMessage)
         {
             var settings = new JsonSerializerSettings
@@ -238,7 +318,15 @@ namespace CloudPos
             _ui.SendMessage(json);
         }
 
-
+        /*
+         *  HandlePosEvent is called from _ui_Notify event listener (above).
+         *  
+         *  Most messages are simply turned into .NET events.  A few do more, 
+         *  especially:
+         *      ADD_TO_BASKET : Updates our own Basket object with new items
+         *      REMOVE_FROM_BASKET : Removes item from our own Basket
+         *      BASKET_COMMITTED : Updates the Basket state; and fetches all the vouchers
+         */
         private void HandlePosEvent(PosEvent posEvent)
         {
             if (posEvent == null)
@@ -305,7 +393,7 @@ namespace CloudPos
                         }
                     }
                     break;
-                case PosEventType.PRINT_VOUCHER: // I think this is an "unexpected" voucher...
+                case PosEventType.PRINT_VOUCHER: // This is an "unexpected" ad hoc voucher...
                     var PrintVoucherEvent = (PrintVoucherEvent)posEvent;
                     VoucherAvailable?.Invoke(this, PrintVoucherEvent.Data);
                     break;
@@ -339,6 +427,16 @@ namespace CloudPos
             }
         }
 
+
+        /*
+         *  InstantiateBrowser is called from the Constructor to instantiate an
+         *  implementation of the ICloudPosUI interface.
+         *  
+         *  At present, only one implementation is supported: CloudPosIE.UI
+         *  
+         *  The commented-out code is for other browser types that were being tried,
+         *  but which are not presently included.
+         */
         private void InstantiateBrowser(string type, string title)
         {
             switch (type.ToLower())
@@ -347,14 +445,14 @@ namespace CloudPos
                     _ui = new CloudPosIE.UI(title, false);
                     _ui.Notify += _ui_Notify;
                     break;
-                    //case "essential":
-                    //    _ui = new CloudPosEO.UI(title);
-                    //    _ui.Notify += _ui_Notify;
-                    //    break;
-                    //case "awesomium":
-                    //    _ui = new CloudPosAwesomium.UI(title);
-                    //    _ui.Notify += _ui_Notify;
-                    //    break;
+                //case "essential":
+                //    _ui = new CloudPosEO.UI(title);
+                //    _ui.Notify += _ui_Notify;
+                //    break;
+                //case "awesomium":
+                //    _ui = new CloudPosAwesomium.UI(title);
+                //    _ui.Notify += _ui_Notify;
+                //    break;
             }
         }
 

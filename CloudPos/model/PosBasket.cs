@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CloudPos
 {
-    public class PosBasket
+    public class PosBasket : IEnumerable<BasketItem>
     {
         public int Id { get; set; }
         public List<BasketItem> Items { get; set; }
@@ -27,6 +28,16 @@ namespace CloudPos
         internal string StrId
         {
             get { return Id > 0 ? Id.ToString() : ""; }
+        }
+
+        public IEnumerator<BasketItem> GetEnumerator()
+        {
+            return Items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Items.GetEnumerator();
         }
     }
 }

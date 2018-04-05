@@ -87,7 +87,7 @@ namespace CloudPos
         public Voucher RefundVoucher { get; set; }
     }
 
-    public class BasketItemJsonConverter : JsonConverter
+    internal class BasketItemJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
