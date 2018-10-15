@@ -57,10 +57,7 @@ calls upon the **CloudPos** DLL.  This executable is _NOT_ intended to be includ
 project, but serves only as a working demonstration of how to interface to the supplied 
 **CloudPos** DLL.
 
-
-
-
-
+If running the entire package together, **CloudPosDemo** should be the "Start Up" project.
 
 ## Use at Own Risk
 
