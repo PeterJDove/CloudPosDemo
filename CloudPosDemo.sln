@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosUI", "CloudPosUI\Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosDemo", "CloudPosDemo\CloudPosDemo.csproj", "{E3382E16-D729-4A9D-90EC-EF702DF3C712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Touch.Tools", "Tools\Touch.Tools.csproj", "{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,14 @@ Global
 		{E3382E16-D729-4A9D-90EC-EF702DF3C712}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3382E16-D729-4A9D-90EC-EF702DF3C712}.Release|x86.ActiveCfg = Release|Any CPU
 		{E3382E16-D729-4A9D-90EC-EF702DF3C712}.Release|x86.Build.0 = Release|Any CPU
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Debug|x86.ActiveCfg = Debug|x86
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Debug|x86.Build.0 = Debug|x86
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Release|x86.ActiveCfg = Release|x86
+		{994CB7A6-49E4-4CB7-B1A3-C93B99EDD65D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

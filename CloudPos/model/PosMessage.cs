@@ -18,6 +18,7 @@ namespace CloudPos
         public const string CLEAR_BASKET = "BasketClearEvent";
         public const string DEVICE_DATA = "DeviceDataEvent";
         public const string GET_VOUCHER = "BasketGetVoucherEvent";
+        public const string SIMPLE_PRODUCT = "SimpleProductEvent";
         public const string SYNC_BASKET = "SyncBasket";
     }
 
@@ -143,6 +144,16 @@ namespace CloudPos
         [DataMember(Name = "data")]
         public string Data { get; set; }
     }
+
+    [Serializable]
+    internal class SimpleProductMessage : PosMessage
+    {
+        public SimpleProductMessage() : base(PosMessageType.SIMPLE_PRODUCT) { }
+
+        [DataMember(Name = "shortcutOrEan")]
+        public string ShortcutOrEan { get; set; }
+    }
+
 
     [Serializable]
     internal class SyncBasketMessage : PosMessage

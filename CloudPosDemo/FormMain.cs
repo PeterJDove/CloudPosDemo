@@ -111,9 +111,7 @@ namespace Touch.CloudPosDemo
             });
 
             var config = Program.Options().CloudPosConfiguration();
-            CloudPOS = new CloudPos.CloudPos();
-            CloudPOS.Ready += CloudPos_Ready;
-            CloudPOS.Operator = config.Operator;
+            InstantiateCloudPos(config.Operator);
             try
             {
                 CloudPOS.InitPosWindow(config);
@@ -132,6 +130,24 @@ namespace Touch.CloudPosDemo
             }
             UpdateGUI(() => this.Cursor = Cursors.Default);
             return true;
+        }
+
+        private void InstantiateCloudPos(string posOperator)
+        {
+            CloudPOS = new CloudPos.CloudPos();
+            CloudPOS.Ready += CloudPos_Ready;
+            CloudPOS.ShowGUI += CloudPos_ShowGUI;
+            CloudPOS.HideGUI += CloudPos_HideGUI;
+            CloudPOS.ItemAdded += CloudPos_ItemAdded;
+            CloudPOS.ItemRemoved += CloudPos_ItemRemoved;
+            CloudPOS.BasketCommitted += CloudPos_BasketCommitted;
+            CloudPOS.BasketCommitFailed += CloudPos_BasketCommitFailed;
+            CloudPOS.VoucherAvailable += CloudPos_VoucherAvailable;
+            CloudPOS.DisplayMessage += CloudPos_DisplayMessage;
+            CloudPOS.StartDevice += CloudPos_StartDevice;
+            CloudPOS.StopDevice += CloudPos_StopDevice;
+            CloudPOS.Error += CloudPos_Error;
+            CloudPOS.Operator = posOperator;
         }
 
         private void DestroyCloudPos()
@@ -213,19 +229,8 @@ namespace Touch.CloudPosDemo
         private void CloudPos_Ready(object sender, EventArgs e)
         {
             chkCloudPos.BackColor = Color.Lime;
-            CloudPOS.ShowGUI += CloudPos_ShowGUI;
-            CloudPOS.HideGUI += CloudPos_HideGUI;
-            CloudPOS.ItemAdded += CloudPos_ItemAdded;
-            CloudPOS.ItemRemoved += CloudPos_ItemRemoved;
-            CloudPOS.BasketCommitted += CloudPos_BasketCommitted;
-            CloudPOS.VoucherAvailable += CloudPos_VoucherAvailable;
-            CloudPOS.StartDevice += CloudPos_StartDevice;
-            CloudPOS.StopDevice += CloudPos_StopDevice;
-            CloudPOS.DisplayMessage += CloudPos_DisplayMessage;
-            CloudPOS.Error += CloudPos_Error;
             Log("CloudPOS Ready");
         }
-
 
         /*
          *  CloudPos_ShowGUI is raised when the GUI is presented to the User.
@@ -260,6 +265,34 @@ namespace Touch.CloudPosDemo
         private void CloudPos_BasketCommitted(object sender, CloudPos.PosBasket posBasket)
         {
             Log("Basket Committed (event)");
+            Log(" - " + posBasket.NumberOfVouchers + " voucher/s expected.");
+            RefreshButtonStates();
+        }
+
+        /*
+         *  CloudPos_BasketCommitFailed may be raised in response to calling CloudPOS.CommitBasket
+         *  if the Commit fails completely, or times out.
+         */
+        private void CloudPos_BasketCommitFailed(object sender, CloudPos.PosBasket posBasket)
+        {
+            decimal refund = 0;
+            foreach (var item in posBasket)
+            {
+                if (item is CloudPos.PurchaseBasketItem)
+                {
+                    refund += ((CloudPos.PurchaseBasketItem)item).Product.Price.Amount;
+                } 
+                else if (item is CloudPos.RefundBasketItem)
+                {
+                    var amount = ((CloudPos.RefundBasketItem)item).Product.Price.Amount;
+                    refund -= Math.Abs(amount);
+                }
+            }
+            var refundDue = refund.ToString("C");
+            Log("Basket Commit Failed (event)");
+            Log(" - Refund Amount = " + refundDue);
+            MessageBox.Show("The BasketCommit failed.\n\nYou need to immediately refund the customer " + refundDue + ".", 
+                btnCommit.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             RefreshButtonStates();
         }
 
@@ -268,6 +301,12 @@ namespace Touch.CloudPosDemo
          *  both PURCHASE items and REFUND items.
          *  
          *  Here, we update listBasket with the new item.
+         *  
+         *  NOTE: If the BasketItem to be added contains SubItems (within .Product.Items),
+         *  we iterate through the .Product.Items collection and add each SubItem to the POS
+         *  basket, rather than the parent Product.   This is true even if the .Product.Items 
+         *  collection contains just one SubItem.   This is because we use this as a way of 
+         *  overriding the EAN and/or Description of the product to be added to the basket.
          */
         private void CloudPos_ItemAdded(object sender, CloudPos.BasketItem item)
         {
@@ -276,22 +315,52 @@ namespace Touch.CloudPosDemo
                 if (item.Type == "PURCHASE")
                 {
                     CloudPos.PurchaseBasketItem purchase = (CloudPos.PurchaseBasketItem)item;
-                    ListViewItem lvItem = new ListViewItem(purchase.Product.Description);
-                    lvItem.Tag = purchase.Id;
-                    lvItem.SubItems.Add(purchase.Product.Price.Amount.ToString("C"));
-                    lvItem.SubItems.Add(purchase.Product.Ean);
-                    lvItem.SubItems.Add(purchase.Id.ToString());
-                    listBasket.Items.Add(lvItem);
+                    if (purchase.Product.Items == null || purchase.Product.Items.Count == 0)
+                    {
+                        ListViewItem lvItem = new ListViewItem(purchase.Product.Description);
+                        lvItem.Tag = purchase.Id;
+                        lvItem.SubItems.Add(purchase.Product.Price.Amount.ToString("C"));
+                        lvItem.SubItems.Add(purchase.Product.Ean);
+                        lvItem.SubItems.Add(purchase.Id.ToString());
+                        listBasket.Items.Add(lvItem);
+                    }
+                    else // we have at least one SubItem in the .Product.Items collection
+                    {
+                        foreach (CloudPos.SubItem subItem in purchase.Product.Items)
+                        {
+                            ListViewItem lvItem = new ListViewItem(subItem.Description);
+                            lvItem.Tag = purchase.Id;
+                            lvItem.SubItems.Add(subItem.Amount.ToString("C"));
+                            lvItem.SubItems.Add(subItem.Ean);
+                            lvItem.SubItems.Add(purchase.Id.ToString());
+                            listBasket.Items.Add(lvItem);
+                        }
+                    }
                 }
                 else if (item.Type == "REFUND")
                 {
                     CloudPos.RefundBasketItem refund = (CloudPos.RefundBasketItem)item;
-                    ListViewItem lvItem = new ListViewItem(refund.Product.Description);
-                    lvItem.Tag = refund.Id;
-                    lvItem.SubItems.Add(refund.Product.Price.Amount.ToString("C"));
-                    lvItem.SubItems.Add(refund.Product.Ean);
-                    lvItem.SubItems.Add(refund.Id.ToString());
-                    listBasket.Items.Add(lvItem);
+                    if (refund.Product.Items == null || refund.Product.Items.Count == 0)
+                    {
+                        ListViewItem lvItem = new ListViewItem(refund.Product.Description);
+                        lvItem.Tag = refund.Id;
+                        lvItem.SubItems.Add(refund.Product.Price.Amount.ToString("C"));
+                        lvItem.SubItems.Add(refund.Product.Ean);
+                        lvItem.SubItems.Add(refund.Id.ToString());
+                        listBasket.Items.Add(lvItem);
+                    }
+                    else // we have at least one SubItem in the .Product.Items collection
+                    {
+                        foreach (CloudPos.SubItem subItem in refund.Product.Items)
+                        {
+                            ListViewItem lvItem = new ListViewItem(subItem.Description);
+                            lvItem.Tag = refund.Id;
+                            lvItem.SubItems.Add(subItem.Amount.ToString("C"));
+                            lvItem.SubItems.Add(subItem.Ean);
+                            lvItem.SubItems.Add(refund.Id.ToString());
+                            listBasket.Items.Add(lvItem);
+                        }
+                    }
                 }
                 RefreshButtonStates();
             });
@@ -477,7 +546,11 @@ namespace Touch.CloudPosDemo
         private void btnRefund_Click(object sender, EventArgs e)
         {
             Log("Clicked: " + ((Button)sender).Text);
-            CloudPOS.ShowTouchpointUI("refund");
+            using (var formRefund = new FormRefund())
+            {
+                if (formRefund.ShowRefundDialog(this) == DialogResult.OK)
+                    CloudPOS.Refund(formRefund.TransactionID, formRefund.Reason);
+            }
         }
 
         private void btnClearBasket_Click(object sender, EventArgs e)
@@ -529,7 +602,7 @@ namespace Touch.CloudPosDemo
                 optWebPos.Checked = true;
                 ClearLogs();
                 if (WebPOS == null)
-                    if (Program.FormMain().ShowWebPos(Program.Options().WebPosUrl))
+                    if (Program.FormMain().ShowWebPos(Program.Options().Url))
                         Log("Show WebPos: OK");
                     else
                         Log("Show WebPos: Failed");
@@ -632,24 +705,30 @@ namespace Touch.CloudPosDemo
 
         #region Options Tab
         private Dictionary<string, string> _knownSecrets = new Dictionary<string, string>();
+        private bool _connectionNameDirty = false;
+
 
         private void InitializeOptions()
         {
-            foreach (var combo in new[] { cboURL, cboSecret, cboSkin, cboLocale, cboClientSize })
+            var ini = Program.IniFile();
+
+            foreach (var combo in new[] { cboConnection, cboSkin, cboLocale, cboClientSize })
             {
                 combo.Items.Clear();
             }
-            var dict = Program.IniFile().GetSection("CLOUDPOS_SECRETS");
-            foreach (var key in dict.Keys)
+            var maxConnection = ini.GetInt("GENERAL", "max_connection");
+            for (int i = 1; i <= maxConnection; i++)
             {
-                cboSecret.Items.Add(key);
+                string name = ini.GetString(Options.ConnSection(i), "name");
+                if (!string.IsNullOrEmpty(name))
+                    cboConnection.Items.Add(name);
             }
-            dict = Program.IniFile().GetSection("CLOUDPOS_SKINS");
+            var dict = ini.GetSection("SKINS");
             foreach (var key in dict.Keys)
             {
                 cboSkin.Items.Add(key);
             }
-            dict = Program.IniFile().GetSection("CLOUDPOS_LOCALES");
+            dict = ini.GetSection("LOCALES");
             foreach (var key in dict.Keys)
             {
                 cboLocale.Items.Add(key);
@@ -658,15 +737,10 @@ namespace Touch.CloudPosDemo
 
 
             var options = Program.Options();
-
             optCloudPOS.Checked = true;
             chkKeepOnTop.Checked = options.KeepOnTop;
-            txtOperator.Text = options.Operator;
+            cboConnection.Text = options.ConnectionName;
 
-            cboURL.Text = options.CloudPosUrl;
-            cboSecret.Text = options.Secret;
-            cboSkin.Text = options.Skin;
-            cboLocale.Text = options.Locale;
             numLeft.Value = options.Left;
             numTop.Value = options.Top;
             if (options.ClientSize.Id == "custom")
@@ -683,76 +757,89 @@ namespace Touch.CloudPosDemo
             }
         }
 
-        private void optCloudPOS_CheckedChanged(object sender, EventArgs e)
+        private void optPOS_CheckedChanged(object sender, EventArgs e)
         {
             bool cloudPos = optCloudPOS.Checked;
-            string section = "CLOUDPOS_URLS";
             if (cloudPos)
-            {
-                cboURL.Text = Program.Options().CloudPosUrl;
-            }
+                Program.Options().PosType = PosType.CloudPOS;
             else
-            {
-                cboURL.Text = Program.Options().WebPosUrl;
-                section = "WEBPOS_URLS";
-            }
-            _knownSecrets = new Dictionary<string, string>();
-            cboURL.Items.Clear();
-            var dict = Program.IniFile().GetSection(section);
-            foreach (var key in dict.Keys)
-            {
-                cboURL.Items.Add(key);
-                if (!string.IsNullOrEmpty(dict[key]))
-                    _knownSecrets.Add(key, dict[key]);
-            }
+                Program.Options().PosType = PosType.WebPOS;
+
             lblSecret.Visible = cloudPos;
-            cboSecret.Visible = cloudPos;
+            txtSecret.Visible = cloudPos;
             lblSkin.Visible = cloudPos;
             cboSkin.Visible = cloudPos;
             lblLocale.Visible = cloudPos;
             cboLocale.Visible = cloudPos;
+            lblOperator.Visible = cloudPos;
+            txtOperator.Visible = cloudPos;
+
+            chkCloudPos.Visible = cloudPos;
+            chkWebPos.Visible = !cloudPos;
         }
 
-
-        private void combo_TextChanged(object sender, EventArgs e)
+        private void cboConnection_SelectedIndexChanged(object sender, EventArgs e)
         {
             var options = Program.Options();
 
-            string value = ((ComboBox)sender).Text;
-            if (sender == cboURL)
+            options.LoadConnection(((ComboBox)sender).Text);
+            if (options.PosType == PosType.CloudPOS)
+                optCloudPOS.Checked = true;
+            else if (options.PosType == PosType.WebPOS)
+                optWebPos.Checked = true;
+
+            txtURL.Text = options.Url;
+            txtSecret.Text = options.Secret;
+            cboSkin.Text = options.Skin;
+            cboLocale.Text = options.Locale;
+            txtOperator.Text = options.Operator;
+            _connectionNameDirty = false;
+        }
+
+        private void cboConnection_TextChanged(object sender, EventArgs e)
+        {
+            _connectionNameDirty = true;
+        }
+
+        private void txtURL_TextChanged(object sender, EventArgs e)
+        {
+            Program.Options().Url = txtURL.Text;
+        }
+
+        private void txtSecret_TextChanged(object sender, EventArgs e)
+        {
+            Program.Options().Secret = txtSecret.Text;
+        }
+        
+        private void txtOperator_TextChanged(object sender, EventArgs e)
+        {
+            Program.Options().Operator = txtOperator.Text;
+        }
+
+        private void cboSkin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Program.Options().Skin = cboSkin.Text;
+        }
+
+        private void cboLocale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Program.Options().Locale = cboLocale.Text;
+        }
+
+        private void cboClientSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var clientSize = (ClientSize)cboClientSize.SelectedItem;
+            var customSize = (clientSize.Id == "custom");
+            lblWidth.Enabled = customSize;
+            numWidth.Enabled = customSize;
+            lblHeight.Enabled = customSize;
+            numHeight.Enabled = customSize;
+            if (!customSize)
             {
-                if (optCloudPOS.Checked)
-                {
-                    options.CloudPosUrl = value;
-                    if (_knownSecrets.ContainsKey(value))
-                        cboSecret.Text = _knownSecrets[value];
-                }
-                else if (optWebPos.Checked)
-                {
-                    options.WebPosUrl = value;
-                }
+                numWidth.Value = clientSize.Width;
+                numHeight.Value = clientSize.Height;
             }
-            else if (sender == cboSecret)
-                options.Secret = value;
-            else if (sender == cboSkin)
-                options.Skin = value;
-            else if (sender == cboLocale)
-                options.Locale = value;
-            else if (sender == cboClientSize)
-            {
-                var clientSize = (ClientSize)cboClientSize.SelectedItem;
-                var customSize = (clientSize.Id == "custom");
-                lblWidth.Enabled = customSize;
-                numWidth.Enabled = customSize;
-                lblHeight.Enabled = customSize;
-                numHeight.Enabled = customSize;
-                if (!customSize)
-                {
-                    numWidth.Value = clientSize.Width;
-                    numHeight.Value = clientSize.Height;
-                }
-                options.ClientSize = clientSize;
-            }
+            Program.Options().ClientSize = clientSize;
         }
 
         private void posSize_ValueChanged(object sender, EventArgs e)
@@ -770,11 +857,6 @@ namespace Touch.CloudPosDemo
                 options.ClientSize.Height = value;
         }
 
-        private void txtOperator_TextChanged(object sender, EventArgs e)
-        {
-            Program.Options().Operator = txtOperator.Text;
-        }
-
         private void chkKeepOnTop_CheckedChanged(object sender, EventArgs e)
         {
             Program.Options().KeepOnTop = chkKeepOnTop.Checked;
@@ -782,10 +864,36 @@ namespace Touch.CloudPosDemo
 
         private void btnPersistChanges_Click(object sender, EventArgs e)
         {
-            Program.Options().PersistChanges();
+            var name = cboConnection.Text;
+            var options = Program.Options();
+            if (_connectionNameDirty)
+            {
+                var dialog = new FormNameChange();
+                switch (dialog.Show(name))
+                {
+                    case NameChangeResult.SaveNewName:
+                        options.ConnectionName = name; // Change name
+                        break;
+                    case NameChangeResult.SaveNewConnection:
+                        options.ConnectionName = name; // Change name...
+                        options.ConnectionId = 0; // ...and force new connection
+                        break;
+                    case NameChangeResult.SaveUndoNameChange:
+                        name = options.ConnectionName; // Undo name change
+                        break; 
+                    default:
+                        return;
+                }
+            }
+            options.PersistChanges();
+            InitializeOptions();
+            if (!string.IsNullOrEmpty(txtURL.Text))
+                cboConnection.Text = name;
+            else if (cboConnection.Items.Count > 0)
+                cboConnection.SelectedIndex = 0;
         }
+
         #endregion Options Tab
 
- 
     }
 }

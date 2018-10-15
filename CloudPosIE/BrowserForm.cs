@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Security.Permissions;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace CloudPosIE
 {
     // These are required to support the Browser <-> .NET App communications
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
+    [ComVisibleAttribute(true)]
 
     public partial class BrowserForm : Form
     {
         public event EventHandler<string> Notify;
         public event EventHandler<string> Loaded;
         public event EventHandler Unloaded;
+
 
         private bool _closeable = false;
 

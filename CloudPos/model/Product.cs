@@ -29,6 +29,9 @@ namespace CloudPos
     [Serializable]
     public class SubItem
     {
+        [DataMember(Name = "ean")]
+        public string Ean { set; get; }
+
         [DataMember(Name = "description")]
         public string Description { set; get; }
 

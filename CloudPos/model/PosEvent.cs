@@ -20,6 +20,7 @@ namespace CloudPos
         public const string STOP_DEVICE = "stopDevice";
         public const string DISPLAY_MESSAGE = "displayMessage";
         public const string SYNC_BASKET = "syncBasket";
+        public const string SIMPLE_PRODUCT = "simpleProduct";
         public const string ERROR = "error";
     }
 
@@ -148,6 +149,20 @@ namespace CloudPos
         public int Timeout { get; set; }
     }
 
+    internal class SimpleProductEvent : PosEvent
+    {
+        public SimpleProductEvent() : base(PosEventType.SIMPLE_PRODUCT) { }
+
+        [DataMember(Name = "shortcutOrEan")]
+        public string ShortcutOrEan { get; set; }
+
+        [DataMember(Name = "exists")]
+        public bool Exists { get; set; }
+
+        [DataMember(Name = "simple")]
+        public bool Simple { get; set; }
+    }
+
     internal class SyncBasketEvent : PosEvent
     {
         public SyncBasketEvent() : base(PosEventType.SYNC_BASKET) { }
@@ -155,7 +170,6 @@ namespace CloudPos
         [DataMember(Name = "referenceId")]
         public string ReferenceId { get; set; }
     }
-
 
     internal class ErrorEvent : PosEvent
     {
@@ -210,6 +224,8 @@ namespace CloudPos
                     return item.ToObject<StopDeviceEvent>();
                 case PosEventType.DISPLAY_MESSAGE:
                     return item.ToObject<DisplayMessageEvent>();
+                case PosEventType.SIMPLE_PRODUCT:
+                    return item.ToObject<SimpleProductEvent>();
                 case PosEventType.SYNC_BASKET:
                     return item.ToObject<SyncBasketEvent>();
                 case PosEventType.ERROR:

@@ -54,7 +54,24 @@
             this.chkCloudPos = new System.Windows.Forms.CheckBox();
             this.chkWebPos = new System.Windows.Forms.CheckBox();
             this.tabLog = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.listMainLog = new System.Windows.Forms.ListBox();
+            this.btnClearLog = new System.Windows.Forms.Button();
             this.tabOptions = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblURL = new System.Windows.Forms.Label();
+            this.txtURL = new System.Windows.Forms.TextBox();
+            this.txtSecret = new System.Windows.Forms.TextBox();
+            this.cboConnection = new System.Windows.Forms.ComboBox();
+            this.txtOperator = new System.Windows.Forms.TextBox();
+            this.lblOperator = new System.Windows.Forms.Label();
+            this.optWebPos = new System.Windows.Forms.RadioButton();
+            this.optCloudPOS = new System.Windows.Forms.RadioButton();
+            this.lblLocale = new System.Windows.Forms.Label();
+            this.cboLocale = new System.Windows.Forms.ComboBox();
+            this.cboSkin = new System.Windows.Forms.ComboBox();
+            this.lblSkin = new System.Windows.Forms.Label();
+            this.lblSecret = new System.Windows.Forms.Label();
             this.btnPersistChanges = new System.Windows.Forms.Button();
             this.chkKeepOnTop = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -68,21 +85,7 @@
             this.numHeight = new System.Windows.Forms.NumericUpDown();
             this.cboClientSize = new System.Windows.Forms.ComboBox();
             this.lblWindowSize = new System.Windows.Forms.Label();
-            this.txtOperator = new System.Windows.Forms.TextBox();
-            this.lblOperator = new System.Windows.Forms.Label();
-            this.optWebPos = new System.Windows.Forms.RadioButton();
-            this.optCloudPOS = new System.Windows.Forms.RadioButton();
-            this.lblLocale = new System.Windows.Forms.Label();
-            this.cboLocale = new System.Windows.Forms.ComboBox();
-            this.cboSkin = new System.Windows.Forms.ComboBox();
-            this.lblSkin = new System.Windows.Forms.Label();
-            this.cboSecret = new System.Windows.Forms.ComboBox();
-            this.cboURL = new System.Windows.Forms.ComboBox();
-            this.lblSecret = new System.Windows.Forms.Label();
             this.listMiniLog = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.listMainLog = new System.Windows.Forms.ListBox();
-            this.btnClearLog = new System.Windows.Forms.Button();
             this.tableLayoutMain.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabCloudPos.SuspendLayout();
@@ -90,13 +93,14 @@
             this.flowCloudPos.SuspendLayout();
             this.flowCloudWeb.SuspendLayout();
             this.tabLog.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.tabOptions.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutMain
@@ -137,7 +141,7 @@
             this.tabCloudPos.Location = new System.Drawing.Point(4, 4);
             this.tabCloudPos.Name = "tabCloudPos";
             this.tabCloudPos.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCloudPos.Size = new System.Drawing.Size(298, 398);
+            this.tabCloudPos.Size = new System.Drawing.Size(298, 408);
             this.tabCloudPos.TabIndex = 1;
             this.tabCloudPos.Text = "Main";
             // 
@@ -157,7 +161,7 @@
             this.tableLayoutCloudPos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 215F));
             this.tableLayoutCloudPos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutCloudPos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutCloudPos.Size = new System.Drawing.Size(292, 392);
+            this.tableLayoutCloudPos.Size = new System.Drawing.Size(292, 402);
             this.tableLayoutCloudPos.TabIndex = 1;
             // 
             // listBasket
@@ -175,7 +179,7 @@
             this.listBasket.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listBasket.MultiSelect = false;
             this.listBasket.Name = "listBasket";
-            this.listBasket.Size = new System.Drawing.Size(286, 134);
+            this.listBasket.Size = new System.Drawing.Size(286, 144);
             this.listBasket.TabIndex = 11;
             this.listBasket.UseCompatibleStateImageBehavior = false;
             this.listBasket.View = System.Windows.Forms.View.Details;
@@ -391,6 +395,7 @@
             this.chkWebPos.Text = "WebPOS";
             this.chkWebPos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.chkWebPos.UseVisualStyleBackColor = true;
+            this.chkWebPos.Visible = false;
             this.chkWebPos.CheckedChanged += new System.EventHandler(this.chkWebPos_CheckedChanged);
             // 
             // tabLog
@@ -404,34 +409,207 @@
             this.tabLog.TabIndex = 3;
             this.tabLog.Text = "Log";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.listMainLog, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnClearLog, 1, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(292, 402);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // listMainLog
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.listMainLog, 3);
+            this.listMainLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMainLog.FormattingEnabled = true;
+            this.listMainLog.ItemHeight = 16;
+            this.listMainLog.Location = new System.Drawing.Point(3, 3);
+            this.listMainLog.Name = "listMainLog";
+            this.listMainLog.Size = new System.Drawing.Size(286, 366);
+            this.listMainLog.TabIndex = 0;
+            // 
+            // btnClearLog
+            // 
+            this.btnClearLog.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnClearLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearLog.Location = new System.Drawing.Point(96, 372);
+            this.btnClearLog.Margin = new System.Windows.Forms.Padding(0);
+            this.btnClearLog.Name = "btnClearLog";
+            this.btnClearLog.Size = new System.Drawing.Size(100, 30);
+            this.btnClearLog.TabIndex = 3;
+            this.btnClearLog.Text = "Clear Logs";
+            this.btnClearLog.UseVisualStyleBackColor = true;
+            this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
+            // 
             // tabOptions
             // 
             this.tabOptions.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tabOptions.Controls.Add(this.groupBox2);
             this.tabOptions.Controls.Add(this.btnPersistChanges);
             this.tabOptions.Controls.Add(this.chkKeepOnTop);
             this.tabOptions.Controls.Add(this.groupBox1);
-            this.tabOptions.Controls.Add(this.txtOperator);
-            this.tabOptions.Controls.Add(this.lblOperator);
-            this.tabOptions.Controls.Add(this.optWebPos);
-            this.tabOptions.Controls.Add(this.optCloudPOS);
-            this.tabOptions.Controls.Add(this.lblLocale);
-            this.tabOptions.Controls.Add(this.cboLocale);
-            this.tabOptions.Controls.Add(this.cboSkin);
-            this.tabOptions.Controls.Add(this.lblSkin);
-            this.tabOptions.Controls.Add(this.cboSecret);
-            this.tabOptions.Controls.Add(this.cboURL);
-            this.tabOptions.Controls.Add(this.lblSecret);
             this.tabOptions.Location = new System.Drawing.Point(4, 4);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOptions.Size = new System.Drawing.Size(298, 398);
+            this.tabOptions.Size = new System.Drawing.Size(298, 408);
             this.tabOptions.TabIndex = 4;
             this.tabOptions.Text = "Options";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lblURL);
+            this.groupBox2.Controls.Add(this.txtURL);
+            this.groupBox2.Controls.Add(this.txtSecret);
+            this.groupBox2.Controls.Add(this.cboConnection);
+            this.groupBox2.Controls.Add(this.txtOperator);
+            this.groupBox2.Controls.Add(this.lblOperator);
+            this.groupBox2.Controls.Add(this.optWebPos);
+            this.groupBox2.Controls.Add(this.optCloudPOS);
+            this.groupBox2.Controls.Add(this.lblLocale);
+            this.groupBox2.Controls.Add(this.cboLocale);
+            this.groupBox2.Controls.Add(this.cboSkin);
+            this.groupBox2.Controls.Add(this.lblSkin);
+            this.groupBox2.Controls.Add(this.lblSecret);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(286, 240);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Connection";
+            // 
+            // lblURL
+            // 
+            this.lblURL.AutoSize = true;
+            this.lblURL.Location = new System.Drawing.Point(6, 54);
+            this.lblURL.Name = "lblURL";
+            this.lblURL.Size = new System.Drawing.Size(30, 16);
+            this.lblURL.TabIndex = 36;
+            this.lblURL.Text = "URL";
+            // 
+            // txtURL
+            // 
+            this.txtURL.Location = new System.Drawing.Point(6, 73);
+            this.txtURL.Name = "txtURL";
+            this.txtURL.Size = new System.Drawing.Size(274, 23);
+            this.txtURL.TabIndex = 35;
+            this.txtURL.TextChanged += new System.EventHandler(this.txtURL_TextChanged);
+            // 
+            // txtSecret
+            // 
+            this.txtSecret.Location = new System.Drawing.Point(8, 118);
+            this.txtSecret.Name = "txtSecret";
+            this.txtSecret.Size = new System.Drawing.Size(274, 23);
+            this.txtSecret.TabIndex = 34;
+            this.txtSecret.TextChanged += new System.EventHandler(this.txtSecret_TextChanged);
+            // 
+            // cboConnection
+            // 
+            this.cboConnection.FormattingEnabled = true;
+            this.cboConnection.Location = new System.Drawing.Point(6, 22);
+            this.cboConnection.Name = "cboConnection";
+            this.cboConnection.Size = new System.Drawing.Size(275, 24);
+            this.cboConnection.Sorted = true;
+            this.cboConnection.TabIndex = 33;
+            this.cboConnection.SelectedIndexChanged += new System.EventHandler(this.cboConnection_SelectedIndexChanged);
+            this.cboConnection.TextChanged += new System.EventHandler(this.cboConnection_TextChanged);
+            // 
+            // txtOperator
+            // 
+            this.txtOperator.Location = new System.Drawing.Point(6, 209);
+            this.txtOperator.Name = "txtOperator";
+            this.txtOperator.Size = new System.Drawing.Size(273, 23);
+            this.txtOperator.TabIndex = 28;
+            this.txtOperator.TextChanged += new System.EventHandler(this.txtOperator_TextChanged);
+            // 
+            // lblOperator
+            // 
+            this.lblOperator.AutoSize = true;
+            this.lblOperator.Location = new System.Drawing.Point(6, 190);
+            this.lblOperator.Name = "lblOperator";
+            this.lblOperator.Size = new System.Drawing.Size(87, 16);
+            this.lblOperator.TabIndex = 26;
+            this.lblOperator.Text = "POS Operator";
+            // 
+            // optWebPos
+            // 
+            this.optWebPos.AutoSize = true;
+            this.optWebPos.Location = new System.Drawing.Point(204, 52);
+            this.optWebPos.Name = "optWebPos";
+            this.optWebPos.Size = new System.Drawing.Size(76, 20);
+            this.optWebPos.TabIndex = 23;
+            this.optWebPos.Text = "WebPOS";
+            this.optWebPos.UseVisualStyleBackColor = true;
+            this.optWebPos.CheckedChanged += new System.EventHandler(this.optPOS_CheckedChanged);
+            // 
+            // optCloudPOS
+            // 
+            this.optCloudPOS.AutoSize = true;
+            this.optCloudPOS.Location = new System.Drawing.Point(116, 52);
+            this.optCloudPOS.Name = "optCloudPOS";
+            this.optCloudPOS.Size = new System.Drawing.Size(82, 20);
+            this.optCloudPOS.TabIndex = 22;
+            this.optCloudPOS.Text = "CloudPOS";
+            this.optCloudPOS.UseVisualStyleBackColor = true;
+            this.optCloudPOS.CheckedChanged += new System.EventHandler(this.optPOS_CheckedChanged);
+            // 
+            // lblLocale
+            // 
+            this.lblLocale.AutoSize = true;
+            this.lblLocale.Location = new System.Drawing.Point(149, 144);
+            this.lblLocale.Name = "lblLocale";
+            this.lblLocale.Size = new System.Drawing.Size(112, 16);
+            this.lblLocale.TabIndex = 31;
+            this.lblLocale.Text = "Language / Locale";
+            // 
+            // cboLocale
+            // 
+            this.cboLocale.FormattingEnabled = true;
+            this.cboLocale.Location = new System.Drawing.Point(152, 163);
+            this.cboLocale.Name = "cboLocale";
+            this.cboLocale.Size = new System.Drawing.Size(128, 24);
+            this.cboLocale.TabIndex = 32;
+            this.cboLocale.SelectedIndexChanged += new System.EventHandler(this.cboLocale_SelectedIndexChanged);
+            // 
+            // cboSkin
+            // 
+            this.cboSkin.FormattingEnabled = true;
+            this.cboSkin.Location = new System.Drawing.Point(6, 163);
+            this.cboSkin.Name = "cboSkin";
+            this.cboSkin.Size = new System.Drawing.Size(140, 24);
+            this.cboSkin.TabIndex = 30;
+            this.cboSkin.SelectedIndexChanged += new System.EventHandler(this.cboSkin_SelectedIndexChanged);
+            // 
+            // lblSkin
+            // 
+            this.lblSkin.AutoSize = true;
+            this.lblSkin.Location = new System.Drawing.Point(6, 144);
+            this.lblSkin.Name = "lblSkin";
+            this.lblSkin.Size = new System.Drawing.Size(32, 16);
+            this.lblSkin.TabIndex = 29;
+            this.lblSkin.Text = "Skin";
+            // 
+            // lblSecret
+            // 
+            this.lblSecret.AutoSize = true;
+            this.lblSecret.Location = new System.Drawing.Point(5, 99);
+            this.lblSecret.Name = "lblSecret";
+            this.lblSecret.Size = new System.Drawing.Size(45, 16);
+            this.lblSecret.TabIndex = 25;
+            this.lblSecret.Text = "Secret";
             // 
             // btnPersistChanges
             // 
             this.btnPersistChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPersistChanges.Location = new System.Drawing.Point(152, 335);
+            this.btnPersistChanges.Location = new System.Drawing.Point(149, 372);
             this.btnPersistChanges.Name = "btnPersistChanges";
             this.btnPersistChanges.Size = new System.Drawing.Size(136, 30);
             this.btnPersistChanges.TabIndex = 24;
@@ -442,7 +620,7 @@
             // chkKeepOnTop
             // 
             this.chkKeepOnTop.AutoSize = true;
-            this.chkKeepOnTop.Location = new System.Drawing.Point(8, 341);
+            this.chkKeepOnTop.Location = new System.Drawing.Point(8, 378);
             this.chkKeepOnTop.Name = "chkKeepOnTop";
             this.chkKeepOnTop.Size = new System.Drawing.Size(99, 20);
             this.chkKeepOnTop.TabIndex = 23;
@@ -462,9 +640,9 @@
             this.groupBox1.Controls.Add(this.numHeight);
             this.groupBox1.Controls.Add(this.cboClientSize);
             this.groupBox1.Controls.Add(this.lblWindowSize);
-            this.groupBox1.Location = new System.Drawing.Point(8, 215);
+            this.groupBox1.Location = new System.Drawing.Point(5, 252);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(283, 114);
+            this.groupBox1.Size = new System.Drawing.Size(287, 114);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Browser";
@@ -570,11 +748,11 @@
             // cboClientSize
             // 
             this.cboClientSize.FormattingEnabled = true;
-            this.cboClientSize.Location = new System.Drawing.Point(145, 22);
+            this.cboClientSize.Location = new System.Drawing.Point(144, 22);
             this.cboClientSize.Name = "cboClientSize";
-            this.cboClientSize.Size = new System.Drawing.Size(132, 24);
+            this.cboClientSize.Size = new System.Drawing.Size(137, 24);
             this.cboClientSize.TabIndex = 9;
-            this.cboClientSize.SelectedIndexChanged += new System.EventHandler(this.combo_TextChanged);
+            this.cboClientSize.SelectedIndexChanged += new System.EventHandler(this.cboClientSize_SelectedIndexChanged);
             // 
             // lblWindowSize
             // 
@@ -585,111 +763,6 @@
             this.lblWindowSize.TabIndex = 8;
             this.lblWindowSize.Text = "Position and Size:";
             // 
-            // txtOperator
-            // 
-            this.txtOperator.Location = new System.Drawing.Point(6, 179);
-            this.txtOperator.Name = "txtOperator";
-            this.txtOperator.Size = new System.Drawing.Size(287, 23);
-            this.txtOperator.TabIndex = 17;
-            this.txtOperator.TextChanged += new System.EventHandler(this.txtOperator_TextChanged);
-            // 
-            // lblOperator
-            // 
-            this.lblOperator.AutoSize = true;
-            this.lblOperator.Location = new System.Drawing.Point(5, 160);
-            this.lblOperator.Name = "lblOperator";
-            this.lblOperator.Size = new System.Drawing.Size(87, 16);
-            this.lblOperator.TabIndex = 15;
-            this.lblOperator.Text = "POS Operator";
-            // 
-            // optWebPos
-            // 
-            this.optWebPos.AutoSize = true;
-            this.optWebPos.Location = new System.Drawing.Point(186, 6);
-            this.optWebPos.Name = "optWebPos";
-            this.optWebPos.Size = new System.Drawing.Size(102, 20);
-            this.optWebPos.TabIndex = 11;
-            this.optWebPos.Text = "WebPOS URL";
-            this.optWebPos.UseVisualStyleBackColor = true;
-            // 
-            // optCloudPOS
-            // 
-            this.optCloudPOS.AutoSize = true;
-            this.optCloudPOS.Location = new System.Drawing.Point(8, 6);
-            this.optCloudPOS.Name = "optCloudPOS";
-            this.optCloudPOS.Size = new System.Drawing.Size(108, 20);
-            this.optCloudPOS.TabIndex = 10;
-            this.optCloudPOS.Text = "CloudPOS URL";
-            this.optCloudPOS.UseVisualStyleBackColor = true;
-            this.optCloudPOS.CheckedChanged += new System.EventHandler(this.optCloudPOS_CheckedChanged);
-            // 
-            // lblLocale
-            // 
-            this.lblLocale.AutoSize = true;
-            this.lblLocale.Location = new System.Drawing.Point(153, 105);
-            this.lblLocale.Name = "lblLocale";
-            this.lblLocale.Size = new System.Drawing.Size(112, 16);
-            this.lblLocale.TabIndex = 20;
-            this.lblLocale.Text = "Language / Locale";
-            // 
-            // cboLocale
-            // 
-            this.cboLocale.FormattingEnabled = true;
-            this.cboLocale.Location = new System.Drawing.Point(152, 124);
-            this.cboLocale.Name = "cboLocale";
-            this.cboLocale.Size = new System.Drawing.Size(139, 24);
-            this.cboLocale.TabIndex = 21;
-            this.cboLocale.SelectedIndexChanged += new System.EventHandler(this.combo_TextChanged);
-            this.cboLocale.TextChanged += new System.EventHandler(this.combo_TextChanged);
-            // 
-            // cboSkin
-            // 
-            this.cboSkin.FormattingEnabled = true;
-            this.cboSkin.Location = new System.Drawing.Point(6, 124);
-            this.cboSkin.Name = "cboSkin";
-            this.cboSkin.Size = new System.Drawing.Size(140, 24);
-            this.cboSkin.TabIndex = 19;
-            this.cboSkin.SelectedIndexChanged += new System.EventHandler(this.combo_TextChanged);
-            this.cboSkin.TextChanged += new System.EventHandler(this.combo_TextChanged);
-            // 
-            // lblSkin
-            // 
-            this.lblSkin.AutoSize = true;
-            this.lblSkin.Location = new System.Drawing.Point(6, 105);
-            this.lblSkin.Name = "lblSkin";
-            this.lblSkin.Size = new System.Drawing.Size(32, 16);
-            this.lblSkin.TabIndex = 18;
-            this.lblSkin.Text = "Skin";
-            // 
-            // cboSecret
-            // 
-            this.cboSecret.FormattingEnabled = true;
-            this.cboSecret.Location = new System.Drawing.Point(5, 78);
-            this.cboSecret.Name = "cboSecret";
-            this.cboSecret.Size = new System.Drawing.Size(286, 24);
-            this.cboSecret.TabIndex = 16;
-            this.cboSecret.SelectedIndexChanged += new System.EventHandler(this.combo_TextChanged);
-            this.cboSecret.TextChanged += new System.EventHandler(this.combo_TextChanged);
-            // 
-            // cboURL
-            // 
-            this.cboURL.FormattingEnabled = true;
-            this.cboURL.Location = new System.Drawing.Point(5, 32);
-            this.cboURL.Name = "cboURL";
-            this.cboURL.Size = new System.Drawing.Size(286, 24);
-            this.cboURL.TabIndex = 13;
-            this.cboURL.SelectedIndexChanged += new System.EventHandler(this.combo_TextChanged);
-            this.cboURL.TextChanged += new System.EventHandler(this.combo_TextChanged);
-            // 
-            // lblSecret
-            // 
-            this.lblSecret.AutoSize = true;
-            this.lblSecret.Location = new System.Drawing.Point(3, 59);
-            this.lblSecret.Name = "lblSecret";
-            this.lblSecret.Size = new System.Drawing.Size(45, 16);
-            this.lblSecret.TabIndex = 14;
-            this.lblSecret.Text = "Secret";
-            // 
             // listMiniLog
             // 
             this.listMiniLog.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -699,47 +772,6 @@
             this.listMiniLog.Name = "listMiniLog";
             this.listMiniLog.Size = new System.Drawing.Size(328, 104);
             this.listMiniLog.TabIndex = 12;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.listMainLog, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnClearLog, 1, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(292, 402);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // listMainLog
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.listMainLog, 3);
-            this.listMainLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listMainLog.FormattingEnabled = true;
-            this.listMainLog.ItemHeight = 16;
-            this.listMainLog.Location = new System.Drawing.Point(3, 3);
-            this.listMainLog.Name = "listMainLog";
-            this.listMainLog.Size = new System.Drawing.Size(286, 366);
-            this.listMainLog.TabIndex = 0;
-            // 
-            // btnClearLog
-            // 
-            this.btnClearLog.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnClearLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearLog.Location = new System.Drawing.Point(96, 372);
-            this.btnClearLog.Margin = new System.Windows.Forms.Padding(0);
-            this.btnClearLog.Name = "btnClearLog";
-            this.btnClearLog.Size = new System.Drawing.Size(100, 30);
-            this.btnClearLog.TabIndex = 3;
-            this.btnClearLog.Text = "Clear Logs";
-            this.btnClearLog.UseVisualStyleBackColor = true;
-            this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
             // 
             // FormMain
             // 
@@ -763,15 +795,17 @@
             this.flowCloudPos.ResumeLayout(false);
             this.flowCloudWeb.ResumeLayout(false);
             this.tabLog.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.tabOptions.ResumeLayout(false);
             this.tabOptions.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLeft)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -804,17 +838,6 @@
         private System.Windows.Forms.ListBox listMiniLog;
         private System.Windows.Forms.TabPage tabOptions;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtOperator;
-        private System.Windows.Forms.Label lblOperator;
-        private System.Windows.Forms.RadioButton optWebPos;
-        private System.Windows.Forms.RadioButton optCloudPOS;
-        private System.Windows.Forms.Label lblLocale;
-        private System.Windows.Forms.ComboBox cboLocale;
-        private System.Windows.Forms.ComboBox cboSkin;
-        private System.Windows.Forms.Label lblSkin;
-        private System.Windows.Forms.ComboBox cboSecret;
-        private System.Windows.Forms.ComboBox cboURL;
-        private System.Windows.Forms.Label lblSecret;
         private System.Windows.Forms.Label lblWindowSize;
         private System.Windows.Forms.ComboBox cboClientSize;
         private System.Windows.Forms.Label lblHeight;
@@ -830,5 +853,19 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ListBox listMainLog;
         private System.Windows.Forms.Button btnClearLog;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label lblURL;
+        private System.Windows.Forms.TextBox txtURL;
+        private System.Windows.Forms.TextBox txtSecret;
+        private System.Windows.Forms.ComboBox cboConnection;
+        private System.Windows.Forms.TextBox txtOperator;
+        private System.Windows.Forms.Label lblOperator;
+        private System.Windows.Forms.RadioButton optWebPos;
+        private System.Windows.Forms.RadioButton optCloudPOS;
+        private System.Windows.Forms.Label lblLocale;
+        private System.Windows.Forms.ComboBox cboLocale;
+        private System.Windows.Forms.ComboBox cboSkin;
+        private System.Windows.Forms.Label lblSkin;
+        private System.Windows.Forms.Label lblSecret;
     }
 }

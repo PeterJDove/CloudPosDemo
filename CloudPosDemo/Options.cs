@@ -17,6 +17,12 @@ namespace Touch.CloudPosDemo
         Always,
     }
 
+    public enum PosType
+    {
+        CloudPOS,
+        WebPOS
+    }
+
     public class ClientSize
     {
         public string Id { get; private set; }
@@ -101,21 +107,24 @@ namespace Touch.CloudPosDemo
                 Program.FormMain().TopMost = value;
             }
         }
-        public string Operator { get; set; }
 
-        // CloudPOS Options
-        public string CloudPosUrl { get; set; }
+
+        // Configuration Options
+        public int ConnectionId { get; set; }
+        public bool FailCommit { get; set; }
+        public string ConnectionName { get; set; }
+        public PosType PosType { get; set; }
+        public string Url { get; set; }
         public string Secret { get; set; }
         public string HardwareName { get; set; }
         public string Skin { get; set; }
         public string Locale { get; set; }
+        public string Operator { get; set; }
+
+        // Browser Options
         public int Left { get; set; }
         public int Top { get; set; }
         public ClientSize ClientSize { get; set; }
-
-        // WebPOS Options
-        public string WebPosUrl { get; set; }
-        // Also: Left, Top, Width, Height 
 
         private static Dictionary<string, ClientSize> _clientSizes = new Dictionary<string, ClientSize>();
 
@@ -126,56 +135,100 @@ namespace Touch.CloudPosDemo
 
         public Options (IniFile ini)
         {
-            Operator = ini.GetString("GENERAL", "operator");
             KeepOnTop = ini.GetBoolean("GENERAL", "topmost", false);
-            if (string.IsNullOrEmpty(Operator))
-                Operator = Environment.UserName;
+            ConnectionId = ini.GetInt("GENERAL", "connection");
+            FailCommit = ini.GetBoolean("GENERAL", "fail_commit", false);
+            ConnectionName = ini.GetString(ConnSection(ConnectionId), "name");
 
-            CloudPosUrl = ini.GetString("CLOUDPOS", "url");
-            Secret = ini.GetString("CLOUDPOS", "secret");
-            HardwareName = ini.GetString("CLOUDPOS", "hardwarename", Environment.MachineName);
-            Skin = ini.GetString("CLOUDPOS", "skin");
-            Locale = ini.GetString("CLOUDPOS", "locale");
-
-            Left = ini.GetInt("CLOUDPOS", "left", 0);
-            Top = ini.GetInt("CLOUDPOS", "top", 0);
-            ClientSize = new ClientSize(ini.GetString("CLOUDPOS", "size", "xga"));
+            Left = ini.GetInt("BROWSER", "left", 0);
+            Top = ini.GetInt("BROWSER", "top", 0);
+            ClientSize = new ClientSize(ini.GetString("BROWSER", "size", "xga"));
             if (ClientSize.Id == "custom")
             {
-                ClientSize.Width = ini.GetInt("CLOUDPOS", "width");
-                ClientSize.Height = ini.GetInt("CLOUDPOS", "height");
+                ClientSize.Width = ini.GetInt("BROWSER", "width");
+                ClientSize.Height = ini.GetInt("BROWSER", "height");
             }
-
-            WebPosUrl = ini.GetString("WEBPOS", "url");
         }
+
+        public void LoadConnection(string name)
+        {
+            ConnectionName = name;
+            if (!string.IsNullOrEmpty(name))
+            {
+                IniFile ini = Program.IniFile();
+                ConnectionId = GetSectionId(name);
+                string section = ConnSection(ConnectionId);
+
+                ini.Write("GENERAL", "connection", ConnectionId);
+
+                var posType = ini.GetString(section, "type", PosType.CloudPOS.ToString());
+                PosType = (PosType)Enum.Parse(typeof(PosType), posType);
+                Url = ini.GetString(section, "url");
+                Secret = ini.GetString(section, "secret");
+                HardwareName = ini.GetString(section, "hardwarename", Environment.MachineName);
+                Skin = ini.GetString(section, "skin", "vanilla");
+                Locale = ini.GetString(section, "locale", "en-au");
+                Operator = ini.GetString(section, "operator", Environment.UserName);
+            }
+        }
+
+        private int GetSectionId(string connectionName)
+        {
+            var ini = Program.IniFile(); 
+            int maxConnection = ini.GetInt("GENERAL", "max_connection");
+            for (int i = 1; i <= maxConnection; i++)
+            {
+                if (ini.GetString(ConnSection(i), "name") == connectionName)
+                    return i;
+            }
+            return maxConnection + 1;
+        }
+
 
         public void PersistChanges()
         {
             IniFile ini = Program.IniFile();
-            ini.Write("GENERAL", "operator", Operator);
             ini.Write("GENERAL", "topmost", KeepOnTop);
 
-            ini.Write("CLOUDPOS", "url", CloudPosUrl);
-            ini.Write("CLOUDPOS", "secret", Secret);
-            ini.Write("CLOUDPOS", "hardwarename", HardwareName, Environment.MachineName);
-            ini.Write("CLOUDPOS", "skin", Skin);
-            ini.Write("CLOUDPOS", "locale", Locale);
+            ini.Write("BROWSER", "left", Left);
+            ini.Write("BROWSER", "top", Top);
+            ini.Write("BROWSER", "size", ClientSize.Id);
+            ini.Write("BROWSER", "width", ClientSize.Width);
+            ini.Write("BROWSER", "height", ClientSize.Height);
 
-            ini.Write("CLOUDPOS", "left", Left);
-            ini.Write("CLOUDPOS", "top", Top);
-            ini.Write("CLOUDPOS", "size", ClientSize.Id);
-            ini.Write("CLOUDPOS", "width", ClientSize.Width);
-            ini.Write("CLOUDPOS", "height", ClientSize.Height);
+            if (ConnectionId == 0)
+            {
+                ConnectionId = ini.GetInt("GENERAL", "max_connection") + 1;
+            }
+            string section = ConnSection(ConnectionId);
+            if (string.IsNullOrEmpty(Url))
+            {
+                ini.EraseSection(section);
+                return;
+            }
+            ini.Write("GENERAL", "connection", ConnectionId);
+            if (ConnectionId > ini.GetInt("GENERAL", "max_connection"))
+                ini.Write("GENERAL", "max_connection", ConnectionId);
 
-            ini.Write("WEBPOS", "url", WebPosUrl);
+            ini.Write(section, "name", ConnectionName);
+            ini.Write(section, "type", PosType.ToString());
+            ini.Write(section, "url", Url);
+            ini.Write(section, "secret", Secret);
+            ini.Write(section, "hardwarename", HardwareName, Environment.MachineName);
+            ini.Write(section, "skin", Skin);
+            ini.Write(section, "locale", Locale);
+            ini.Write(section, "operator", Operator);
         }
+
+
 
         internal CloudPos.Configuration CloudPosConfiguration()
         {
             return new CloudPos.Configuration
             {
-                ApiUrl = CloudPosUrl,
+                ApiUrl = Url,
                 Secret = Secret,
+                CredentialsKey = Url + "?" + Secret,
                 Operator = Operator,
                 HardwareName = HardwareName,
                 SkinName = Skin,
@@ -184,9 +237,14 @@ namespace Touch.CloudPosDemo
                 ClientTop = Top,
                 ClientWidth = ClientSize.Width,
                 ClientHeight = ClientSize.Height,
+                FailCommit = FailCommit,
             };
         }
 
+        public static string ConnSection (int i)
+        {
+            return "CONNECTION_" + i.ToString();
+        }
 
     }
 }

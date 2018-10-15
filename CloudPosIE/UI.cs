@@ -82,7 +82,7 @@ namespace CloudPosIE
             _browserForm.SendMessage(json);
         }
 
-    private void BrowserForm_Notify(object sender, string json)
+        private void BrowserForm_Notify(object sender, string json)
         {
             Notify?.Invoke(this, json);
         }

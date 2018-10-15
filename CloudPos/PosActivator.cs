@@ -70,7 +70,7 @@ namespace CloudPos
         public PosToken ActivateIfNeededAndRenewToken()
         {
             PosToken token = null;
-            Credentials credentials = _repo.GetIfPresent(_config.ApiUrl);
+            Credentials credentials = _repo.GetIfPresent(_config.CredentialsKey);
             try
             {
                 while (true)
@@ -84,7 +84,7 @@ namespace CloudPos
                         token = RenewToken(credentials);
                         if (token != null)
                         {
-                            _repo.SaveCredentials(_config.ApiUrl, credentials);
+                            _repo.SaveCredentials(_config.CredentialsKey, credentials);
                             break;
                         }
                         // incorrect credentials, need to activate

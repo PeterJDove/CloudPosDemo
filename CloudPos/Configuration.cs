@@ -33,6 +33,29 @@ namespace CloudPos
         public int ClientTop { get; set; }
         public int ClientWidth { get; set; }
         public int ClientHeight { get; set; }
+        public bool FailCommit { get; set; }
+
+        /*
+         *  The CloudPOS.auth file can carry multiple auth tokens, indexed by a key.
+         *  AuthTokenKey is that key.   By default, it is just the ApiUrl, but may be 
+         *  overridden to allow multiple auth tokens (for different retailers, stores,
+         *  or devices) for the same ApiUrl.
+         */
+        private string _credentialsKey = null;
+        public string CredentialsKey
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_credentialsKey))
+                    return ApiUrl;
+                else
+                    return _credentialsKey;
+            }
+            set
+            {
+                _credentialsKey = value;
+            }
+        }
 
         /*
          *  GetBrowserUrl builds the URL to start the CloudPOS application.
@@ -44,7 +67,7 @@ namespace CloudPos
             var queries = HttpUtility.ParseQueryString("");
             queries["skinName"] = SkinName;
             queries["locale"] = Locale;
-            queries["callBackService"] = "NPOS";  // ALERT!! may require a change to NPOS
+            queries["callBackService"] = "NPOS";   // ALERT!! may require a change to NPOS
             queries["accessToken"] = token;
 
             var builder = new UriBuilder(ApiUrl)
@@ -81,5 +104,7 @@ namespace CloudPos
             };
             return builder.ToString();
         }
+
+
     }
 }

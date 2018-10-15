@@ -39,5 +39,21 @@ namespace CloudPos
         {
             return Items.GetEnumerator();
         }
+
+        public int NumberOfVouchers
+        {
+            get
+            {
+                int count = 0;
+                foreach (var item in Items)
+                {
+                    if (item is PurchaseBasketItem)
+                        count += ((PurchaseBasketItem)item).Vouchers.Count;
+                    else if (item is RefundBasketItem && ((RefundBasketItem)item).RefundVoucher != null)
+                        count += 1;
+                }
+                return count;
+            }
+        }
     }
 }

@@ -53,7 +53,9 @@ namespace Touch.CloudPosDemo
             }
             if (_voucherTemplate != null)
             {
+                txtHTML.Text = html;
                 preview.DocumentText = _voucherTemplate.Replace("{content}", html);
+                tabs.SelectedIndex = 0;
                 Show();
             }
         }
