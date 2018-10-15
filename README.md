@@ -44,6 +44,9 @@ of plugging in another user interface using a different browser widget.
 * **CloudPosUI** : This Class Library contains a single Interface, _ICloudPosUI_, that the _UI_
 class within **CloudPosIE** implements.  If **CloudPosIE** were to be replaced by another user
 interface module, a class within that should implement _ICloudPosUI_.
+* **Tools** : This Class Library contains a couple of static classes that provide generic utility
+methods, including Extension methods for strings, and arrays.  There is also a class that
+manages old-style Windows INI files.
 
 The Class Libraries above, especially the **CloudPos** class library, are those that a POS
 vendor may choose to incorporate directly into their code, with little or no changes.
