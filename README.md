@@ -46,9 +46,9 @@ class within **CloudPosIE** implements.  If **CloudPosIE** were to be replaced b
 interface module, a class within that should implement _ICloudPosUI_.
 * **CloudSmartCards** and **Touch.SmartCards** : These two class libraries are needed if your POS
 need to be able to process smartcard products (such as GoCard transit cards in Queensland).
-If SmartCard support is *not* required, you may remove the Reference to the **CloudSmartCards** library
-that is in **CloudPosIE**, and comment-out the line "#define SMARTCARDS_SUPPORTED" in the BrowserForm.cs
-within the **CloudPosIE** project.
+If SmartCard support is *not* required, remove the Reference to the **CloudSmartCards** library
+that is in **CloudPosIE**, and comment-out (or delete) the line "#define SMARTCARDS_SUPPORTED" 
+in the *BrowserForm.cs* file within the **CloudPosIE** project.
 * **Touch.Tools** : This Class Library contains a couple of static classes that provide generic utility
 methods, including Extension methods for strings, and arrays.  There is also a class that
 manages old-style Windows INI files.
