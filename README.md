@@ -44,12 +44,18 @@ of plugging in another user interface using a different browser widget.
 * **CloudPosUI** : This Class Library contains a single Interface, _ICloudPosUI_, that the _UI_
 class within **CloudPosIE** implements.  If **CloudPosIE** were to be replaced by another user
 interface module, a class within that should implement _ICloudPosUI_.
-* **Tools** : This Class Library contains a couple of static classes that provide generic utility
+* **CloudSmartCards** and **Touch.SmartCards** : These two class libraries are needed if your POS
+need to be able to process smartcard products (such as GoCard transit cards in Queensland).
+If SmartCard support is *not* required, you may remove the Reference to the **CloudSmartCards** library
+that is in **CloudPosIE**, and comment-out the line "#define SMARTCARDS_SUPPORTED" in the BrowserForm.cs
+within the **CloudPosIE** project.
+* **Touch.Tools** : This Class Library contains a couple of static classes that provide generic utility
 methods, including Extension methods for strings, and arrays.  There is also a class that
 manages old-style Windows INI files.
 
 The Class Libraries above, especially the **CloudPos** class library, are those that a POS
-vendor may choose to incorporate directly into their code, with little or no changes.
+vendor may choose to incorporate directly into their code, with little or no changes.  Only
+include **CloudSmartCards** and **Touch.SmartCards** if you really need them.
 
 In addition, the _CloudPosDemo_ package contains:
 * **CloudPosDemo** : This is a .NET executable which simulates the basic behaviour of a POS making 
