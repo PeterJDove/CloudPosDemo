@@ -1,9 +1,15 @@
-﻿using System;
+﻿/*
+ *  Comment out the following #define to disable SmartCard Support
+ */
+#define SMARTCARDS_SUPPORTED
+
+ using System;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
-using CloudSmartCards;
-using System.Diagnostics;
+#if SMARTCARDS_SUPPORTED
+using CloudSmartCards; 
+#endif
 
 namespace CloudPosIE
 {
@@ -49,6 +55,7 @@ namespace CloudPosIE
             Notify?.Invoke(this, json);
         }
 
+        #if SMARTCARDS_SUPPORTED
         public bool isCardPresent() // no args
         {
             var cardPresent = SmartCardApi.IsCardPresent();
@@ -76,6 +83,7 @@ namespace CloudPosIE
             var version = SmartCardApi.GetSmartcardPluginVersionNo();
             return version;
         }
+        #endif
 
         private void Form_Closing(object sender, FormClosingEventArgs e)
         {
