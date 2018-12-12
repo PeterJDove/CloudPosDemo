@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
+using CloudSmartCards;
 using System.Diagnostics;
 
 namespace CloudPosIE
@@ -46,6 +47,34 @@ namespace CloudPosIE
         public void notify(string json)
         {
             Notify?.Invoke(this, json);
+        }
+
+        public bool isCardPresent() // no args
+        {
+            var cardPresent = SmartCardApi.IsCardPresent();
+            // Debug.Print("cardPresent = " + cardPresent);
+            return cardPresent;
+        }
+
+        public string readCardIdentity() // no args
+        {
+            var cardIdentity = SmartCardApi.ReadCardIdentity();
+            // Debug.Print("cardIdentity = " + cardIdentity);
+            return cardIdentity;
+        }
+
+        public string executeCardActions(string cardActions)
+        {
+            // Debug.Print("cardActions = " + cardActions);
+            var results = SmartCardApi.ProcessCardActions(cardActions);
+            // Debug.Print("    results = " + results);
+            return results;
+        }
+
+        public int getSmartcardPluginVersionNo() // no args
+        {
+            var version = SmartCardApi.GetSmartcardPluginVersionNo();
+            return version;
         }
 
         private void Form_Closing(object sender, FormClosingEventArgs e)

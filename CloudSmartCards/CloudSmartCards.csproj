@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4216139E-F96D-402B-B9D9-F23630DC40F4}</ProjectGuid>
+    <ProjectGuid>{DC172B4D-E472-4A19-B872-D54503AD98E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudPosIE</RootNamespace>
-    <AssemblyName>CloudPosIE</AssemblyName>
+    <RootNamespace>CloudSmartCards</RootNamespace>
+    <AssemblyName>CloudSmartCards</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,14 +29,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>apt.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.9\bin\plugins\Diagnostics\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,31 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrowserForm.Designer.cs">
-      <DependentUpon>BrowserForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="AuthenticateCommand.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="CardCommand.cs" />
+    <Compile Include="ReadCommand.cs" />
+    <Compile Include="SelectCommand.cs" />
+    <Compile Include="SmartCardApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI.cs" />
+    <Compile Include="CardIdentity.cs" />
+    <Compile Include="WriteCommand.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BrowserForm.resx">
-      <DependentUpon>BrowserForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="apt.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CloudPosUI\CloudPosUI.csproj">
-      <Project>{67ba6f56-4a8c-457c-b08d-ffc63590ad1c}</Project>
-      <Name>CloudPosUI</Name>
+    <ProjectReference Include="..\SmartCards\Touch.SmartCards.csproj">
+      <Project>{80de25a3-0af4-48eb-9515-94cc17d4e6e5}</Project>
+      <Name>Touch.SmartCards</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CloudSmartCards\CloudSmartCards.csproj">
-      <Project>{dc172b4d-e472-4a19-b872-d54503ad98e5}</Project>
-      <Name>CloudSmartCards</Name>
+    <ProjectReference Include="..\Tools\Touch.Tools.csproj">
+      <Project>{994cb7a6-49e4-4cb7-b1a3-c93b99edd65d}</Project>
+      <Name>Touch.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

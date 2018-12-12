@@ -520,7 +520,7 @@ namespace Touch.CloudPosDemo
         private void btnShowGuiAt_Click(object sender, EventArgs e)
         {
             Log("Clicked: " + ((Button)sender).Text);
-            using (var formAddItem = new FormAddItem())
+            using (var formAddItem = new FormAddItem(CloudPOS))
             {
                 if (formAddItem.ShowShowGuiDialog(this) == DialogResult.OK)
                     CloudPOS.ShowTouchpointUI(formAddItem.Args[0].ToString());
@@ -530,7 +530,7 @@ namespace Touch.CloudPosDemo
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             Log("Clicked: " + ((Button)sender).Text);
-            using (var formAddItem = new FormAddItem())
+            using (var formAddItem = new FormAddItem(CloudPOS))
             {
                 if (formAddItem.ShowAddItemDialog(this) == DialogResult.OK)
                     CloudPOS.AddItem(formAddItem.Args[0].ToString());

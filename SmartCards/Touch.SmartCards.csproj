@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4216139E-F96D-402B-B9D9-F23630DC40F4}</ProjectGuid>
+    <ProjectGuid>{80DE25A3-0AF4-48EB-9515-94CC17D4E6E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudPosIE</RootNamespace>
-    <AssemblyName>CloudPosIE</AssemblyName>
+    <RootNamespace>Touch.SmartCards</RootNamespace>
+    <AssemblyName>Touch.SmartCards</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,6 +21,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,49 +32,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>apt.ico</ApplicationIcon>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrowserForm.Designer.cs">
-      <DependentUpon>BrowserForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="CardRemovedException.cs" />
+    <Compile Include="Cloud47x0.cs" />
+    <Compile Include="MifareCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="BrowserForm.resx">
-      <DependentUpon>BrowserForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="apt.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CloudPosUI\CloudPosUI.csproj">
-      <Project>{67ba6f56-4a8c-457c-b08d-ffc63590ad1c}</Project>
-      <Name>CloudPosUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CloudSmartCards\CloudSmartCards.csproj">
-      <Project>{dc172b4d-e472-4a19-b872-d54503ad98e5}</Project>
-      <Name>CloudSmartCards</Name>
-    </ProjectReference>
+    <Compile Include="SmartCardException.cs" />
+    <Compile Include="NakException.cs" />
+    <Compile Include="WinSmartCardReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

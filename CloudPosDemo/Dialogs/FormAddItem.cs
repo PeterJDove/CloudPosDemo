@@ -8,23 +8,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CloudPos;
 using Touch.CloudPosDemo;
 
 namespace Touch.CloudPosDemo
 {
     public partial class FormAddItem : Form
     {
+        public CloudPos.CloudPos CloudPOS;
         public List<object> Args { get; private set; }
 
         private Label[] lblData;
         private TextBox[] txtData;
 
-        public FormAddItem()
+        public FormAddItem(CloudPos.CloudPos cloudPOS)
         {
             InitializeComponent();
+            CloudPOS = cloudPOS;
+            CloudPOS.SimpleProduct += CloudPos_SimpleProduct;
+
             btnClearAll_Click(btnClearAll, null);
             lblData = new Label[] { lblData0, lblData1, lblData2, lblData3, lblData4 };
             txtData = new TextBox[] { txtData0, txtData1, txtData2, txtData3, txtData4 };
+        }
+
+        private void CloudPos_SimpleProduct(object sender, SimpleProductInfo e)
+        {
+            if (e.Exists)
+            {
+                if (e.Simple)
+                    lblProductInfo.Text = "is a Simple Product";
+                else
+                    lblProductInfo.Text = "is a Complex Product";
+            }
+            else
+                lblProductInfo.Text = "is not a known product";
         }
 
         private void FormAddItem_Load(object sender, EventArgs e)
@@ -58,7 +76,17 @@ namespace Touch.CloudPosDemo
             else
                 Args[0] = cboProduct.Text;
 
-            btnOK.Enabled = (!string.IsNullOrEmpty(cboProduct.Text));
+            if (string.IsNullOrEmpty(cboProduct.Text))
+            {
+                btnOK.Enabled = false;
+                lblProductInfo.Text = "";
+            }
+            else
+            {
+                btnOK.Enabled = true;
+                CloudPOS.IsSimpleProduct(cboProduct.Text);
+                lblProductInfo.Text = "...";
+            }
         }
 
         private void txtData_TextChanged(object sender, EventArgs e)
@@ -108,5 +136,9 @@ namespace Touch.CloudPosDemo
             this.DialogResult = DialogResult.OK;
         }
 
+        private void FormAddItem_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CloudPOS.SimpleProduct -= CloudPos_SimpleProduct;
+        }
     }
 }

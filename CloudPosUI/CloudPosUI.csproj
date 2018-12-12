@@ -63,5 +63,11 @@
   <ItemGroup>
     <Content Include="apt.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartCards\Touch.SmartCards.csproj">
+      <Project>{80de25a3-0af4-48eb-9515-94cc17d4e6e5}</Project>
+      <Name>Touch.SmartCards</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

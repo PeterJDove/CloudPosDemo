@@ -67,7 +67,7 @@ namespace CloudPos
             var queries = HttpUtility.ParseQueryString("");
             queries["skinName"] = SkinName;
             queries["locale"] = Locale;
-            queries["callBackService"] = "NPOS";   // ALERT!! may require a change to NPOS
+            queries["callBackService"] = "NPOS";
             queries["accessToken"] = token;
 
             var builder = new UriBuilder(ApiUrl)

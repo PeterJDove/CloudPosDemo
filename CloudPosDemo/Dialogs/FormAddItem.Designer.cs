@@ -46,6 +46,7 @@
             this.lblData0 = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblProductInfo = new System.Windows.Forms.Label();
             this.groupData.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             this.groupData.Controls.Add(this.lblData1);
             this.groupData.Controls.Add(this.txtData0);
             this.groupData.Controls.Add(this.lblData0);
-            this.groupData.Location = new System.Drawing.Point(15, 58);
+            this.groupData.Location = new System.Drawing.Point(15, 78);
             this.groupData.Name = "groupData";
             this.groupData.Size = new System.Drawing.Size(262, 202);
             this.groupData.TabIndex = 2;
@@ -206,7 +207,7 @@
             // 
             this.btnOK.Enabled = false;
             this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnOK.Location = new System.Drawing.Point(58, 266);
+            this.btnOK.Location = new System.Drawing.Point(63, 286);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 25);
             this.btnOK.TabIndex = 11;
@@ -218,7 +219,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancel.Location = new System.Drawing.Point(144, 266);
+            this.btnCancel.Location = new System.Drawing.Point(149, 286);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 25);
             this.btnCancel.TabIndex = 12;
@@ -226,12 +227,21 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // lblProductInfo
+            // 
+            this.lblProductInfo.Location = new System.Drawing.Point(15, 55);
+            this.lblProductInfo.Name = "lblProductInfo";
+            this.lblProductInfo.Size = new System.Drawing.Size(262, 20);
+            this.lblProductInfo.TabIndex = 13;
+            this.lblProductInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // FormAddItem
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(289, 303);
+            this.ClientSize = new System.Drawing.Size(289, 325);
+            this.Controls.Add(this.lblProductInfo);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupData);
@@ -246,6 +256,7 @@
             this.Name = "FormAddItem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AddItem";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAddItem_FormClosed);
             this.Load += new System.EventHandler(this.FormAddItem_Load);
             this.groupData.ResumeLayout(false);
             this.groupData.PerformLayout();
@@ -273,5 +284,6 @@
         private System.Windows.Forms.Label lblData0;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblProductInfo;
     }
 }
