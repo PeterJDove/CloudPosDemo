@@ -90,7 +90,7 @@ namespace CloudPos
             {
                 _config = config;
                 string url = config.ApiUrl;
-                if (_config.Secret.ToLower() != "ignore")
+                if (_config.Secret == null || _config.Secret.ToLower() != "ignore")
                 {
                     RefreshPosToken();
                     url = config.GetBrowserUrl(_posToken.AccessToken);

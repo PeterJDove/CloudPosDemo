@@ -31,12 +31,9 @@ namespace CloudPos
             string iniFileName = Path.Combine(appData, "Rollbacks.ini");
             if (File.Exists(iniFileName) == false)
             {
-                var source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(iniFileName));
-                if (File.Exists(source))
-                {
-                    Util.EnsureFolderExists(appData);
-                    File.Copy(source, iniFileName);
-                }
+                var fileStream = File.Create(iniFileName);
+                fileStream.Close();
+                fileStream.Dispose();
             }
             _rollbacks = new IniFile(iniFileName);
         }

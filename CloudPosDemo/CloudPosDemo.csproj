@@ -78,7 +78,6 @@
     <Compile Include="FormNameChange.Designer.cs">
       <DependentUpon>FormNameChange.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\IniFile.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Dialogs\FormAddItem.cs">
       <SubType>Form</SubType>
@@ -94,7 +93,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\Util.cs" />
     <EmbeddedResource Include="Dialogs\FormRefund.resx">
       <DependentUpon>FormRefund.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,6 +148,10 @@
     <ProjectReference Include="..\CloudPOS\CloudPos.csproj">
       <Project>{f6b394e0-bc21-41d5-a3e3-742db516383c}</Project>
       <Name>CloudPos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Touch.Tools.csproj">
+      <Project>{994cb7a6-49e4-4cb7-b1a3-c93b99edd65d}</Project>
+      <Name>Touch.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
