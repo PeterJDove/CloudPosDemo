@@ -111,7 +111,6 @@ namespace Touch.CloudPosDemo
 
         // Configuration Options
         public int ConnectionId { get; set; }
-        public bool FailCommit { get; set; }
         public string ConnectionName { get; set; }
         public PosType PosType { get; set; }
         public string Url { get; set; }
@@ -137,7 +136,6 @@ namespace Touch.CloudPosDemo
         {
             KeepOnTop = ini.GetBoolean("GENERAL", "topmost", false);
             ConnectionId = ini.GetInt("GENERAL", "connection");
-            FailCommit = ini.GetBoolean("GENERAL", "fail_commit", false);
             ConnectionName = ini.GetString(ConnSection(ConnectionId), "name");
 
             Left = ini.GetInt("BROWSER", "left", 0);
@@ -237,7 +235,6 @@ namespace Touch.CloudPosDemo
                 ClientTop = Top,
                 ClientWidth = ClientSize.Width,
                 ClientHeight = ClientSize.Height,
-                FailCommit = FailCommit,
             };
         }
 

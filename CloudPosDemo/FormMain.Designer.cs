@@ -86,6 +86,9 @@
             this.cboClientSize = new System.Windows.Forms.ComboBox();
             this.lblWindowSize = new System.Windows.Forms.Label();
             this.listMiniLog = new System.Windows.Forms.ListBox();
+            this.tabDebug = new System.Windows.Forms.TabPage();
+            this.chkFailOnCommit = new System.Windows.Forms.CheckBox();
+            this.lblCommitFail = new System.Windows.Forms.Label();
             this.tableLayoutMain.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabCloudPos.SuspendLayout();
@@ -101,6 +104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
+            this.tabDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutMain
@@ -124,6 +128,7 @@
             this.tabControl.Controls.Add(this.tabCloudPos);
             this.tabControl.Controls.Add(this.tabLog);
             this.tabControl.Controls.Add(this.tabOptions);
+            this.tabControl.Controls.Add(this.tabDebug);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.ItemSize = new System.Drawing.Size(80, 22);
             this.tabControl.Location = new System.Drawing.Point(3, 113);
@@ -773,6 +778,39 @@
             this.listMiniLog.Size = new System.Drawing.Size(328, 104);
             this.listMiniLog.TabIndex = 12;
             // 
+            // tabDebug
+            // 
+            this.tabDebug.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tabDebug.Controls.Add(this.lblCommitFail);
+            this.tabDebug.Controls.Add(this.chkFailOnCommit);
+            this.tabDebug.Location = new System.Drawing.Point(4, 4);
+            this.tabDebug.Name = "tabDebug";
+            this.tabDebug.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDebug.Size = new System.Drawing.Size(298, 408);
+            this.tabDebug.TabIndex = 5;
+            this.tabDebug.Text = "Debug";
+            // 
+            // chkFailOnCommit
+            // 
+            this.chkFailOnCommit.AutoSize = true;
+            this.chkFailOnCommit.Location = new System.Drawing.Point(6, 75);
+            this.chkFailOnCommit.Name = "chkFailOnCommit";
+            this.chkFailOnCommit.Size = new System.Drawing.Size(183, 20);
+            this.chkFailOnCommit.TabIndex = 0;
+            this.chkFailOnCommit.Text = "Force CommitBasket to Fail";
+            this.chkFailOnCommit.UseVisualStyleBackColor = true;
+            this.chkFailOnCommit.CheckedChanged += new System.EventHandler(this.chkFailOnCommit_CheckedChanged);
+            // 
+            // lblCommitFail
+            // 
+            this.lblCommitFail.ForeColor = System.Drawing.Color.Tomato;
+            this.lblCommitFail.Location = new System.Drawing.Point(3, 16);
+            this.lblCommitFail.Name = "lblCommitFail";
+            this.lblCommitFail.Size = new System.Drawing.Size(289, 56);
+            this.lblCommitFail.TabIndex = 1;
+            this.lblCommitFail.Text = "Checking the following option will force all calls to " + 
+                "CloudPos.CommitBasket to fail, resulting in a BasketCommitFailed event.";
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -806,6 +844,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
+            this.tabDebug.ResumeLayout(false);
+            this.tabDebug.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -867,5 +907,8 @@
         private System.Windows.Forms.ComboBox cboSkin;
         private System.Windows.Forms.Label lblSkin;
         private System.Windows.Forms.Label lblSecret;
+        private System.Windows.Forms.TabPage tabDebug;
+        private System.Windows.Forms.CheckBox chkFailOnCommit;
+        private System.Windows.Forms.Label lblCommitFail;
     }
 }

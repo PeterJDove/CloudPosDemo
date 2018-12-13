@@ -19,6 +19,7 @@ namespace CloudPos
         private static Timer _rollbackTimer;
         private static string _apiUrl;
 
+        private const string BASKET_ID = "basket_id";
         private const string TYPE = "type";
         private const string DESC = "description";
         private const string VALUE = "value";
@@ -38,22 +39,31 @@ namespace CloudPos
             _rollbacks = new IniFile(iniFileName);
         }
 
+        internal static void AddBasket(PosBasket posBasket)
+        {
+            foreach (var basketItem in posBasket)
+            {
+                AddItem(posBasket.Id, basketItem);
+            }
+        }
 
-        internal static void AddItem(BasketItem basketItem)
+        internal static void AddItem(int basketId, BasketItem basketItem)
         {
             string basketItemId = basketItem.Id.ToString();
             if (basketItem is PurchaseBasketItem)
             {
                 var purchase = (PurchaseBasketItem)basketItem;
+                _rollbacks.Write(basketItemId, BASKET_ID, basketId);
                 _rollbacks.Write(basketItemId, TYPE, purchase.Type);
                 _rollbacks.Write(basketItemId, DESC, purchase.Product.Description);
                 _rollbacks.Write(basketItemId, VALUE, purchase.Product.Price.Amount);
                 _rollbacks.Write(basketItemId, PENDING_ROLLBACK, true);
-                _rollbacks.Write(basketItemId, PENDING_REFUND, false);
+                _rollbacks.Write(basketItemId, PENDING_REFUND, purchase.Product.Price.Amount != 0);
             }
             else if (basketItem is RefundBasketItem)
             {
                 var refund = (RefundBasketItem)basketItem;
+                _rollbacks.Write(basketItemId, BASKET_ID, basketId);
                 _rollbacks.Write(basketItemId, TYPE, refund.Type);
                 _rollbacks.Write(basketItemId, DESC, refund.Product.Description);
                 _rollbacks.Write(basketItemId, VALUE, refund.Product.Price.Amount);
@@ -61,7 +71,6 @@ namespace CloudPos
                 _rollbacks.Write(basketItemId, PENDING_REFUND, false);
             }
         }
-
 
         internal static void ProcessPendingRollbacks(string apiUrl)
         {
@@ -73,7 +82,6 @@ namespace CloudPos
                 _rollbackTimer.Start();
             }
         }
-
 
         private static void _rollbackTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -116,28 +124,62 @@ namespace CloudPos
         }
 
 
-        internal static bool IsRefundDue(int basketItemId)
+        internal static bool IsFailedCommitRefundDue(int basketId, int itemId = 0)
         {
-            string section = basketItemId.ToString();
-            return _rollbacks.GetBoolean(section, PENDING_REFUND, false);
+            return FailedCommitRefundAmount(basketId, itemId) != 0;
         }
 
-
-        internal static decimal RefundDueAmount(int basketItemId)
+        internal static decimal FailedCommitRefundAmount(int basketId, int itemId = 0)
         {
-            string section = basketItemId.ToString();
-            if (_rollbacks.GetBoolean(section, PENDING_REFUND))
-                return _rollbacks.GetDecimal(section, VALUE);
-
-            return 0.00M;
+            decimal amountDue = 0.00M;
+            if (itemId != 0)
+            {
+                string basketItemId = itemId.ToString();
+                if (basketId == 0 || basketId == _rollbacks.GetInt(basketItemId, BASKET_ID))
+                {
+                    if (_rollbacks.GetBoolean(basketItemId, PENDING_REFUND))
+                        amountDue += _rollbacks.GetDecimal(basketItemId, VALUE);
+                }
+            }
+            else
+            {
+                var sectionNames = _rollbacks.GetSectionNames();
+                if (sectionNames.Length > 0)
+                {
+                    foreach (var section in sectionNames)
+                    {
+                        if (basketId == _rollbacks.GetInt(section, BASKET_ID)
+                         && _rollbacks.GetBoolean(section, PENDING_REFUND))
+                            amountDue += _rollbacks.GetDecimal(section, VALUE);
+                    }
+                }
+            }
+            return amountDue;
         }
 
-
-        internal static void RefundComplete(int basketItemId)
+        internal static void FailedCommitRefundComplete(int basketId, int itemId = 0)
         {
-            ResetFlag(basketItemId.ToString(), PENDING_REFUND);
+            if (itemId != 0)
+            {
+                string basketItemId = itemId.ToString();
+                if (basketId == 0 || basketId == _rollbacks.GetInt(basketItemId, BASKET_ID))
+                {
+                    ResetFlag(basketItemId, PENDING_REFUND);
+                }
+            }
+            else
+            {
+                var sectionNames = _rollbacks.GetSectionNames();
+                if (sectionNames.Length > 0)
+                {
+                    foreach (var section in sectionNames)
+                    {
+                        if (basketId == _rollbacks.GetInt(section, BASKET_ID))
+                            ResetFlag(section, PENDING_REFUND);
+                    }
+                }
+            }
         }
-
 
         private static void ResetFlag(string basketItemId, string flag)
         {

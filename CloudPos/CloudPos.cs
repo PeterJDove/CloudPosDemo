@@ -163,6 +163,8 @@ namespace CloudPos
             get { return _basket; }
         }
 
+        public bool FailOnCommit { get; set; }
+
         /*
          *  _ui_Notify is the listener hooked to listen for messages from the CloudPOS
          *  application.  The real work is done in HandlePosEvent.
@@ -238,7 +240,7 @@ namespace CloudPos
         }
 
         /*
-         *  Refund is called to process a Return / Return.  
+         *  Refund is called to process a product Return / Refund.
          *  This method does not wrap a single, dedicated "ReturnEvent" call in the point-js API.
          *  
          *  Instead:
@@ -259,6 +261,21 @@ namespace CloudPos
             }
         }
 
+        public bool IsFailedCommitRefundDue(int basketId, int itemId = 0)
+        {
+            return RollbackHandler.IsFailedCommitRefundDue(basketId, itemId);
+        }
+
+        public decimal FailedCommitRefundAmount(int basketId, int itemId = 0)
+        {
+            return RollbackHandler.FailedCommitRefundAmount(basketId, itemId);
+        }
+
+        public void FailedCommitRefundComplete(int basketId, int itemId = 0)
+        {
+            RollbackHandler.FailedCommitRefundComplete(basketId, itemId);
+        }
+        
         /*
          *  CommitBasket finalises all pending transactions, committing all of the 
          *  eService transactions in the basket.  This method should be called
@@ -449,9 +466,9 @@ namespace CloudPos
                     var basketCommittedEvent = (BasketCommittedEvent)posEvent;
                     // Check:
                     //  (1) Incoming .BasketId is what we expect.  This is just a sanity check, and should never fail.
-                    //  (2) basketCommittedEvent.Basket.Committed
-                    //  (3) _config.FailCommit is FALSE.  This is used for testing; to simulate a Commit failure.
-                    if (_basket.Id == basketCommittedEvent.BasketId && basketCommittedEvent.Basket.Committed && !_config.FailCommit) 
+                    //  (2) basketCommittedEvent.Basket.Committed = TRUE
+                    //  (3) this.FailOnCommit = FALSE.  This may be set to TRUE to test correct processing of a Commit failure.
+                    if (_basket.Id == basketCommittedEvent.BasketId && basketCommittedEvent.Basket.Committed && !FailOnCommit) 
                     {
                         _basket.Clear();
                         _basket.Id = basketCommittedEvent.BasketId;
@@ -536,10 +553,7 @@ namespace CloudPos
 
         private void ProcessFailedCommit()
         {
-            foreach (var basketItem in _basket)
-            {
-                RollbackHandler.AddItem(basketItem);
-            }
+            RollbackHandler.AddBasket(_basket);
             RollbackHandler.ProcessPendingRollbacks(_config.ApiUrl);
             BasketCommitFailed(this, _basket);
         }

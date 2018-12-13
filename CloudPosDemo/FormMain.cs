@@ -229,6 +229,7 @@ namespace Touch.CloudPosDemo
         private void CloudPos_Ready(object sender, EventArgs e)
         {
             chkCloudPos.BackColor = Color.Lime;
+            CloudPOS.FailOnCommit = chkFailOnCommit.Checked;
             Log("CloudPOS Ready");
         }
 
@@ -275,24 +276,15 @@ namespace Touch.CloudPosDemo
          */
         private void CloudPos_BasketCommitFailed(object sender, CloudPos.PosBasket posBasket)
         {
-            decimal refund = 0;
-            foreach (var item in posBasket)
+            if (CloudPOS.IsFailedCommitRefundDue(posBasket.Id))
             {
-                if (item is CloudPos.PurchaseBasketItem)
-                {
-                    refund += ((CloudPos.PurchaseBasketItem)item).Product.Price.Amount;
-                } 
-                else if (item is CloudPos.RefundBasketItem)
-                {
-                    var amount = ((CloudPos.RefundBasketItem)item).Product.Price.Amount;
-                    refund -= Math.Abs(amount);
-                }
+                var refundDue = CloudPOS.FailedCommitRefundAmount(posBasket.Id).ToString("C");
+                Log("Basket Commit Failed (event)");
+                Log(" - Refund Amount = " + refundDue);
+                MessageBox.Show("The BasketCommit failed.\n\nYou need to immediately refund the customer " + refundDue + ".",
+                    btnCommit.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                CloudPOS.FailedCommitRefundComplete(posBasket.Id);
             }
-            var refundDue = refund.ToString("C");
-            Log("Basket Commit Failed (event)");
-            Log(" - Refund Amount = " + refundDue);
-            MessageBox.Show("The BasketCommit failed.\n\nYou need to immediately refund the customer " + refundDue + ".", 
-                btnCommit.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             RefreshButtonStates();
         }
 
@@ -895,5 +887,12 @@ namespace Touch.CloudPosDemo
 
         #endregion Options Tab
 
+        #region Debug Tab
+        private void chkFailOnCommit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CloudPOS != null)
+                CloudPOS.FailOnCommit = chkFailOnCommit.Checked;
+        }
+        #endregion
     }
 }

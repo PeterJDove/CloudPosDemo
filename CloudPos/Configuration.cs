@@ -33,7 +33,6 @@ namespace CloudPos
         public int ClientTop { get; set; }
         public int ClientWidth { get; set; }
         public int ClientHeight { get; set; }
-        public bool FailCommit { get; set; }
 
         /*
          *  The CloudPOS.auth file can carry multiple auth tokens, indexed by a key.
