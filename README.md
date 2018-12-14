@@ -47,21 +47,20 @@ interface module, a class within that should implement _ICloudPosUI_.
 * **Touch.Tools** : This Class Library contains a couple of static classes that provide generic utility
 methods, including Extension methods for strings, and arrays.  There is also a class that
 manages old-style Windows INI files.
-* **CloudSmartCards** and **Touch.SmartCards** : These two class libraries are needed if your POS
-need to be able to process smartcard products (such as GoCard transit cards in Queensland).
-If SmartCard support is *not* required, remove the Reference to the **CloudSmartCards** library
-that is in **CloudPosIE**, and comment-out (or delete) the line "#define SMARTCARDS_SUPPORTED" 
-in the *BrowserForm.cs* file within the **CloudPosIE** project.
 
 The Class Libraries above, especially the **CloudPos** class library, are those that a POS
-vendor may choose to incorporate directly into their code, with little or no changes.  Only
-include **CloudSmartCards** and **Touch.SmartCards** if you really need them.
+vendor may choose to incorporate directly into their code, with little or no changes.
 
 In addition, the _CloudPosDemo_ package contains:
 * **CloudPosDemo** : This is a .NET executable which simulates the basic behaviour of a POS making 
 calls upon the **CloudPos** DLL.  This executable is _NOT_ intended to be included in your own
 project, but serves only as a working demonstration of how to interface to the supplied 
 **CloudPos** DLL.
+* **CloudSmartCards** and **Touch.SmartCards** : These two class libraries may be used if your POS
+needs to be able to process smartcard products (such as GoCard transit cards in Queensland).
+If SmartCard support *is* required, include the Reference to the **CloudSmartCards** library
+in **CloudPosIE**, and un-comment the line "#define SMARTCARDS_SUPPORTED" in the *BrowserForm.cs*
+file within the **CloudPosIE** project.
 
 If running the entire package together, **CloudPosDemo** should be the "Start Up" project.
 
