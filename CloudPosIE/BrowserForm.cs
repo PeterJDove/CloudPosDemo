@@ -1,7 +1,7 @@
 ﻿/*
- *  Comment out the following #define to disable SmartCard Support
+ *  Un-Comment the following #define to enable SmartCard Support
  */
-#define SMARTCARDS_SUPPORTED
+//#define SMARTCARDS_SUPPORTED
 
  using System;
 using System.Windows.Forms;

@@ -576,12 +576,16 @@ namespace CloudPos
                     _ui = new CloudPosIE.UI(title, false);
                     _ui.Notify += _ui_Notify;
                     break;
-                //case "essential":
-                //    _ui = new CloudPosEO.UI(title);
+                //case "cefsharp":
+                //    _ui = new CloudPosCef.UI(title, false);
+                //    _ui.Notify += _ui_Notify;
+                //    break;
+                //case "essentialObjects":
+                //    _ui = new CloudPosEO.UI(title, false);
                 //    _ui.Notify += _ui_Notify;
                 //    break;
                 //case "awesomium":
-                //    _ui = new CloudPosAwesomium.UI(title);
+                //    _ui = new CloudPosAwesomium.UI(title, false);
                 //    _ui.Notify += _ui_Notify;
                 //    break;
             }

@@ -24,9 +24,9 @@ namespace CloudPosIE
         public UI(string title, bool closeable)
         {
             _browserForm = new BrowserForm(title + " (.NET WebBrowser)", closeable);
-            _browserForm.Notify += BrowserForm_Notify;
-            _browserForm.Loaded += BrowserForm_Loaded;
-            _browserForm.Unloaded += BrowserForm_Unloaded;
+            _browserForm.Notify += Form_Notify;
+            _browserForm.Loaded += Form_Loaded;
+            _browserForm.Unloaded += Form_Unloaded;
         }
 
         ~UI() // Destructor
@@ -82,17 +82,17 @@ namespace CloudPosIE
             _browserForm.SendMessage(json);
         }
 
-        private void BrowserForm_Notify(object sender, string json)
+        private void Form_Notify(object sender, string json)
         {
             Notify?.Invoke(this, json);
         }
 
-        private void BrowserForm_Loaded(object sender, string url)
+        private void Form_Loaded(object sender, string url)
         {
             Loaded?.Invoke(this, url);
         }
 
-        private void BrowserForm_Unloaded(object sender, EventArgs e)
+        private void Form_Unloaded(object sender, EventArgs e)
         {
             Unloaded?.Invoke(this, e);
         }

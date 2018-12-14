@@ -68,10 +68,6 @@
       <Project>{67ba6f56-4a8c-457c-b08d-ffc63590ad1c}</Project>
       <Name>CloudPosUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CloudSmartCards\CloudSmartCards.csproj">
-      <Project>{dc172b4d-e472-4a19-b872-d54503ad98e5}</Project>
-      <Name>CloudSmartCards</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
