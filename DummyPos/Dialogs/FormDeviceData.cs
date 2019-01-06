@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Touch.CloudPosDemo
+namespace Touch.DummyPos
 {
     public partial class FormDeviceData : Form
     {

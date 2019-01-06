@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosIE", "CloudPosIE\Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosUI", "CloudPosUI\CloudPosUI.csproj", "{67BA6F56-4A8C-457C-B08D-FFC63590AD1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosDemo", "CloudPosDemo\CloudPosDemo.csproj", "{E3382E16-D729-4A9D-90EC-EF702DF3C712}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyPos", "DummyPos\DummyPos.csproj", "{E3382E16-D729-4A9D-90EC-EF702DF3C712}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Touch.SmartCards", "SmartCards\Touch.SmartCards.csproj", "{80DE25A3-0AF4-48EB-9515-94CC17D4E6E5}"
 EndProject

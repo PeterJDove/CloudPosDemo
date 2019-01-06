@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Touch.Tools;
 using static System.Environment;
 
-namespace Touch.CloudPosDemo
+namespace Touch.DummyPos
 {
     public static class Program
     {
@@ -48,7 +48,7 @@ namespace Touch.CloudPosDemo
             if (_iniFile == null)
             {
                 var appData = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), "CloudPOS");
-                string iniFileName = Path.Combine(appData, "CloudPosDemo.ini");
+                string iniFileName = Path.Combine(appData, "DummyPos.ini");
                 if (File.Exists(iniFileName) == false)
                 {
                     var source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(iniFileName));

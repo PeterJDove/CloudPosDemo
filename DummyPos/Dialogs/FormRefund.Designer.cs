@@ -1,4 +1,4 @@
-﻿namespace Touch.CloudPosDemo
+﻿namespace Touch.DummyPos
 {
     partial class FormRefund
     {

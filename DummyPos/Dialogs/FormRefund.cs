@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CloudPos;
-using Touch.CloudPosDemo;
+using Touch.DummyPos;
 
-namespace Touch.CloudPosDemo
+namespace Touch.DummyPos
 {
     public partial class FormRefund : Form
     {

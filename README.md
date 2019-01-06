@@ -52,7 +52,7 @@ The Class Libraries above, especially the **CloudPos** class library, are those 
 vendor may choose to incorporate directly into their code, with little or no changes.
 
 In addition, the _CloudPosDemo_ package contains:
-* **CloudPosDemo** : This is a .NET executable which simulates the basic behaviour of a POS making 
+* **DummyPos** : This is a .NET executable which simulates the basic behaviour of a POS making 
 calls upon the **CloudPos** DLL.  This executable is _NOT_ intended to be included in your own
 project, but serves only as a working demonstration of how to interface to the supplied 
 **CloudPos** DLL.
@@ -62,7 +62,7 @@ If SmartCard support *is* required, include the Reference to the **CloudSmartCar
 in **CloudPosIE**, and un-comment the line "#define SMARTCARDS_SUPPORTED" in the *BrowserForm.cs*
 file within the **CloudPosIE** project.
 
-If running the entire package together, **CloudPosDemo** should be the "Start Up" project.
+If running the entire package together, **DummyPos** should be the "Start Up" project.
 
 ## Use at Own Risk
 

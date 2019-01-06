@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E3382E16-D729-4A9D-90EC-EF702DF3C712}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Touch.CloudPosDemo</RootNamespace>
-    <AssemblyName>CloudPosDemo</AssemblyName>
+    <RootNamespace>Touch.DummyPos</RootNamespace>
+    <AssemblyName>DummyPos</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -122,7 +122,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="CloudPosDemo.ini">
+    <None Include="DummyPos.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">

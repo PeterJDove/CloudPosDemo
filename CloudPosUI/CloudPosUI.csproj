@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>apt.ico</ApplicationIcon>
+    <ApplicationIcon>touch.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="apt.ico" />
+    <Content Include="touch.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartCards\Touch.SmartCards.csproj">

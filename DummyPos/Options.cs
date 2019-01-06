@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Touch.CloudPosDemo;
+using Touch.DummyPos;
 using Touch.Tools;
 
-namespace Touch.CloudPosDemo
+namespace Touch.DummyPos
 {
     public enum HardwareRecording
     {

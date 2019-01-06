@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Touch.CloudPosDemo
+namespace Touch.DummyPos
 {
     public partial class FormMain : Form
     {
@@ -725,7 +725,7 @@ namespace Touch.CloudPosDemo
             {
                 cboLocale.Items.Add(key);
             }
-            Touch.CloudPosDemo.ClientSize.PopulateComboBox(cboClientSize);
+            Touch.DummyPos.ClientSize.PopulateComboBox(cboClientSize);
 
 
             var options = Program.Options();

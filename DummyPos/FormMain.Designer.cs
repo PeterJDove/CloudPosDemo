@@ -1,4 +1,4 @@
-﻿namespace Touch.CloudPosDemo
+﻿namespace Touch.DummyPos
 {
     partial class FormMain
     {
@@ -85,10 +85,10 @@
             this.numHeight = new System.Windows.Forms.NumericUpDown();
             this.cboClientSize = new System.Windows.Forms.ComboBox();
             this.lblWindowSize = new System.Windows.Forms.Label();
-            this.listMiniLog = new System.Windows.Forms.ListBox();
             this.tabDebug = new System.Windows.Forms.TabPage();
-            this.chkFailOnCommit = new System.Windows.Forms.CheckBox();
             this.lblCommitFail = new System.Windows.Forms.Label();
+            this.chkFailOnCommit = new System.Windows.Forms.CheckBox();
+            this.listMiniLog = new System.Windows.Forms.ListBox();
             this.tableLayoutMain.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabCloudPos.SuspendLayout();
@@ -768,16 +768,6 @@
             this.lblWindowSize.TabIndex = 8;
             this.lblWindowSize.Text = "Position and Size:";
             // 
-            // listMiniLog
-            // 
-            this.listMiniLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listMiniLog.FormattingEnabled = true;
-            this.listMiniLog.ItemHeight = 16;
-            this.listMiniLog.Location = new System.Drawing.Point(3, 3);
-            this.listMiniLog.Name = "listMiniLog";
-            this.listMiniLog.Size = new System.Drawing.Size(328, 104);
-            this.listMiniLog.TabIndex = 12;
-            // 
             // tabDebug
             // 
             this.tabDebug.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -790,6 +780,16 @@
             this.tabDebug.TabIndex = 5;
             this.tabDebug.Text = "Debug";
             // 
+            // lblCommitFail
+            // 
+            this.lblCommitFail.ForeColor = System.Drawing.Color.Tomato;
+            this.lblCommitFail.Location = new System.Drawing.Point(3, 16);
+            this.lblCommitFail.Name = "lblCommitFail";
+            this.lblCommitFail.Size = new System.Drawing.Size(289, 56);
+            this.lblCommitFail.TabIndex = 1;
+            this.lblCommitFail.Text = "Checking the following option will force all calls to CloudPos.CommitBasket to fa" +
+    "il, resulting in a BasketCommitFailed event.";
+            // 
             // chkFailOnCommit
             // 
             this.chkFailOnCommit.AutoSize = true;
@@ -801,15 +801,15 @@
             this.chkFailOnCommit.UseVisualStyleBackColor = true;
             this.chkFailOnCommit.CheckedChanged += new System.EventHandler(this.chkFailOnCommit_CheckedChanged);
             // 
-            // lblCommitFail
+            // listMiniLog
             // 
-            this.lblCommitFail.ForeColor = System.Drawing.Color.Tomato;
-            this.lblCommitFail.Location = new System.Drawing.Point(3, 16);
-            this.lblCommitFail.Name = "lblCommitFail";
-            this.lblCommitFail.Size = new System.Drawing.Size(289, 56);
-            this.lblCommitFail.TabIndex = 1;
-            this.lblCommitFail.Text = "Checking the following option will force all calls to " + 
-                "CloudPos.CommitBasket to fail, resulting in a BasketCommitFailed event.";
+            this.listMiniLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMiniLog.FormattingEnabled = true;
+            this.listMiniLog.ItemHeight = 16;
+            this.listMiniLog.Location = new System.Drawing.Point(3, 3);
+            this.listMiniLog.Name = "listMiniLog";
+            this.listMiniLog.Size = new System.Drawing.Size(328, 104);
+            this.listMiniLog.TabIndex = 12;
             // 
             // FormMain
             // 
@@ -823,7 +823,7 @@
             this.MinimumSize = new System.Drawing.Size(350, 570);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "CloudPOS Tester";
+            this.Text = "Dummy POS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.tableLayoutMain.ResumeLayout(false);
