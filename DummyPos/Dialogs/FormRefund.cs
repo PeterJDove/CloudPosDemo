@@ -8,23 +8,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CloudPos;
+using Touch.CloudPos;
 using Touch.DummyPos;
 
 namespace Touch.DummyPos
 {
-    public partial class FormRefund : Form
+    /// <summary>
+    /// This dialogue window is displayed when the user clicks the <b>Refund</b> button 
+    /// on the Main Form.  It allows the the user to enter the transaction ID .
+    /// </summary>
+    partial class FormRefund : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormRefund"/> form.
+        /// </summary>
         public FormRefund()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets the transaction ID to be refunded (available after the dialogue has been closed)
+        /// </summary>
         public string TransactionID
         {
             get { return txtTransactionID.Text; }
         }
 
+        /// <summary>
+        /// Gets the reason for the refund (available after the dialogue has been closed)
+        /// </summary>
         public RefundReason Reason
         {
             get
@@ -44,6 +57,11 @@ namespace Touch.DummyPos
             cboReason.Items.Add(RefundReason.OTHER.ToString());
         }
 
+        /// <summary>
+        /// Shows the dialogue.
+        /// </summary>
+        /// <param name="owner">The <see cref="FormMain"/> instance</param>
+        /// <returns></returns>
         public DialogResult ShowRefundDialog(Form owner)
         {
             txtTransactionID.Text = "";

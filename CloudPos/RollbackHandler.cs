@@ -8,12 +8,12 @@ using System.Net;
 using System.Text;
 using System.Timers;
 using Touch.Tools;
+using Touch.CloudPos.Model;
 using static System.Environment;
 
-
-namespace CloudPos
+namespace Touch.CloudPos
 {
-    internal static class RollbackHandler
+    internal class RollbackHandler
     {
         private static IniFile _rollbacks;
         private static Timer _rollbackTimer;
@@ -26,9 +26,11 @@ namespace CloudPos
         private const string PENDING_ROLLBACK = "pending_rollback";
         private const string PENDING_REFUND = "pending_refund";
 
-        static RollbackHandler()
+        public RollbackHandler()
         {
             var appData = Path.Combine(GetFolderPath(SpecialFolder.CommonApplicationData), "CloudPOS");
+            Util.EnsureFolderExists(appData);
+
             string iniFileName = Path.Combine(appData, "Rollbacks.ini");
             if (File.Exists(iniFileName) == false)
             {
@@ -39,7 +41,7 @@ namespace CloudPos
             _rollbacks = new IniFile(iniFileName);
         }
 
-        internal static void AddBasket(PosBasket posBasket)
+        internal void AddBasket(PosBasket posBasket)
         {
             foreach (var basketItem in posBasket)
             {
@@ -47,7 +49,7 @@ namespace CloudPos
             }
         }
 
-        internal static void AddItem(int basketId, BasketItem basketItem)
+        internal void AddItem(int basketId, BasketItem basketItem)
         {
             string basketItemId = basketItem.Id.ToString();
             if (basketItem is PurchaseBasketItem)
@@ -72,7 +74,7 @@ namespace CloudPos
             }
         }
 
-        internal static void ProcessPendingRollbacks(string apiUrl)
+        internal void ProcessPendingRollbacks(string apiUrl)
         {
             if (_rollbackTimer == null)
             {
@@ -83,7 +85,7 @@ namespace CloudPos
             }
         }
 
-        private static void _rollbackTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void _rollbackTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _rollbackTimer.Stop();
             var sectionNames = _rollbacks.GetSectionNames();
@@ -124,12 +126,12 @@ namespace CloudPos
         }
 
 
-        internal static bool IsFailedCommitRefundDue(int basketId, int itemId = 0)
+        internal bool IsFailedCommitRefundDue(int basketId, int itemId = 0)
         {
             return FailedCommitRefundAmount(basketId, itemId) != 0;
         }
 
-        internal static decimal FailedCommitRefundAmount(int basketId, int itemId = 0)
+        internal decimal FailedCommitRefundAmount(int basketId, int itemId = 0)
         {
             decimal amountDue = 0.00M;
             if (itemId != 0)
@@ -157,7 +159,7 @@ namespace CloudPos
             return amountDue;
         }
 
-        internal static void FailedCommitRefundComplete(int basketId, int itemId = 0)
+        internal void FailedCommitRefundComplete(int basketId, int itemId = 0)
         {
             if (itemId != 0)
             {
@@ -181,7 +183,7 @@ namespace CloudPos
             }
         }
 
-        private static void ResetFlag(string basketItemId, string flag)
+        private void ResetFlag(string basketItemId, string flag)
         {
             _rollbacks.Write(basketItemId, flag, false);
             if (_rollbacks.GetBoolean(basketItemId, PENDING_ROLLBACK) == false

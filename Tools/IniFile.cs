@@ -20,12 +20,30 @@ namespace Touch.Tools
         private string _obfuscationKey = "";
         private IniColorFormat _colorFormat = IniColorFormat.NameIfKnown;
 
-        [Flags]
+        /// <summary>
+        /// Controls how colors are written, as strings, in the INI file.  
+        /// <c>Decimal</c> and <c>Hexadecimal</c> are mutually exclusive; but <c>NameIfKnown</c> and/or
+        /// <c>SystemColors</c> may be combined with either, and each other.
+        /// </summary>
+        [Flags]        
         public enum IniColorFormat
         {
+            /// <summary>
+            /// Color values are written to the INI file in form "rgb(red, green, blue)" or, if not fully opaque, "argb(a, r, g, b)"
+            /// </summary>
             Decimal = 0,
+            /// <summary>
+            /// Color values are written to the INI file in form "#rrggbb" or, if not fully opaque, "#aarrggbb" 
+            /// </summary>
             Hexadecimal = 1,
+            /// <summary>
+            /// If the name of a Color is a known .NET color, its name is written to the INI file.
+            /// </summary>
             NameIfKnown = 2,
+            /// <summary>
+            /// <para>If the name of a Color is a known .NET System Color, its name is written to the INI file.</para>
+            /// <para>This may result in the color being displayed differently on different machines; or if a system color is changed.</para>  
+            /// </summary>
             SystemColors = 4,
         }
 
@@ -75,37 +93,60 @@ namespace Touch.Tools
             }
         }
 
+        /// <summary>
+        /// Gets a Boolean, telling whether a file exists at the current <see cref="Path"/>
+        /// </summary>
+        /// <returns></returns>
         public bool FileExists()
         {
             return FileExists(_path);
         }
 
-        public bool FileExists(string filename)
+        /// <summary>
+        /// Gets a Boolean, telling whether a file exists at the suggested path.
+        /// </summary>
+        /// <param name="filepath">Full path of file to be looked for.</param>
+        /// <returns></returns>
+        public bool FileExists(string filepath)
         {
-            if (filename == null) // Uses win.ini
+            if (filepath == null) // Uses win.ini
                 return true;
             else
-                return File.Exists(filename);
+                return File.Exists(filepath);
         }
 
+        /// <summary>
+        /// Gets or sets the way in which colors 
+        /// </summary>
         public IniColorFormat ColorFormat
         {
             get { return _colorFormat; }
             set { _colorFormat = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the format string to use when writing a DateTime to the .INI file,
+        /// or when parsing one via <see cref="GetDate(string, string, DateTime)."/>
+        /// <para>The default <see cref="DateFormat"/> is "dd-MMM-yyyy hh:mm:ss".</para>
+        /// </summary>
         public string DateFormat
         {
             get { return _dateFormat; }
             set { _dateFormat = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the prefix for writing Hexadecimal numbers.   Not implemented.
+        /// </summary>
         public string HexPrefix
         {
             get { return _hexPrefix; }
             set { _hexPrefix = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a key for writing encrypted entries to .INI file.   Not implemented.
+        /// </summary>
         public string ObfuscationKey
         {
             get { return _obfuscationKey; }
@@ -115,6 +156,16 @@ namespace Touch.Tools
         //
         //  Getter Methods
         //
+
+        /// <summary>
+        /// Reads a string from the .INI file.
+        /// <para>This method of reading the .INI file will always work regardless of how the setting was written.
+        /// After all, everything in an .INI file, is a string!</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>value in .INI file.</returns>
         public string GetString(string section, string key, object Default = null)
         {
             if (!File.Exists(_path))
@@ -136,6 +187,13 @@ namespace Touch.Tools
             return value.ToString();
         }
 
+        /// <summary>
+        /// Reads a single character from the .INI file, saved as its Unicode Integer representation. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The character to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>character in .INI file.</returns>
         public char GetChar(string section, string key, char Default = '\0')
         {
             int value;
@@ -145,6 +203,13 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads a byte value from the .INI file, saved as its Integer representation. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>byte value in .INI file.</returns>
         public byte GetByte(string section, string key, byte Default = 0)
         {
             byte value;
@@ -154,6 +219,13 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads an integer value from the .INI file. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>integer value in .INI file.</returns>
         public int GetInt(string section, string key, int Default = 0)
         {
             int value;
@@ -163,6 +235,13 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads an long (integer) value from the .INI file. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>long value in .INI file.</returns>
         public long GetLong(string section, string key, long Default = 0)
         {
             long value;
@@ -172,6 +251,13 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads double (floating point) value from the .INI file. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>double value in .INI file.</returns>
         public double GetDouble(string section, string key, double Default = 0)
         {
             double value;
@@ -181,6 +267,13 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads a decimal (high-precision, floating point) value from the .INI file. 
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>decimal value in .INI file.</returns>
         public decimal GetDecimal(string section, string key, decimal Default = 0)
         {
             decimal value;
@@ -190,6 +283,16 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// <para>Reads a Boolean value from the .INI file.</para>
+        /// <para>The following settings result in <c>true</c> being returned: "true", "t", "yes", "y", or "on".  (Case does not matter)</para>
+        /// <para>The following settings result in <c>false</c> being returned: "false", "f", "no", "n" or "off".</para>
+        /// <para>Any other value - or no value at all - will result in the <paramref name="Default"/> value being returned.</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if no valid value found.</param>
+        /// <returns>decimal value in .INI file.</returns>
         public bool GetBoolean(string section, string key, bool Default = false)
         {
             var value = GetString(section, key, Default);
@@ -210,6 +313,16 @@ namespace Touch.Tools
             return Default;
         }
 
+
+        /// <summary>
+        /// Reads a date/time value, from the .INI file, and returns it as a new DateTime object.
+        /// <para>Requires that the string representation of the date, within the .INI file, matches <see cref="DateFormat"/>.
+        /// If not, the <c>Default</c> will be returned.</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">The value to return, if the <paramref name="key"/> is not found.</param>
+        /// <returns>DateTime value in .INI file.</returns>
         public DateTime GetDate(string section, string key, DateTime Default = new DateTime())
         {
             try
@@ -225,6 +338,15 @@ namespace Touch.Tools
             }
         }
 
+        /// <summary>
+        /// Reads a color name, or value, from the .INI file, and returns it as a new .NET Color object.
+        /// <para><see cref="GetColor"/> does not use the <see cref="ColorFormat"/> setting.  It will try to make
+        /// sense of whatever representation it finds in the .INI file value.</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="Default">A .NET Color to return, if a valid color representation is not found.</param>
+        /// <returns>A .NET Color object</returns>
         public Color GetColor(string section, string key, Color Default = new Color())
         {
             var value = GetString(section, key);
@@ -281,6 +403,11 @@ namespace Touch.Tools
             return Default;
         }
 
+        /// <summary>
+        /// Reads an entire section of the .INI file, returning the values in a Dictionary of strings.
+        /// </summary>
+        /// <param name="section">Section name to be read.  In the .INI file, section names are bound in square brackets.</param>
+        /// <returns>All name/value pairs.  All values are strings, regardless of how they were written.</returns>
         public Dictionary<string, string> GetSection(string section)
         {
             if (!File.Exists(_path))
@@ -305,6 +432,10 @@ namespace Touch.Tools
             return dict;
         }
 
+        /// <summary>
+        /// Reads all section names in the .INI file, returning them in a string Array.
+        /// </summary>
+        /// <returns>All section names (without the square brackets that appear in the .INI file)</returns>
         public string[] GetSectionNames()
         {
             if (!File.Exists(_path))
@@ -330,7 +461,6 @@ namespace Touch.Tools
         /// <summary>
         /// Clears a section, but does not remove - or move - the existing [SECTION_NAME].
         /// </summary>
-        /// <param name="section"></param>
         public void ClearOutSection(string section)
         {
             if (!File.Exists(_path))
@@ -342,6 +472,10 @@ namespace Touch.Tools
                     EraseKey(section, key);
         }
 
+        /// <summary>
+        /// Erase an entire section, if it exists within the .INI file.
+        /// </summary>
+        /// <param name="section">Name of Section to be erased.  In the .INI file, section names are bound in square brackets.</param>
         public void EraseSection(string section)
         {
             if (!File.Exists(_path))
@@ -350,6 +484,11 @@ namespace Touch.Tools
             WritePrivateProfileSection(section, null, _path);
         }
 
+        /// <summary>
+        /// Erase a single setting, if it exists within the .INI file.
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be erased.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
         public void EraseKey(string section, string key)
         {
             if (!File.Exists(_path))
@@ -511,7 +650,7 @@ namespace Touch.Tools
         /// <param name="key">The key of the setting; unique within Section Name.</param>
         /// <param name="value">The object which is to supply the string value.</param>
         /// <param name="Default">An object which is to supply default value of this setting.
-        /// If <code><paramref name="value"/>.ToString().Equals(<paramref name="Default"/>.ToString())</code>, the setting is erased.</param>
+        /// If <c><paramref name="value"/>.ToString()</c> equals <c><paramref name="Default"/>.ToString())</c>, the setting is erased.</param>
         public void Write(string section, string key, Object value, Object Default = null)
         {
             if (Default == null)
@@ -520,11 +659,29 @@ namespace Touch.Tools
                 Write(section, key, value.ToString(), Default.ToString());
         }
 
+        /// <summary>
+        /// Write a string representing a .NET Color to the .INI file.
+        /// <para>The form of the string written is determined by the <see cref="ColorFormat"/> setting.</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="value">A .NET Color.</param>
+        /// <param name="Default">The default .NET color for this setting.
+        /// If <paramref name="value"/> equals <c>Color.Empty</c>, the setting is erased.</param>
         public void Write(string section, string key, Color color)
         {
             Write(section, key, color, Color.Empty);
         }
 
+        /// <summary>
+        /// Write a string representing a .NET Color to the .INI file.
+        /// <para>The form of the string written is determined by the <see cref="ColorFormat"/> setting.</para>
+        /// </summary>
+        /// <param name="section">Section name under which setting is to be written.  In the .INI file, section names are bound in square brackets.</param>
+        /// <param name="key">The key of the setting; unique within Section Name.</param>
+        /// <param name="value">A .NET Color.</param>
+        /// <param name="Default">The default .NET color for this setting.
+        /// If <paramref name="value"/> equals <paramref name="Default"/>, the setting is erased.</param>
         public void Write(string section, string key, Color color, Color Default)
         {
             if (color == Default)
@@ -532,28 +689,34 @@ namespace Touch.Tools
             else
             {
                 string value;
-                if (_colorFormat < IniColorFormat.NameIfKnown
-                    || TryKnownColors(color, out value) == false)
+
+                if ((_colorFormat & (IniColorFormat.NameIfKnown | IniColorFormat.SystemColors)) != 0)
                 {
-                    if ((_colorFormat & IniColorFormat.Hexadecimal) != 0)
+                    if (TryKnownColors(color, out value))
                     {
-                        value = "#";
-                        if (color.A < 255)
-                            value += color.A.ToString("X2");
-
-                        value += color.R.ToString("X2");
-                        value += color.G.ToString("X2");
-                        value += color.B.ToString("X2");
+                        Write(section, key, value);
+                        return;
                     }
+                }
+
+                if ((_colorFormat & IniColorFormat.Hexadecimal) != 0)
+                {
+                    value = "#";
+                    if (color.A < 255)
+                        value += color.A.ToString("X2");
+
+                    value += color.R.ToString("X2");
+                    value += color.G.ToString("X2");
+                    value += color.B.ToString("X2");
+                }
+                else
+                {
+                    if (color.A < 255)
+                        value = "argb(" + color.A + ",";
                     else
-                    {
-                        if (color.A < 255)
-                            value = "argb(" + color.A + ",";
-                        else
-                            value = "rgb(";
+                        value = "rgb(";
 
-                        value += color.R + "," + color.G + "," + color.B + ")";
-                    }
+                    value += color.R + "," + color.G + "," + color.B + ")";
                 }
                 Write(section, key, value);
             }
@@ -586,6 +749,9 @@ namespace Touch.Tools
             return false;
         }
 
+        /// <summary>
+        /// Tests the behaviour of the <see cref="IniFile"/> class
+        /// </summary>
         public static void SelfTest()
         {
             var ini = new IniFile(@"c:\touchtools.ini");

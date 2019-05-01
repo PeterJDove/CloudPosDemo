@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using Touch.SmartCards;
 using Touch.Tools;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     class SelectCommand : CardCommand
     {

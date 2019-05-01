@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     class Action
     {

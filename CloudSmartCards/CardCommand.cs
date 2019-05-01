@@ -1,6 +1,6 @@
 ﻿using Touch.SmartCards;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     internal enum ResultStatus
     {

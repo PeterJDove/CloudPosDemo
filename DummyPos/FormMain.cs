@@ -8,17 +8,24 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Touch.CloudPos;
+using Touch.CloudPos.Model;
 
 namespace Touch.DummyPos
 {
-    public partial class FormMain : Form
+    /// <summary>
+    /// The primary user interface for DummyPos.
+    /// </summary>
+    internal partial class FormMain : Form
     {
-        public CloudPos.CloudPos CloudPOS;
-        public CloudPos.WebPos WebPOS;
-
+        private CloudPos.API CloudPOS;
+        private WebPos.Client WebPOS;
 
         #region Form Instantiation and Closing
-        public FormMain()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormMain"/> form.
+        /// </summary>
+        internal FormMain()
         {
             InitializeComponent();
         }
@@ -63,7 +70,7 @@ namespace Touch.DummyPos
             ini.Write("MAIN", "top", this.Top);
         }
 
-        public void UpdateGUI(MethodInvoker methodInvoker)
+        private void UpdateGUI(MethodInvoker methodInvoker)
         {
             if (this.InvokeRequired)
             {
@@ -134,7 +141,7 @@ namespace Touch.DummyPos
 
         private void InstantiateCloudPos(string posOperator)
         {
-            CloudPOS = new CloudPos.CloudPos();
+            CloudPOS = new CloudPos.API();
             CloudPOS.Ready += CloudPos_Ready;
             CloudPOS.ShowGUI += CloudPos_ShowGUI;
             CloudPOS.HideGUI += CloudPos_HideGUI;
@@ -263,7 +270,7 @@ namespace Touch.DummyPos
          *  We can also expect one or more CloudPos_VoucherAvailable to be raised next, 
          *  one for each voucher to be printed.
          */
-        private void CloudPos_BasketCommitted(object sender, CloudPos.PosBasket posBasket)
+        private void CloudPos_BasketCommitted(object sender, PosBasket posBasket)
         {
             Log("Basket Committed (event)");
             Log(" - " + posBasket.NumberOfVouchers + " voucher/s expected.");
@@ -274,7 +281,7 @@ namespace Touch.DummyPos
          *  CloudPos_BasketCommitFailed may be raised in response to calling CloudPOS.CommitBasket
          *  if the Commit fails completely, or times out.
          */
-        private void CloudPos_BasketCommitFailed(object sender, CloudPos.PosBasket posBasket)
+        private void CloudPos_BasketCommitFailed(object sender, PosBasket posBasket)
         {
             if (CloudPOS.IsFailedCommitRefundDue(posBasket.Id))
             {
@@ -300,13 +307,13 @@ namespace Touch.DummyPos
          *  collection contains just one SubItem.   This is because we use this as a way of 
          *  overriding the EAN and/or Description of the product to be added to the basket.
          */
-        private void CloudPos_ItemAdded(object sender, CloudPos.BasketItem item)
+        private void CloudPos_ItemAdded(object sender, BasketItem item)
         {
             UpdateGUI(() =>
             {
                 if (item.Type == "PURCHASE")
                 {
-                    CloudPos.PurchaseBasketItem purchase = (CloudPos.PurchaseBasketItem)item;
+                    PurchaseBasketItem purchase = (PurchaseBasketItem)item;
                     if (purchase.Product.Items == null || purchase.Product.Items.Count == 0)
                     {
                         ListViewItem lvItem = new ListViewItem(purchase.Product.Description);
@@ -318,7 +325,7 @@ namespace Touch.DummyPos
                     }
                     else // we have at least one SubItem in the .Product.Items collection
                     {
-                        foreach (CloudPos.SubItem subItem in purchase.Product.Items)
+                        foreach (SubItem subItem in purchase.Product.Items)
                         {
                             ListViewItem lvItem = new ListViewItem(subItem.Description);
                             lvItem.Tag = purchase.Id;
@@ -331,7 +338,7 @@ namespace Touch.DummyPos
                 }
                 else if (item.Type == "REFUND")
                 {
-                    CloudPos.RefundBasketItem refund = (CloudPos.RefundBasketItem)item;
+                    RefundBasketItem refund = (RefundBasketItem)item;
                     if (refund.Product.Items == null || refund.Product.Items.Count == 0)
                     {
                         ListViewItem lvItem = new ListViewItem(refund.Product.Description);
@@ -343,7 +350,7 @@ namespace Touch.DummyPos
                     }
                     else // we have at least one SubItem in the .Product.Items collection
                     {
-                        foreach (CloudPos.SubItem subItem in refund.Product.Items)
+                        foreach (SubItem subItem in refund.Product.Items)
                         {
                             ListViewItem lvItem = new ListViewItem(subItem.Description);
                             lvItem.Tag = refund.Id;
@@ -359,12 +366,12 @@ namespace Touch.DummyPos
 
             if (item.Type == "PURCHASE")
             {
-                CloudPos.PurchaseBasketItem p = (CloudPos.PurchaseBasketItem)item;
+                PurchaseBasketItem p = (PurchaseBasketItem)item;
                 Log(item.Type + ": " + p.Product.Description);
             }
             else if (item.Type == "REFUND")
             {
-                CloudPos.RefundBasketItem r = (CloudPos.RefundBasketItem)item;
+                RefundBasketItem r = (RefundBasketItem)item;
                 Log(item.Type + ": " + r.Product.Description);
             }
         }
@@ -374,7 +381,7 @@ namespace Touch.DummyPos
          *  
          *  Again, we update listBasket, by removing the matching item.
          */
-        private void CloudPos_ItemRemoved(object sender, CloudPos.BasketItem item)
+        private void CloudPos_ItemRemoved(object sender, BasketItem item)
         {
             UpdateGUI(() =>
             {
@@ -391,12 +398,12 @@ namespace Touch.DummyPos
 
             if (item.Type == "PURCHASE")
             {
-                CloudPos.PurchaseBasketItem p = (CloudPos.PurchaseBasketItem)item;
+                PurchaseBasketItem p = (PurchaseBasketItem)item;
                 Log(item.Type + " Removed: " + p.Product.Description);
             }
             else if (item.Type == "REFUND")
             {
-                CloudPos.RefundBasketItem r = (CloudPos.RefundBasketItem)item;
+                RefundBasketItem r = (RefundBasketItem)item;
                 Log(item.Type + " Removed: " + r.Product.Description);
             }
         }
@@ -406,10 +413,10 @@ namespace Touch.DummyPos
          *  
          *  Here we show the HTML voucher in a modeless dialog window.
          */
-        private void CloudPos_VoucherAvailable(object sender, string voucherXml)
+        private void CloudPos_VoucherAvailable(object sender, string voucherHtml)
         {
             Log("VoucherAvailable (event)");
-            new FormVoucherPreview().ViewHtml(voucherXml);
+            new FormVoucherPreview().ViewHtml(voucherHtml);
         }
 
         /*
@@ -423,9 +430,9 @@ namespace Touch.DummyPos
         {
             Log("Start: " + device);
 
-            if (device == CloudPos.CloudPos.DEV_BARCODE)
+            if (device == CloudPos.API.DEV_BARCODE)
                 EnableDevice(btnScanBarcode, true);
-            else if (device == CloudPos.CloudPos.DEV_MAGSTRIPE)
+            else if (device == CloudPos.API.DEV_MAGSTRIPE)
                 EnableDevice(btnSwipeCard, true);
         }
 
@@ -437,9 +444,9 @@ namespace Touch.DummyPos
         {
             Log("Stop: " + device);
 
-            if (device == CloudPos.CloudPos.DEV_BARCODE)
+            if (device == CloudPos.API.DEV_BARCODE)
                 EnableDevice(btnScanBarcode, false);
-            else if (device == CloudPos.CloudPos.DEV_MAGSTRIPE)
+            else if (device == CloudPos.API.DEV_MAGSTRIPE)
                 EnableDevice(btnSwipeCard, false);
         }
 
@@ -483,10 +490,10 @@ namespace Touch.DummyPos
         {
             using (var dlg = new FormDeviceData())
             {
-                if (dlg.ShowDialog(this, CloudPos.CloudPos.DEV_BARCODE) == DialogResult.OK)
+                if (dlg.ShowDialog(this, CloudPos.API.DEV_BARCODE) == DialogResult.OK)
                 {
                     Log("Inject Bar Code: " + dlg.Data);
-                    CloudPOS.DeviceData(CloudPos.CloudPos.DEV_BARCODE, dlg.Data);
+                    CloudPOS.DeviceData(CloudPos.API.DEV_BARCODE, dlg.Data);
                 }
             }
         }
@@ -495,10 +502,10 @@ namespace Touch.DummyPos
         {
             using (var dlg = new FormDeviceData())
             {
-                if (dlg.ShowDialog(this, CloudPos.CloudPos.DEV_MAGSTRIPE) == DialogResult.OK)
+                if (dlg.ShowDialog(this, CloudPos.API.DEV_MAGSTRIPE) == DialogResult.OK)
                 {
                     Log("Inject Mag Stripe Data: " + dlg.Data);
-                    CloudPOS.DeviceData(CloudPos.CloudPos.DEV_MAGSTRIPE, dlg.Data);
+                    CloudPOS.DeviceData(CloudPos.API.DEV_MAGSTRIPE, dlg.Data);
                 }
             }
         }
@@ -506,7 +513,7 @@ namespace Touch.DummyPos
         private void btnShowGui_Click(object sender, EventArgs e)
         {
             Log("Clicked: " + ((Button)sender).Text);
-            CloudPOS.ShowTouchpointUI(string.Empty);
+            CloudPOS.ShowGui(string.Empty);
         }
 
         private void btnShowGuiAt_Click(object sender, EventArgs e)
@@ -514,8 +521,7 @@ namespace Touch.DummyPos
             Log("Clicked: " + ((Button)sender).Text);
             using (var formAddItem = new FormAddItem(CloudPOS))
             {
-                if (formAddItem.ShowShowGuiDialog(this) == DialogResult.OK)
-                    CloudPOS.ShowTouchpointUI(formAddItem.Args[0].ToString());
+                formAddItem.ShowShowGuiDialog(this);                    
             }
         }
 
@@ -524,8 +530,7 @@ namespace Touch.DummyPos
             Log("Clicked: " + ((Button)sender).Text);
             using (var formAddItem = new FormAddItem(CloudPOS))
             {
-                if (formAddItem.ShowAddItemDialog(this) == DialogResult.OK)
-                    CloudPOS.AddItem(formAddItem.Args[0].ToString());
+                formAddItem.ShowAddItemDialog(this);
             }
         }
 
@@ -571,7 +576,7 @@ namespace Touch.DummyPos
             }
         }
 
-        public void ClearBasket()
+        private void ClearBasket()
         {
             if (CloudPOS != null)
             {
@@ -609,7 +614,7 @@ namespace Touch.DummyPos
             }
         }
 
-        public bool ShowWebPos(string url)
+        private bool ShowWebPos(string url)
         {
             // 
             //  Run this as a delegate inside UpdateGUI() to ensure GUI operations all work
@@ -622,12 +627,12 @@ namespace Touch.DummyPos
                 chkCloudPos.Checked = false;
                 if (WebPOS == null)
                 {
-                    WebPOS = new CloudPos.WebPos();
+                    WebPOS = new WebPos.Client();
                     WebPOS.Loaded += WebPos_Loaded;
                     WebPOS.Unloaded += WebPos_Unloaded;
                     var opt = Program.Options();
-                    WebPOS.InitPosWindow(opt.Left, opt.Top,
-                        opt.ClientSize.Width, opt.ClientSize.Height, url);
+                    WebPOS.InitPosWindow(opt.ClientRect.Left, opt.ClientRect.Top,
+                        opt.ClientRect.Width, opt.ClientRect.Height, url);
 
                     chkWebPos.Checked = true; // In case it isn't
                     chkWebPos.BackColor = Color.FromArgb(200, 255, 0);
@@ -648,7 +653,7 @@ namespace Touch.DummyPos
             Log("WebPOS Window closed");
         }
 
-        public bool DestroyWebPos()
+        private bool DestroyWebPos()
         {
             // Run this as a delegate inside UpdateGUI() to ensure GUI operations all work
             UpdateGUI(() =>
@@ -725,27 +730,26 @@ namespace Touch.DummyPos
             {
                 cboLocale.Items.Add(key);
             }
-            Touch.DummyPos.ClientSize.PopulateComboBox(cboClientSize);
-
-
             var options = Program.Options();
+            options.PopulateClientRectCombo(cboClientSize, options.ClientRect.Id);
+
             optCloudPOS.Checked = true;
             chkKeepOnTop.Checked = options.KeepOnTop;
             cboConnection.Text = options.ConnectionName;
 
-            numLeft.Value = options.Left;
-            numTop.Value = options.Top;
-            if (options.ClientSize.Id == "custom")
+            numLeft.Value = options.ClientRect.Left;
+            numTop.Value = options.ClientRect.Top;
+            if (options.ClientRect.Id == "custom")
             {
-                var x = options.ClientSize.Width;
-                var y = options.ClientSize.Height;
+                var x = options.ClientRect.Width;
+                var y = options.ClientRect.Height;
                 cboClientSize.SelectedIndex = 0;
                 numWidth.Value = x;
                 numHeight.Value = y;
             }
             else
             {
-                cboClientSize.Text = options.ClientSize.Description;
+                cboClientSize.Text = options.ClientRect.Description;
             }
         }
 
@@ -753,9 +757,9 @@ namespace Touch.DummyPos
         {
             bool cloudPos = optCloudPOS.Checked;
             if (cloudPos)
-                Program.Options().PosType = PosType.CloudPOS;
+                Program.Options().ConfigurationType = ConfigurationType.CloudPOS;
             else
-                Program.Options().PosType = PosType.WebPOS;
+                Program.Options().ConfigurationType = ConfigurationType.WebPOS;
 
             lblSecret.Visible = cloudPos;
             txtSecret.Visible = cloudPos;
@@ -775,9 +779,9 @@ namespace Touch.DummyPos
             var options = Program.Options();
 
             options.LoadConnection(((ComboBox)sender).Text);
-            if (options.PosType == PosType.CloudPOS)
+            if (options.ConfigurationType == ConfigurationType.CloudPOS)
                 optCloudPOS.Checked = true;
-            else if (options.PosType == PosType.WebPOS)
+            else if (options.ConfigurationType == ConfigurationType.WebPOS)
                 optWebPos.Checked = true;
 
             txtURL.Text = options.Url;
@@ -820,18 +824,28 @@ namespace Touch.DummyPos
 
         private void cboClientSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var clientSize = (ClientSize)cboClientSize.SelectedItem;
-            var customSize = (clientSize.Id == "custom");
+            var clientRect = (ClientRect)cboClientSize.SelectedItem;
+            var fullScreen = (clientRect.Id == "fullscreen");
+            var customSize = (clientRect.Id == "custom");
+            lblLeft.Enabled = !fullScreen;
+            numLeft.Enabled = !fullScreen;
+            lblTop.Enabled = !fullScreen;
+            numTop.Enabled = !fullScreen;
             lblWidth.Enabled = customSize;
             numWidth.Enabled = customSize;
             lblHeight.Enabled = customSize;
             numHeight.Enabled = customSize;
+            if (fullScreen)
+            {
+                numLeft.Value = 0;
+                numTop.Value = 0;
+            }
             if (!customSize)
             {
-                numWidth.Value = clientSize.Width;
-                numHeight.Value = clientSize.Height;
+                numWidth.Value = clientRect.Width;
+                numHeight.Value = clientRect.Height;
             }
-            Program.Options().ClientSize = clientSize;
+            Program.Options().ClientRect = clientRect;
         }
 
         private void posSize_ValueChanged(object sender, EventArgs e)
@@ -840,13 +854,13 @@ namespace Touch.DummyPos
 
             int value = (int)((NumericUpDown)sender).Value;
             if (sender == numLeft)
-                options.Left = value;
+                options.ClientRect.Left = value;
             else if (sender == numTop)
-                options.Top = value;
+                options.ClientRect.Top = value;
             else if (sender == numWidth)
-                options.ClientSize.Width = value;
+                options.ClientRect.Width = value;
             else if (sender == numHeight)
-                options.ClientSize.Height = value;
+                options.ClientRect.Height = value;
         }
 
         private void chkKeepOnTop_CheckedChanged(object sender, EventArgs e)

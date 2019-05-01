@@ -11,12 +11,20 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Touch.DummyPos
 {
-    public partial class FormVoucherPreview : Form
+    /// <summary>
+    /// This modeless dialogue is used to render a <see cref="CloudPos.Model.Voucher"/>
+    /// instead of printing it on a real printer.
+    /// </summary>
+    partial class FormVoucherPreview : Form
     {
         private string _voucherTemplate;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormVoucherPreview"/> form.
+        /// </summary>
         public FormVoucherPreview()
         {
             InitializeComponent();
@@ -34,6 +42,10 @@ namespace Touch.DummyPos
             }
         }
 
+        /// <summary>
+        /// Shows the dialogue.
+        /// </summary>
+        /// <param name="html">The voucher content</param>
         public void ViewHtml(string html)
         {
             //

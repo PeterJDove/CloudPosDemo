@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using Touch.SmartCards;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     class WriteCommand : CardCommand
     {

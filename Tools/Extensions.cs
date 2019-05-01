@@ -2,18 +2,20 @@
 
 namespace Touch.Tools
 {
-    /*
-     *  Extension methods are public static methods distiguished by
-     *  the "this" modifier on the first parameter.  The TYPE of that
-     *  first parameter is the type (or class) that is extended.
-     * 
-     *  For example: 
-     *      public static string Head(this string value) 
-     *      {
-     *          // extends the string type with a Head() method.  
-     *      }
-     */
 
+    /// <summary>
+    /// Extension methods are public static methods distiguished by
+    /// the "this" modifier on the first parameter.  The TYPE of that
+    /// first parameter is the type (or class) that is extended.
+    /// 
+    /// For example: 
+    /// <code>
+    /// public static string Head(this string value) 
+    /// {
+    ///     // extends the string type with a Head() method.  
+    /// }
+    /// </code>
+    /// </summary>
     public static class Extensions
     {
 
@@ -22,10 +24,10 @@ namespace Touch.Tools
         /// 
         /// Call using <code>source.SubArry(int index, int count)</code>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="index"></param>
-        /// <param name="length"></param>
+        /// <typeparam name="T">The type of the array to be provided, and returned.</typeparam>
+        /// <param name="source">The array (of type T) from which a subset is to be returned</param>
+        /// <param name="index">The index of the first element within <paramref name="source"/> to be returned in the subset.</param>
+        /// <param name="length">The (maximum) number of elements to be returned.</param>
         /// <returns>An array of the same type as <paramref name="source"/></returns>
         public static T[] SubArray<T>(this T[] source, int index, int length)
         {
@@ -47,7 +49,7 @@ namespace Touch.Tools
         }
 
         /// <summary>
-        /// Returns the First Word of a string, ignoring any leading spaces or Control Chars.
+        /// Gets the First Word of a string, ignoring any leading spaces or Control Chars.
         /// 
         /// Call using <code>string.Head()</code>
         /// </summary>
@@ -76,7 +78,7 @@ namespace Touch.Tools
         }
 
         /// <summary>
-        /// Returns that part of a string following the Head.
+        /// Gets that part of a string following the Head.
         /// 
         /// Call using <code>string.Tail()</code>
         /// </summary>
@@ -100,7 +102,7 @@ namespace Touch.Tools
         }
 
         /// <summary>
-        /// Returns the string with extra spaces before each capital letter.
+        /// Gets the string with extra spaces before each capital letter.
         /// 
         /// Call using <code>string.SplitCamelCase()</code>
         /// </summary>

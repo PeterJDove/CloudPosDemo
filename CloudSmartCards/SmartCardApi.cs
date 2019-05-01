@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Touch.SmartCards;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     public static class SmartCardApi
     {

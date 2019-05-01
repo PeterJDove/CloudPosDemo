@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPos", "CloudPOS\CloudPos.csproj", "{F6B394E0-BC21-41D5-A3E3-742DB516383C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPos", "CloudPos\CloudPos.csproj", "{F6B394E0-BC21-41D5-A3E3-742DB516383C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudPosIE", "CloudPosIE\CloudPosIE.csproj", "{4216139E-F96D-402B-B9D9-F23630DC40F4}"
 EndProject

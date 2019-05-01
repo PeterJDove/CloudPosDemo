@@ -1,43 +1,68 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace CloudPos
+/// <summary>
+/// An alternative to the <see cref="Touch.CloudPos"/> for when there is <i>no</i> POS integration.
+/// </summary>
+namespace Touch.WebPos
 {
-    /*
-     *  Strictly speaking, WebPOS, is a different creature to CloudPOS and this 
-     *  class does not play a part in using CloudPOS.
-     *  
-     *  WebPOS is the alternative browser-based way of accessing Afterpay Touch 
-     *  eServices when there is _no_ POS integration.   It is a stand-alone product
-     *  which offers no API.
-     *  
-     *  It is included here is for demonstration purposes only.
-     * 
-     */ 
-    public class WebPos : IDisposable
+
+    /// <summary>
+    /// The WebPos Client provides an alternative to the CloudPOS <see cref="CloudPos.API"/>;
+    /// which may be used when there is <i>no</i> POS integration.
+    /// </summary>
+    public class Client : IDisposable
     {
         private CloudPosUI.ICloudPosUI _ui;
 
-        public EventHandler<string> Loaded;
-        public EventHandler Unloaded;
 
-        public WebPos()
+        /// <summary>
+        /// Raised when the web browser has loaded the HTML web application.
+        /// </summary>
+        /// <remarks>
+        /// <b>Loaded</b> uses the 
+        /// <see href="https://docs.microsoft.com/en-us/dotnet/api/system.eventhandler-1">EventHander&lt;TEventArgs&gt;</see>
+        /// delegate, passing the URL that was loaded.
+        /// </remarks>
+        public event EventHandler<string> Loaded;
+
+
+        /// <summary>
+        /// Raised when the web browser has closed.
+        /// </summary>
+        /// <remarks>
+        /// <b>Unloaded</b> uses the 
+        /// <see href="https://docs.microsoft.com/en-us/dotnet/api/system.eventhandler">EventHander</see>
+        /// delegate, passing no EventArgs.
+        /// </remarks>
+        public event EventHandler Unloaded;
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Client"/> class.
+        /// </summary>
+        public Client()
         {
             InstantiateBrowser("ie", "Web POS");
         }
 
-        ~WebPos() // Destructor
+        ~Client() // Destructor
         {
             Dispose();
         }
 
+        /// <summary>
+        /// Initialises and shows the WebPos browser window, setting its position and size, and loading the web application. 
+        /// </summary>
+        /// <param name="left">The required position of the left-hand side of the browser window, in pixels.</param>
+        /// <param name="top">The required position of the top of the browser window, in pixels.</param>
+        /// <param name="width">The required width of the browser window, in pixels.</param>
+        /// <param name="height">The required height of the browser window, in pixels.</param>
+        /// <param name="url">The address to load the CloudPOS web application.</param>
         public void InitPosWindow(int left, int top, int width, int height, string url)
         {
             _ui.SetPosition(left, top);
@@ -46,6 +71,9 @@ namespace CloudPos
             _ui.Show();
         }
 
+        /// <summary>
+        /// Releases all resources associated with the WebPos browser window.
+        /// </summary>
         public void Dispose()
         {
             if (_ui != null)

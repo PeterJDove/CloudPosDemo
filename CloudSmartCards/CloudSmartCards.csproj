@@ -7,7 +7,7 @@
     <ProjectGuid>{DC172B4D-E472-4A19-B872-D54503AD98E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudSmartCards</RootNamespace>
+    <RootNamespace>Touch.CloudSmartCards</RootNamespace>
     <AssemblyName>CloudSmartCards</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

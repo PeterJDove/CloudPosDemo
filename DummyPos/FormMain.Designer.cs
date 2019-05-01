@@ -1,6 +1,6 @@
 ﻿namespace Touch.DummyPos
 {
-    partial class FormMain
+    internal partial class FormMain
     {
         /// <summary>
         /// Required designer variable.
@@ -857,7 +857,6 @@
         private System.Windows.Forms.TabPage tabLog;
         private System.Windows.Forms.TableLayoutPanel tableLayoutCloudPos;
         private System.Windows.Forms.FlowLayoutPanel flowCloudPos;
-        protected internal System.Windows.Forms.Button btnScanBarcode;
         private System.Windows.Forms.Button btnSwipeCard;
         private System.Windows.Forms.FlowLayoutPanel flowCloudWeb;
         private System.Windows.Forms.CheckBox chkCloudPos;
@@ -910,5 +909,6 @@
         private System.Windows.Forms.TabPage tabDebug;
         private System.Windows.Forms.CheckBox chkFailOnCommit;
         private System.Windows.Forms.Label lblCommitFail;
+        private System.Windows.Forms.Button btnScanBarcode;
     }
 }

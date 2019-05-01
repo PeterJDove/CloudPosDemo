@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <!--   VSdocman config file for current project/solution.-->
+  <activeProfile>default</activeProfile>
+  <appSettings>
+    <add key="VBdocman_comModulesSaveExcluded"><![CDATA[-1]]></add>
+    <add key="VBdocman_comNonCommented"><![CDATA[-1]]></add>
+    <add key="VBdocman_regexFilters"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<filters />]]></add>
+    <add key="VBdocman_customVar2"><![CDATA[]]></add>
+    <add key="VBdocman_comInterface"><![CDATA[-1]]></add>
+    <add key="VBdocman_outputPath"><![CDATA[$(ProjectDir)VSdoc]]></add>
+    <add key="VBdocman_useConditionalCompilation"><![CDATA[0]]></add>
+    <add key="VBdocman_removeAttributes"><![CDATA[0]]></add>
+    <add key="VBdocman_SupportedXamarinIos"><![CDATA[]]></add>
+    <add key="VBdocman_enumSorting"><![CDATA[1]]></add>
+    <add key="VBdocman_comVariable"><![CDATA[-1]]></add>
+    <add key="VBdocman_comStdModule"><![CDATA[-1]]></add>
+    <add key="VBdocman_ListNamespacesWithShortNames"><![CDATA[0]]></add>
+    <add key="VBdocman_comPublic"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedPlatforms"><![CDATA[]]></add>
+    <add key="VBdocman_comProtected"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedNetFrameworkClientProfile"><![CDATA[]]></add>
+    <add key="VBdocman_comPrivate"><![CDATA[0]]></add>
+    <add key="VBdocman_comWriteDescription"><![CDATA[0]]></add>
+    <add key="VBdocman_comProtectedFriend"><![CDATA[-1]]></add>
+    <add key="VBdocman_comObject"><![CDATA[-1]]></add>
+    <add key="VBdocman_comDelegate"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedXnaFramework"><![CDATA[]]></add>
+    <add key="VBdocman_emptyOutputFolder"><![CDATA[0]]></add>
+    <add key="VBdocman_rootNamespaceCommentStyle"><![CDATA[2]]></add>
+    <add key="VBdocman_comEnumeration"><![CDATA[-1]]></add>
+    <add key="VBdocman_comMethod"><![CDATA[-1]]></add>
+    <add key="VBdocman_comProperty"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedNetCompactFramework"><![CDATA[]]></add>
+    <add key="VBdocman_externalFilesFolder"><![CDATA[]]></add>
+    <add key="VBdocman_pageFooterText"><![CDATA[Generated with <see href="http://www.helixoft.com/vsdocman/overview.html">VSdocman</see>]]></add>
+    <add key="VBdocman_generateJscriptSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_generateCsharpSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_allowMacrosInComments"><![CDATA[0]]></add>
+    <add key="VBdocman_customVar1"><![CDATA[]]></add>
+    <add key="VBdocman_linkForExternalNotInFramework"><![CDATA[0]]></add>
+    <add key="VBdocman_showInherited"><![CDATA[-1]]></add>
+    <add key="VBdocman_templateLocale"><![CDATA[en-US]]></add>
+    <add key="VBdocman_SupportedNetCore"><![CDATA[]]></add>
+    <add key="VBdocman_showFormsSeparate"><![CDATA[0]]></add>
+    <add key="VBdocman_unbreakSourceLines"><![CDATA[0]]></add>
+    <add key="VBdocman_supportedNetFramework"><![CDATA[4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1]]></add>
+    <add key="VBdocman_comConstant"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedOthers"><![CDATA[]]></add>
+    <add key="VBdocman_comForm"><![CDATA[-1]]></add>
+    <add key="VBdocman_comStructure"><![CDATA[-1]]></add>
+    <add key="VBdocman_dontSortSeeAlsoList"><![CDATA[0]]></add>
+    <add key="VBdocman_templateFolder"><![CDATA[$(VSdocmanDir)Templates]]></add>
+    <add key="VBdocman_ConstantValueDisplay"><![CDATA[1]]></add>
+    <add key="VBdocman_helpTitle"><![CDATA[CloudPOS Demo Reference]]></add>
+    <add key="VBdocman_insertSourceGlobal"><![CDATA[0]]></add>
+    <add key="VBdocman_SupportedNetStandard"><![CDATA[]]></add>
+    <add key="VBdocman_SupportedXamarinMac"><![CDATA[]]></add>
+    <add key="VBdocman_comFriend"><![CDATA[0]]></add>
+    <add key="VBdocman_templatePath"><![CDATA[html_msdn2017.vbdt]]></add>
+    <add key="VBdocman_comDeclare"><![CDATA[-1]]></add>
+    <add key="VBdocman_customVar3"><![CDATA[]]></add>
+    <add key="VBdocman_conditionalConstants"><![CDATA[]]></add>
+    <add key="VBdocman_SupportedXamarinAndroid"><![CDATA[]]></add>
+    <add key="VBdocman_supportedNetForWindowsStoreApps"><![CDATA[]]></add>
+    <add key="VBdocman_ShowExtensionMethods"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedPortableClassLibrary"><![CDATA[]]></add>
+    <add key="VBdocman_generateCppSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_customTopics"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<topics>
+  <topic>
+    <type>normal</type>
+    <is-default>yes</is-default>
+    <name>CloudPOS Demo Reference</name>
+    <id>solutionwide_properties_reference</id>
+    <comment><![CDATA[<summary>
+ <b>Introduction</b>
+<para>The CloudPosDemo package is C# software that implements the Afterpay Touch
+eServices CloudPOS javascript API.</para>
+<para>eServices CloudPOS has been designed and built to be a single solution for
+eServices such as gift cards, mobile phone recharge, lottery tickets, bill
+payments, transport ticketing, and coupons for special offers and
+rewards.</para>
+<para>The eServices CloudPOS client is an intelligent web page that is presented
+in a web browser residing on your POS. eServices CloudPOS connects securely to
+popular eservice suppliers such as Apple iTunes, Amazon, and Paysafecard over
+the internet to supply activated products for your customers.</para>
+<para>To use the CloudPOS javascript API you must have an environment that
+provides a browser or a WebView and a means of injecting javascript API
+functions into the pages that are running in the browser, as well as capturing
+the event messages raised from with the javascript application.</para>
+<para><b>What&apos;s In CloudPosDemo?</b></para>
+<para>The CloudPosDemo package consists of a number of components, which are
+intended to serve as examples of how to access the CloudPOS javascript API from
+within .NET (C#) code. It is intended to give a head-start to POS vendors whose
+own Point-of-Sale (Cash Register) software is written in C# or another .NET
+language.</para>
+<para>More than being just an example, components within
+the CloudPosDemo package encapsulate the CloudPOS javascript API calls and wrap
+them in a .NET DLL. These components may be incorporated straight into your code
+and used directly, easing the implementation even further.</para>
+<para>The CloudPosDemo package, then, consists of the following
+components:</para>
+<list type="bullet">
+ <item>
+  <description><b>CloudPos</b> : This is the main Class Library (DLL) that
+encapsulates the javascript API calls documented at <see
+href="http://esp-api-docs.touchcorp.com/cloudpos/"/>. The CloudPos Class Library
+exposes a main object, also called CloudPos, that offers methods for all of the
+functions that a POS will need to perform, and raises .NET events to tell the
+POS of the results.
+</description>
+ </item>
+ <item>
+  <description><b>CloudPosIE</b> : This Class Library provides a Windows Form
+containing a .NET WebBrowser in which the javascript application runs, and which
+is used to present the user interface to the POS operator. This is distinct from
+the <b>CloudPos</b>DLL to allow for the possibility of plugging in another user
+interface using a different browser widget.
+</description>
+ </item>
+ <item>
+  <description><b>CloudPosUI</b> : This Class Library contains a single
+Interface, ICloudPosUI, that the UI class within <b>CloudPosIE</b> implements.
+If <b>CloudPosIE</b> were to be replaced by another user interface module, a
+class within that should implement ICloudPosUI.
+</description>
+ </item>
+ <item>
+  <description><b>Touch.Tools</b> : This Class Library contains a couple of
+static classes that provide generic utility methods, including Extension methods
+for strings, and arrays. There is also a class that manages old-style Windows
+INI files.</description>
+ </item>
+</list>
+<para>The Class Libraries above, especially the <b>CloudPos</b> class library,
+are those that a POS vendor may choose to incorporate directly into their code,
+with little or no changes.</para>
+<para>In addition, the CloudPosDemo package contains:</para>
+<list type="bullet">
+ <item>
+  <description><b>DummyPos</b> : This is a .NET executable which simulates the
+basic behaviour of a POS making calls upon the <b>CloudPos</b>DLL. This
+executable is NOT intended to be included in your own project, but serves only
+as a working demonstration of how to interface to the
+supplied <b>CloudPos</b> DLL.
+</description>
+ </item>
+ <item>
+  <description><b>CloudSmartCards</b> and <b>Touch.SmartCards</b> : These two
+class libraries may be used if your POS needs to be able to process smartcard
+products (such as GoCard transit cards in Queensland). If SmartCard
+support is required, include the Reference to the <b>CloudSmartCards</b> library
+in <b>CloudPosIE</b>, and un-comment the line &quot;#define
+SMARTCARDS_SUPPORTED&quot; in the BrowserForm.cs file within
+the <b>CloudPosIE</b> project.</description>
+ </item>
+</list>
+<para>If running the entire package together, <b>DummyPos</b> should be the
+&quot;Start Up&quot; project.</para>
+</summary>vsdocman_escaped_]_]_></comment>
+    <namespaces />
+    <topics>
+      <topic>
+        <type>placeholder</type>
+        <is-default>no</is-default>
+        <name />
+        <id>385083a3e04041d681e206fd9c80103b</id>
+        <comment><![CDATA[vsdocman_escaped_]_]_></comment>
+        <namespaces />
+        <topics />
+      </topic>
+    </topics>
+  </topic>
+</topics>]]></add>
+    <add key="VBdocman_generateVbSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_generateFsharpSyntax"><![CDATA[0]]></add>
+    <add key="VBdocman_comEventDecl"><![CDATA[-1]]></add>
+    <add key="VBdocman_comEvent"><![CDATA[-1]]></add>
+    <add key="VBdocman_rootNamespaceText"><![CDATA[]]></add>
+    <add key="VBdocman_fileNamingConvention"><![CDATA[1]]></add>
+  </appSettings>
+  <appSettings profile="No Smartcards">
+    <add key="VBdocman_comNonCommented"><![CDATA[-1]]></add>
+    <add key="VBdocman_regexFilters"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<filters />]]></add>
+    <add key="VBdocman_customVar2"><![CDATA[]]></add>
+    <add key="VBdocman_comInterface"><![CDATA[-1]]></add>
+    <add key="VBdocman_outputPath"><![CDATA[$(ProjectDir)VSdoc]]></add>
+    <add key="VBdocman_useConditionalCompilation"><![CDATA[0]]></add>
+    <add key="VBdocman_removeAttributes"><![CDATA[0]]></add>
+    <add key="VBdocman_SupportedXamarinIos"><![CDATA[]]></add>
+    <add key="VBdocman_enumSorting"><![CDATA[1]]></add>
+    <add key="VBdocman_comVariable"><![CDATA[-1]]></add>
+    <add key="VBdocman_comStdModule"><![CDATA[-1]]></add>
+    <add key="VBdocman_ListNamespacesWithShortNames"><![CDATA[0]]></add>
+    <add key="VBdocman_comPublic"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedPlatforms"><![CDATA[]]></add>
+    <add key="VBdocman_comProtected"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedNetFrameworkClientProfile"><![CDATA[]]></add>
+    <add key="VBdocman_comPrivate"><![CDATA[0]]></add>
+    <add key="VBdocman_comWriteDescription"><![CDATA[0]]></add>
+    <add key="VBdocman_comProtectedFriend"><![CDATA[-1]]></add>
+    <add key="VBdocman_comObject"><![CDATA[-1]]></add>
+    <add key="VBdocman_comDelegate"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedXnaFramework"><![CDATA[]]></add>
+    <add key="VBdocman_emptyOutputFolder"><![CDATA[0]]></add>
+    <add key="VBdocman_rootNamespaceCommentStyle"><![CDATA[2]]></add>
+    <add key="VBdocman_comEnumeration"><![CDATA[-1]]></add>
+    <add key="VBdocman_comMethod"><![CDATA[-1]]></add>
+    <add key="VBdocman_comProperty"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedNetCompactFramework"><![CDATA[]]></add>
+    <add key="VBdocman_externalFilesFolder"><![CDATA[]]></add>
+    <add key="VBdocman_pageFooterText"><![CDATA[CloudPOS Demo (eServices Client) Reference - © 2019, Afterpay Touch]]></add>
+    <add key="VBdocman_generateJscriptSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_generateCsharpSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_allowMacrosInComments"><![CDATA[0]]></add>
+    <add key="VBdocman_customVar1"><![CDATA[]]></add>
+    <add key="VBdocman_linkForExternalNotInFramework"><![CDATA[0]]></add>
+    <add key="VBdocman_showInherited"><![CDATA[-1]]></add>
+    <add key="VBdocman_templateLocale"><![CDATA[en-US]]></add>
+    <add key="VBdocman_SupportedNetCore"><![CDATA[]]></add>
+    <add key="VBdocman_showFormsSeparate"><![CDATA[-1]]></add>
+    <add key="VBdocman_unbreakSourceLines"><![CDATA[0]]></add>
+    <add key="VBdocman_supportedNetFramework"><![CDATA[4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1]]></add>
+    <add key="VBdocman_comConstant"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedOthers"><![CDATA[]]></add>
+    <add key="VBdocman_comForm"><![CDATA[-1]]></add>
+    <add key="VBdocman_comStructure"><![CDATA[-1]]></add>
+    <add key="VBdocman_dontSortSeeAlsoList"><![CDATA[0]]></add>
+    <add key="VBdocman_templateFolder"><![CDATA[$(VSdocmanDir)Templates]]></add>
+    <add key="VBdocman_ConstantValueDisplay"><![CDATA[1]]></add>
+    <add key="VBdocman_helpTitle"><![CDATA[CloudPOS Demo Reference]]></add>
+    <add key="VBdocman_insertSourceGlobal"><![CDATA[0]]></add>
+    <add key="VBdocman_SupportedNetStandard"><![CDATA[]]></add>
+    <add key="VBdocman_SupportedXamarinMac"><![CDATA[]]></add>
+    <add key="VBdocman_comFriend"><![CDATA[-1]]></add>
+    <add key="VBdocman_templatePath"><![CDATA[html_msdn2019.vbdt]]></add>
+    <add key="VBdocman_comDeclare"><![CDATA[-1]]></add>
+    <add key="VBdocman_customVar3"><![CDATA[]]></add>
+    <add key="VBdocman_conditionalConstants"><![CDATA[]]></add>
+    <add key="VBdocman_SupportedXamarinAndroid"><![CDATA[]]></add>
+    <add key="VBdocman_supportedNetForWindowsStoreApps"><![CDATA[]]></add>
+    <add key="VBdocman_ShowExtensionMethods"><![CDATA[-1]]></add>
+    <add key="VBdocman_supportedPortableClassLibrary"><![CDATA[]]></add>
+    <add key="VBdocman_generateCppSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_customTopics"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<topics>
+  <topic>
+    <type>normal</type>
+    <is-default>yes</is-default>
+    <name>CloudPos Demo Reference </name>
+    <id>solutionwide_properties_reference</id>
+    <comment><![CDATA[<summary>
+<para><b>Introduction</b></para>
+<para>The CloudPosDemo package is C# software that implements the Afterpay Touch
+eServices CloudPOS javascript API.</para>
+<para>eServices CloudPOS has been designed and built to be a single solution for
+eServices such as gift cards, mobile phone recharge, lottery tickets, bill
+payments, transport ticketing, and coupons for special offers and
+rewards.</para>
+<para>The eServices CloudPOS client is an intelligent web page that is presented
+in a web browser residing on your POS. eServices CloudPOS connects securely to
+popular eservice suppliers such as Apple iTunes, Amazon, and Paysafecard over
+the internet to supply activated products for your customers.</para>
+<para>To use the CloudPOS javascript API you must have an environment that
+provides a browser or a WebView and a means of injecting javascript API
+functions into the pages that are running in the browser, as well as capturing
+the event messages raised from with the javascript application.</para>
+<para><b>What&apos;s In CloudPosDemo?</b></para>
+<para>The CloudPosDemo package consists of a number of components, which are
+intended to serve as examples of how to access the CloudPOS javascript API from
+within .NET (C#) code. It is intended to give a head-start to POS vendors whose
+own Point-of-Sale (Cash Register) software is written in C# or another .NET
+language.</para>
+<para>More than being just an example, components within
+the CloudPosDemo package encapsulate the CloudPOS javascript API calls and wrap
+them in a .NET DLL. These components may be incorporated straight into your code
+and used directly, easing the implementation even further.</para>
+<para>The CloudPosDemo package, then, consists of the following
+components:</para>
+<list type="bullet">
+ <item>
+  <description><b>CloudPos</b> : This is the main Class Library (DLL) that
+encapsulates the javascript API calls documented at <see
+href="http://esp-api-docs.touchcorp.com/cloudpos/"/>. The CloudPos Class Library
+exposes a main object, also called CloudPos, that offers methods for all of the
+functions that a POS will need to perform, and raises .NET events to tell the
+POS of the results. </description>
+ </item>
+ <item>
+  <description><b>CloudPosIE</b> : This Class Library provides a Windows Form
+containing a .NET WebBrowser in which the javascript application runs, and which
+is used to present the user interface to the POS operator. This is distinct from
+the <b>CloudPos</b>DLL to allow for the possibility of plugging in another user
+interface using a different browser widget. </description>
+ </item>
+ <item>
+  <description><b>CloudPosUI</b> : This Class Library contains a single
+Interface, ICloudPosUI, that the UI class within <b>CloudPosIE</b> implements.
+If <b>CloudPosIE</b> were to be replaced by another user interface module, a
+class within that should implement ICloudPosUI. </description>
+ </item>
+ <item>
+  <description><b>Touch.Tools</b> : This Class Library contains a couple of
+static classes that provide generic utility methods, including Extension methods
+for strings, and arrays. There is also a class that manages old-style Windows
+INI files.</description>
+ </item>
+</list>
+<para>The Class Libraries above, especially the <b>CloudPos</b> class library,
+are those that a POS vendor may choose to incorporate directly into their code,
+with little or no changes.</para>
+<para>In addition, the CloudPosDemo package contains:</para>
+<list type="bullet">
+ <item>
+  <description><b>DummyPos</b> : This is a .NET executable which simulates the
+basic behaviour of a POS making calls upon the <b>CloudPos</b>DLL. This
+executable is NOT intended to be included in your own project, but serves only
+as a working demonstration of how to interface to the
+supplied <b>CloudPos</b> DLL. </description>
+ </item>
+ <item>
+  <description><b>CloudSmartCards</b> and <b>Touch.SmartCards</b> : These two
+class libraries may be used if your POS needs to be able to process smartcard
+products (such as GoCard transit cards in Queensland). If SmartCard
+support is required, include the Reference to the <b>CloudSmartCards</b> library
+in <b>CloudPosIE</b>, and un-comment the line &quot;#define
+SMARTCARDS_SUPPORTED&quot; in the BrowserForm.cs file within
+the <b>CloudPosIE</b> project.</description>
+ </item>
+</list>
+<para>If running the entire package together, <b>DummyPos</b> should be the
+&quot;Start Up&quot; project.</para>
+</summary>
+<remarks>
+<para>The CloudPosDemo package is intended primarily as example code, to guide
+your own POS integration with the CloudPOS javascript API. As shown above, some
+of the components you may find already fit for purpose, and you may choose them
+directly in your own application.</para>
+<para>In doing so, you accept responsibility for maintaining the software, and
+use it at your own risk. While Afterpay Touch will willingly assist you in your
+POS integration, they do not guarantee the performance of any software within
+the CloudPosDemo package, nor warrant it will run well in your environment.
+Afterpay Touch may provide upgrades and maintenance fixes to this software, but
+do not promise to do so.</para>
+<para>The supplied code has been written and tested against the .NET 4.5
+Framework. You are free to try to make it work with other versions of the .NET
+Framework, if that suits you better. Again, do so at your own risk.</para>
+</remarks>vsdocman_escaped_]_]_></comment>
+    <namespaces />
+    <topics>
+      <topic>
+        <type>placeholder</type>
+        <is-default>no</is-default>
+        <name />
+        <id>d402bef2c5494517aa5294ab284fee60</id>
+        <comment><![CDATA[vsdocman_escaped_]_]_></comment>
+        <namespaces />
+        <topics />
+      </topic>
+    </topics>
+  </topic>
+</topics>]]></add>
+    <add key="VBdocman_generateVbSyntax"><![CDATA[-1]]></add>
+    <add key="VBdocman_generateFsharpSyntax"><![CDATA[0]]></add>
+    <add key="VBdocman_comEventDecl"><![CDATA[-1]]></add>
+    <add key="VBdocman_comEvent"><![CDATA[-1]]></add>
+    <add key="VBdocman_rootNamespaceText"><![CDATA[]]></add>
+    <add key="VBdocman_comModulesSaveExcluded"><![CDATA[-1]]></add>
+    <add key="VBdocman_fileNamingConvention"><![CDATA[1]]></add>
+  </appSettings>
+</configuration>

@@ -1,4 +1,4 @@
-﻿namespace CloudPosIE
+﻿namespace Touch.CloudPosIE
 {
     partial class BrowserForm
     {
@@ -46,6 +46,7 @@
             // 
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.webBrowser);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BrowserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

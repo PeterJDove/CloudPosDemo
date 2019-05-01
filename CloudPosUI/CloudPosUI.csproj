@@ -7,7 +7,7 @@
     <ProjectGuid>{67BA6F56-4A8C-457C-B08D-FFC63590AD1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudPosUI</RootNamespace>
+    <RootNamespace>Touch.CloudPosUI</RootNamespace>
     <AssemblyName>CloudPosUI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -62,12 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="touch.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SmartCards\Touch.SmartCards.csproj">
-      <Project>{80de25a3-0af4-48eb-9515-94cc17d4e6e5}</Project>
-      <Name>Touch.SmartCards</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

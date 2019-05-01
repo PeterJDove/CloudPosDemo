@@ -4,6 +4,9 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms.Layout;
 
+/// <summary>
+/// A collection of general purpose utility methods, extension methods, and useful classes. 
+/// </summary>
 namespace Touch.Tools
 {
     /// <summary>
@@ -46,13 +49,14 @@ namespace Touch.Tools
         }
 
         /// <summary>
-        /// Returns a String consisting of a dump of the contents of a byte array, suitable for use in program
-        /// logs, or for debugging.  Each byte is shown as a two-digit hexadecimal number and, on the line below,
-        /// as its character representation.  Non-printable (control) characters are represented by a "middle dot": ·
-        /// <para>The dump is arranged in lines of a fixed number of bytes; 20 by default but able to be varied
-        /// using the optional <paramref name="bytesPerLine"/> parameter.</para>
+        /// Gets a String consisting of a dump of the contents of a byte array, suitable for use in program
+        /// logs, or for debugging.  
         /// </summary>
         /// <remarks>
+        /// <para>Each byte is shown as a two-digit hexadecimal number and, on the line below,
+        /// as its character representation.  Non-printable (control) characters are represented by a "middle dot": ·</para>
+        /// <para>The dump is arranged in lines of a fixed number of bytes; 20 by default but able to be varied
+        /// using the optional <paramref name="bytesPerLine"/> parameter.</para>
         /// The start of each line contains the zero-based address or index of the first byte in that line.  This
         /// index is shown in decimal, unless <paramref name="bytesPerLine"/> is a multiple of eight. In this
         /// case the address/index column is shown as a hexadecimal number (with a "0x" prefix).
@@ -103,6 +107,13 @@ namespace Touch.Tools
             return dump.ToString();
         }
 
+        /// <summary>
+        /// Executes a delegate (in a new thread) that takes no arguments, and which returns a specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of return value</typeparam>
+        /// <param name="func">The function delegate</param>
+        /// <param name="timeout">Maximum number of milliseconds to wait for the fucntion to complete.</param>
+        /// <returns>Value returned by the executed function.</returns>
         public static T Execute<T>(Func<T> func, int timeout)
         {
             T result;
@@ -110,6 +121,14 @@ namespace Touch.Tools
             return result;
         }
 
+        /// <summary>
+        /// Attempts to execute (in a new thread) a delegate function that takes no arguments, and which returns a specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of value for delegate to return</typeparam>
+        /// <param name="func">The function delegate</param>
+        /// <param name="timeout">Maximum number of milliseconds to wait for the fucntion to complete.</param>
+        /// <param name="result">Value returned by the executed function.</param>
+        /// <returns>Whether the function ran to completed okay.</returns>
         public static bool TryExecute<T>(Func<T> func, int timeout, out T result)
         {
             var t = default(T);
@@ -127,7 +146,14 @@ namespace Touch.Tools
 
             return completed;
         }
-        
+
+        /// <summary>
+        /// Calculates an IPv4 Header Checksum, as defined in RFC 791.
+        /// </summary>
+        /// <param name="buffer">The byte Array over which the checksum is to be calculated</param>
+        /// <param name="start">The index of the first byte in <paramref cref="buffer"/> to be checksummed.</param>
+        /// <param name="length">The number of bytes in <paramref name="buffer"/> to be checksummed.</param>
+        /// <returns>The checksum as an unsigned, 16-bit, integer</returns>
         public static ushort IpChecksum(byte[] buffer, int start, int length)
         {
             long sum = 0;
@@ -147,7 +173,8 @@ namespace Touch.Tools
             return (ushort)(~sum);
         }
 
-        public static void TestComputeIpChecksum()
+
+        private static void TestComputeIpChecksum()
         {
             TestIpChecksum(0x392C, new byte[]{
                 0xC0, 0xA8, 0x01, 0x1F, 0xC0, 0xA8, 0x01, 0x81, 0x00, 0x06, 0x00, 0x2D,
@@ -172,13 +199,12 @@ namespace Touch.Tools
         }
 
 
-        /*
-         * EnsureFolderExists will check if a folder exists and, if not, will
-         * attempt to create it, creating all of the parent folders necessary
-         * to complete the path.
-         * 
-         * Returns a Boolean indicating success or failure.
-         */
+        /// <summary>
+        /// Check if a folder exists and, if not, attempts to create it,
+        /// creating all of the parent folders necessary to complete the path.
+        /// </summary>
+        /// <param name="path">The full path of the folder to check for.</param>
+        /// <returns>Indicates success if the folder was found, or created.</returns>
         public static bool EnsureFolderExists(string path)
         {
             if (path.EndsWith("\\"))

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace CloudSmartCards
+namespace Touch.CloudSmartCards
 {
     internal class CardIdentity
     {

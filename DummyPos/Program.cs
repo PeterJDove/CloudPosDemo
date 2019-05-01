@@ -8,9 +8,15 @@ using System.Windows.Forms;
 using Touch.Tools;
 using static System.Environment;
 
+/// <summary>
+/// A .NET executable which simulates the basic behaviour of a POS making calls upon the <see cref="Touch.CloudPos"/> DLL.
+/// </summary>
 namespace Touch.DummyPos
 {
-    public static class Program
+    /// <summary>
+    /// The primary class of the DummyPos application, where <b>static void Main()</b> resides.
+    /// </summary>
+    internal static class Program
     {
         private static IniFile _iniFile;
         private static FormMain _formMain;
@@ -32,16 +38,28 @@ namespace Touch.DummyPos
              Application.Run(_formMain);
         }
 
+        /// <summary>
+        /// Returns a references to the singleton Main Form of the DummyPos application.
+        /// </summary>
+        /// <returns></returns>
         public static FormMain FormMain()
         {
             return _formMain;
         }
 
+        /// <summary>
+        /// Returns a references to the singleton Options object.
+        /// </summary>
+        /// <returns></returns>
         public static Options Options()
         {
             return _options;
         }
 
+        /// <summary>
+        /// Returns a references to the singleton INI file used to save DummyPos application settings.
+        /// </summary>
+        /// <returns></returns>
         public static IniFile IniFile()
         {
 

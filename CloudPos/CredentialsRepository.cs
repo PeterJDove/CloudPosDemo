@@ -5,7 +5,7 @@ using System.Text;
 using YamlDotNet.Serialization;
 using static System.Environment;
 
-namespace CloudPos
+namespace Touch.CloudPos
 {
     /*
      *  This class simply manages the persistent storage of the PosActivator.Credentials
@@ -16,10 +16,12 @@ namespace CloudPos
     internal class CredentialsRepository
     {
         private Dictionary<String, PosActivator.Credentials> _dictionary;
-        private const string _filename = "CloudPos.auth";
+        public string AuthFileName { get; set; }
 
         internal CredentialsRepository()
-        { }
+        {
+            AuthFileName = "CloudPos.auth";
+        }
 
         internal Dictionary<String, PosActivator.Credentials> Restore()
         {
@@ -79,7 +81,7 @@ namespace CloudPos
         private string GetFileLocation()
         {
             var appData = Environment.GetFolderPath(SpecialFolder.CommonApplicationData);
-            string filePath = Path.Combine(appData, "CloudPOS", _filename);
+            string filePath = Path.Combine(appData, "CloudPOS", AuthFileName);
             return filePath;
         }
 

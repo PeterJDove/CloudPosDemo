@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace CloudPos
+namespace Touch.CloudPos.Model
 {
     [Serializable]
     internal class PosMessageType

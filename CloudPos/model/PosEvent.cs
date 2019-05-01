@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Runtime.Serialization;
 
-namespace CloudPos
+namespace Touch.CloudPos.Model
 {
     internal class PosEventType
     {
@@ -24,6 +24,9 @@ namespace CloudPos
         public const string ERROR = "error";
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     internal abstract class PosEvent
     {
@@ -182,13 +185,10 @@ namespace CloudPos
         public string Reason { get; set; }
 
     }
-
     
 
 
-
-
-    public class PosEventJsonConverter : JsonConverter
+    internal class PosEventJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {

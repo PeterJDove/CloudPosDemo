@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace CloudPos
+namespace Touch.CloudPos
 {
     /*
      *  CloudPOS is a secure system.  Each POS must be known to the system.
@@ -60,6 +60,8 @@ namespace CloudPos
         public PosActivator(Configuration config)
         {
             _config = config;
+            if (!string.IsNullOrEmpty(_config.AuthFileName))
+                _repo.AuthFileName = _config.AuthFileName;
         }
 
         /*
