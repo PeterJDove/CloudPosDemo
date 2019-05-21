@@ -416,7 +416,9 @@ namespace Touch.DummyPos
         private void CloudPos_VoucherAvailable(object sender, string voucherHtml)
         {
             Log("VoucherAvailable (event)");
-            new FormVoucherPreview().ViewHtml(voucherHtml);
+            // new FormVoucherPreview().ViewHtml(voucherHtml);
+            var printer = new HtmlPrinter.Printer();
+            printer.Print(voucherHtml);
         }
 
         /*

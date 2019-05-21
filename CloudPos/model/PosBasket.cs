@@ -80,9 +80,17 @@ namespace Touch.CloudPos.Model
                 foreach (var item in Items)
                 {
                     if (item is PurchaseBasketItem)
-                        count += ((PurchaseBasketItem)item).Vouchers.Count;
-                    else if (item is RefundBasketItem && ((RefundBasketItem)item).RefundVoucher != null)
-                        count += 1;
+                    {
+                        var purchaseItem = (PurchaseBasketItem)item;
+                        if (purchaseItem.Vouchers != null)
+                            count += purchaseItem.Vouchers.Count;
+                    }
+                    else if (item is RefundBasketItem)
+                    {
+                        var refundItem = (RefundBasketItem)item;
+                        if (refundItem.RefundVoucher != null)
+                            count += 1;
+                    }
                 }
                 return count;
             }

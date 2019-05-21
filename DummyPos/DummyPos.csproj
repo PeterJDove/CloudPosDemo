@@ -149,6 +149,10 @@
       <Project>{f6b394e0-bc21-41d5-a3e3-742db516383c}</Project>
       <Name>CloudPos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HtmlPrinter\HtmlPrinter.csproj">
+      <Project>{e699f6a3-9b4d-445d-8820-59635581eab0}</Project>
+      <Name>HtmlPrinter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tools\Touch.Tools.csproj">
       <Project>{994cb7a6-49e4-4cb7-b1a3-c93b99edd65d}</Project>
       <Name>Touch.Tools</Name>

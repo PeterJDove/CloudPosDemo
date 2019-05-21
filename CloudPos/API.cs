@@ -728,7 +728,7 @@ namespace Touch.CloudPos
                             if (basketItem is PurchaseBasketItem)
                             {
                                 var purchase = (PurchaseBasketItem)basketItem;
-                                if (purchase.Vouchers.Count > 0)
+                                if (purchase.Vouchers?.Count > 0)
                                     GetVoucher(purchase.Vouchers[0].Link);
                             }
                             else if (basketItem is RefundBasketItem)
