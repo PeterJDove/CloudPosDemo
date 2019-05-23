@@ -31,6 +31,9 @@ namespace Touch.Tools
         /// <returns>An array of the same type as <paramref name="source"/></returns>
         public static T[] SubArray<T>(this T[] source, int index, int length)
         {
+            if (length > source.Length - index)
+                length = source.Length - index;
+
             var result = new T[length];
             Array.Copy(source, index, result, 0, length);
             return result;
