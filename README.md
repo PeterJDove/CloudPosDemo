@@ -44,6 +44,9 @@ of plugging in another user interface using a different browser widget.
 * **CloudPosUI** : This Class Library contains a single Interface, _ICloudPosUI_, that the _UI_
 class within **CloudPosIE** implements.  If **CloudPosIE** were to be replaced by another user
 interface module, a class within that should implement _ICloudPosUI_.
+* **HtmlPrinter** : This Class Library is an optional component that parses a HTML voucher returned 
+via the *VoucherAvailable* event, and formats it for printing on a standard Windows printer.  
+It does not use a conventional HTML renderer (such as found in a browser engine), but works from first principles.
 * **Touch.Tools** : This Class Library contains a couple of static classes that provide generic utility
 methods, including Extension methods for strings, and arrays.  There is also a class that
 manages old-style Windows INI files.
