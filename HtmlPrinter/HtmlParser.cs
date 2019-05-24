@@ -15,18 +15,19 @@ namespace Touch.HtmlPrinter
         static List<string> HeaderTags = new List<string>(new string[] { "h1", "h2", "h3", "h4", "h5", "th" });
 
         private Node currentNode;
-        private Canvas canvas;
-
+        private Surface surface;
         private int listIndex = 0;
+        private Stack<ImpliedTag> impliedTags;
 
-        public HtmlParser(Canvas canvas)
+        public HtmlParser(Surface surface)
         {
-            this.canvas = canvas;
+            this.surface = surface;
         }
 
 
         public Document Parse(string Html)
         {
+            impliedTags = new Stack<ImpliedTag>();
             Document document = new Document();
             currentNode = document;
 
@@ -80,10 +81,6 @@ namespace Touch.HtmlPrinter
                         break;
                     default:
                         {
-                            //if (currentNode.Type == NodeType.Block && currentNode.Parent.Type == NodeType.Document)
-                            //{
-                            //    currentNode = currentNode.Parent;
-                            //}
                             switch (elementName)
                             {
                                 case "div":
@@ -119,7 +116,7 @@ namespace Touch.HtmlPrinter
                                     {
                                         if (attributes["align"] == "left")
                                             block.Alignment = StringAlignment.Near;
-                                        else if (attributes["align"] == "center")
+                                        else if (attributes["align"] == "center" || attributes["align"] == "centre")
                                             block.Alignment = StringAlignment.Center;
                                         else if (attributes["align"] == "right")
                                             block.Alignment = StringAlignment.Far;
@@ -157,6 +154,7 @@ namespace Touch.HtmlPrinter
                                     if (currentNode.Type == NodeType.Document)
                                     {
                                         currentNode = currentNode.AddChild(new TableNode(id));
+                                        impliedTags.Push(new ImpliedTag("dd", "table"));
                                     }
                                     if (currentNode.Type == NodeType.Table)
                                     {
@@ -190,6 +188,7 @@ namespace Touch.HtmlPrinter
                                         block = new BlockNode(elementName, id);
                                         block.Alignment = StringAlignment.Center;
                                         currentNode = currentNode.AddChild(block);
+                                        impliedTags.Push(new ImpliedTag(elementName, "p"));
                                     }
                                     if (attributes.ContainsKey("class") && (attributes["class"] == "barcode"))
                                     {
@@ -232,22 +231,24 @@ namespace Touch.HtmlPrinter
         {
             try
             {
-                if (currentNode.Type == NodeType.Block)
+                string value = characters.Substring(start, length);
+                // Replace NewLines with a single space (eliminating any other spaces either side)
+                value = value.Replace("\r", "~NL~"); // Carriage returns
+                value = value.Replace("\n", "~NL~"); // Newlines
+                value = value.Replace("\t", "~NL~"); // Tabs
+                value = value.Replace("~NL~~NL~", "~NL~"); // Compress to single instance
+                value = value.Replace("~NL~ ", "~NL~"); // remove spaces after Newlines
+                value = value.Replace(" ~NL~", "~NL~"); // remove spaces before Newlines
+                value = value.Replace("~NL~", " ");
+                if (currentNode != null && currentNode.Type == NodeType.Block)
                 {
-                    string value = characters.Substring(start, length);
-                    // Replace NewLines with a single space (eliminating any other spaces either side)
-                    value = value.Replace("\n", "~NL~");
-                    value = value.Replace("~NL~ ", "~NL~");
-                    value = value.Replace(" ~NL~", "~NL~");
-                    value = value.Replace("~NL~", " ");
-                    value = value.Replace("\t", " ");
-
                     currentNode.AddChild(new TextNode(value));
                 }
+                else
+                    Debug.Assert(string.IsNullOrWhiteSpace(value));
             }
             catch (Exception e)
             {
-
                 throw;
             }
         }
@@ -313,10 +314,14 @@ namespace Touch.HtmlPrinter
                         // Debug.Assert(false);
                         break;
                 }
+                while (impliedTags.Count > 0 && impliedTags.Peek().Trigger == elementName)
+                {
+                    ImpliedTag implied = impliedTags.Pop();
+                    Lax_EndElement(implied.Tag);
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -359,6 +364,21 @@ namespace Touch.HtmlPrinter
         }
 
 
+
+
+
+        private class ImpliedTag
+        {
+            public string Trigger { get; set; }
+            public string Tag { get; set; }
+
+            public ImpliedTag(string trigger, string tag)
+            {
+                Trigger = trigger;
+                Tag = tag;
+            }
+
+        }
 
     }
 }

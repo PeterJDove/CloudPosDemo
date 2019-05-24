@@ -435,7 +435,7 @@ Framework, if that suits you better. Again, do so at your own risk.</para>
       <add key="VBdocman_comEvent"><![CDATA[-1]]></add>
       <add key="VBdocman_rootNamespaceText"><![CDATA[]]></add>
       <add key="VBdocman_comModulesSaveExcluded"><![CDATA[-1]]></add>
-      <add key="VBdocman_fileNamingConvention"><![CDATA[0]]></add>
+      <add key="VBdocman_fileNamingConvention"><![CDATA[1]]></add>
     </SettingsGroup>
     <add key="VBdocman_CloudPos"><![CDATA[No Smartcards]]></add>
     <add key="VBdocman_CloudPosIE"><![CDATA[No Smartcards]]></add>

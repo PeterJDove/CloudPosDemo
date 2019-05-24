@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Touch.HtmlPrinter;
 
 namespace Touch.DummyPos
 {
@@ -66,15 +66,33 @@ namespace Touch.DummyPos
             if (_voucherTemplate != null)
             {
                 txtHTML.Text = html;
-                preview.DocumentText = _voucherTemplate.Replace("{content}", html);
+                webBrowser.DocumentText = _voucherTemplate.Replace("{content}", html);
                 tabs.SelectedIndex = 0;
                 Show();
             }
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void picPrintPreview_Paint(object sender, PaintEventArgs e)
+        {
+            if (e.Graphics != null)
+            {
+                e.Graphics.Clear(Color.Linen);
+                if (txtHTML.Text.Length > 0)
+                {
+                    Surface surface = new Surface()
+                    {
+                        Graphics = e.Graphics,
+                        Width = picPrintPreview.Width - 5,
+                    };
+                    new Printer().Print(txtHTML.Text, surface);
+                }
+            }
         }
     }
 }

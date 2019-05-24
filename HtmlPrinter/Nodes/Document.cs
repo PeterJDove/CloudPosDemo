@@ -12,15 +12,15 @@ namespace Touch.HtmlPrinter
         public Document() : base(NodeType.Document, "root") { }
 
 
-        public void Render(Canvas canvas)
+        public void Render(Surface surface)
         {
             foreach(Node node in childNodes)
             {
-                node.Render(canvas, 0, canvas.Width);
+                node.Render(surface, surface.CurrentX, surface.Width);
             }
         }
         
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
             throw new NotImplementedException();
         }

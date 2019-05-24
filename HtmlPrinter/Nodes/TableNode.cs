@@ -11,7 +11,7 @@ namespace Touch.HtmlPrinter
     {
         public TableNode(string id) : base(NodeType.Table, id) { }
 
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
             //
             //  Determine the maximum number of Columns in the rows in this table
@@ -19,7 +19,7 @@ namespace Touch.HtmlPrinter
             int maxColumns = 0;
             foreach (TableRowNode row in childNodes)
             {
-                int columns = row.MinMaxWidths(canvas, width).Count;
+                int columns = row.MinMaxWidths(surface, width).Count;
                 if (maxColumns < columns)
                     maxColumns = columns;
             }
@@ -36,7 +36,7 @@ namespace Touch.HtmlPrinter
             //
             foreach (TableRowNode row in childNodes)
             {
-                List<MinMax> blockWidths = row.MinMaxWidths(canvas, width);
+                List<MinMax> blockWidths = row.MinMaxWidths(surface, width);
                 for (int i = 0; i < blockWidths.Count; i++)
                 {
                     if (colWidths[i].MinWidth < blockWidths[i].MinWidth)
@@ -71,20 +71,20 @@ namespace Touch.HtmlPrinter
 
             foreach (TableRowNode row in childNodes)
             {
-                float savedCurrentY = canvas.CurrentY;
+                float savedCurrentY = surface.CurrentY;
                 float maxCurrentY = float.MinValue;
                 int i = 0;
                 float x = left;
                 foreach (Node node in row)
                 {
                     BlockNode block = (BlockNode)node;
-                    canvas.CurrentY = savedCurrentY;
-                    block.Render(canvas, x, colWidths[i].MaxWidth);
+                    surface.CurrentY = savedCurrentY;
+                    block.Render(surface, x, colWidths[i].MaxWidth);
                     x += colWidths[i++].MaxWidth + gutterWidth;
-                    if (maxCurrentY < canvas.CurrentY)
-                        maxCurrentY = canvas.CurrentY;
+                    if (maxCurrentY < surface.CurrentY)
+                        maxCurrentY = surface.CurrentY;
                 }
-                canvas.CurrentY = maxCurrentY;
+                surface.CurrentY = maxCurrentY;
             }
         }
 

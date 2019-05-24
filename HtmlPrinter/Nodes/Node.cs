@@ -48,7 +48,7 @@ namespace Touch.HtmlPrinter
         public virtual float Width { get; }
         public virtual float Height { get; }
 
-        public virtual void Render(Canvas canvas, float left, float width)
+        public virtual void Render(Surface surface, float left, float width)
         {
             throw new NotImplementedException("Needs to be overridden");
         }

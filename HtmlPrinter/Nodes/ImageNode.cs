@@ -64,7 +64,7 @@ namespace Touch.HtmlPrinter
             }
         }
 
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
             throw new NotImplementedException();
         }

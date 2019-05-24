@@ -10,8 +10,9 @@ namespace Touch.HtmlPrinter
 {
     class VoucherDocument : PrintDocument
     {
-        private string Html;
-        private PageSettings PageSettings;
+        private string _html;
+        private Surface _surface;
+        private PageSettings _pageSettings;
 
         public VoucherDocument(string printerName)
         {
@@ -20,29 +21,32 @@ namespace Touch.HtmlPrinter
             this.QueryPageSettings += _QueryPageSettings;
             this.PrintPage += _PrintPage;
 
+            _surface = new Surface();
             if (!string.IsNullOrEmpty(printerName))
                 this.PrinterSettings.PrinterName = printerName;
+            else
+                this.PrinterSettings.PrinterName = _surface.PrinterName;
 
             var dps = DefaultPageSettings;
-            float left = dps.HardMarginX;
-            float right = left;
-            float top = dps.HardMarginY;
-            float bottom = top;
 
-            float mm80 = MMto100(80);
-            if (dps.PaperSize.Width > mm80)
-            {
-                left = (dps.PaperSize.Width - (mm80 - left * 2)) / 2;
-                right = left;
-            }
-            dps.Margins = new Margins((int)left, (int)right, (int)top, (int)bottom);
+            float x = dps.HardMarginX;
+            if (x < _surface.LeftMargin)
+                x = _surface.LeftMargin;
+
+            float y = dps.HardMarginY;
+            if (y < _surface.TopMargin)
+                y = _surface.TopMargin;
+
+            _surface.Width = dps.PaperSize.Width - (x * 2);
+            x = (dps.PaperSize.Width - _surface.Width) / 2;
+            dps.Margins = new Margins((int)x, (int)x, (int)y, (int)y);
         }
 
         public void Print(string html)
         {
             if (!string.IsNullOrEmpty(html))
             {
-                Html = html;
+                _html = html;
                 this.Print();
             }
         }
@@ -55,21 +59,18 @@ namespace Touch.HtmlPrinter
 
         private void _QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
         {
-            this.PageSettings = e.PageSettings;
+            _pageSettings = e.PageSettings;
         }
 
         private void _PrintPage(object sender, PrintPageEventArgs e)
         {
             PageSettings p = e.PageSettings;
-            Graphics g = e.Graphics;
-            Canvas canvas = new Canvas(g);
-            canvas.CurrentY = p.Margins.Top;
-            canvas.CurrentX = p.Margins.Left;
-            canvas.Width = p.PaperSize.Width - p.Margins.Left - p.Margins.Right;
-
-            HtmlParser parser = new HtmlParser(canvas);
-            Document document = parser.Parse(this.Html);
-            document.Render(canvas);
+            _surface.Graphics = e.Graphics;
+            _surface.CurrentX = p.Margins.Left;
+            _surface.CurrentY = p.Margins.Top;
+            HtmlParser parser = new HtmlParser(_surface);
+            Document document = parser.Parse(_html);
+            document.Render(_surface);
         }
 
 

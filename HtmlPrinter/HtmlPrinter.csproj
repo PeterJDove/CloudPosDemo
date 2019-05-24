@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Nodes\BarcodeNode.cs" />
-    <Compile Include="Canvas.cs" />
+    <Compile Include="Surface.cs" />
     <Compile Include="Nodes\Document.cs" />
     <Compile Include="Nodes\TableNode.cs" />
     <Compile Include="Nodes\TableRowNode.cs" />
@@ -69,6 +69,11 @@
       <Project>{994cb7a6-49e4-4cb7-b1a3-c93b99edd65d}</Project>
       <Name>Touch.Tools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HtmlPrinter.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

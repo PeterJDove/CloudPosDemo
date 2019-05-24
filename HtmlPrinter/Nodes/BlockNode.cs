@@ -65,23 +65,23 @@ namespace Touch.HtmlPrinter
             }
         }
 
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
             // Debug.Assert(Id != "listitem");
 
-            BuildLines(canvas, width);
+            BuildLines(surface, width);
 
             foreach (Line line in lines)
             {
                 if (line.Node == null)
-                    PrintWords(canvas, left, width, line, this.Alignment);
+                    PrintWords(surface, left, width, line, this.Alignment);
                 else
                 {
                     var type = line.Node.GetType();
                     if (type == typeof(BlockNode) || type == typeof(TableNode))
-                        line.Node.Render(canvas, left + line.Indent, width);
+                        line.Node.Render(surface, left + line.Indent, width);
                     else if (type == typeof(ImageNode) || type == typeof(BarcodeNode))
-                        PrintImage(canvas, left, width, line, this.Alignment);
+                        PrintImage(surface, left, width, line, this.Alignment);
                     else
                         Debug.Assert(false);
                 }
@@ -113,10 +113,10 @@ namespace Touch.HtmlPrinter
         }
 
 
-        private MinMax BuildLines(Canvas canvas, float maxWidth)
+        private MinMax BuildLines(Surface surface, float maxWidth)
         {
-            Graphics g = canvas.Graphics;
-            Font font = canvas.BaseFont;
+            Graphics g = surface.Graphics;
+            Font font = surface.Font();
             float minWidth = float.MaxValue;
 
             Stack<Font> fontStack = new Stack<Font>();
@@ -143,7 +143,7 @@ namespace Touch.HtmlPrinter
                                 {
                                     minWidth = word.Length;
                                 }
-                                FlushWordBuffer(canvas, maxWidth);
+                                FlushWordBuffer(surface, maxWidth);
                                 spaces = new Word(font, g);
                                 word = new Word(font, g);
                             }
@@ -157,7 +157,7 @@ namespace Touch.HtmlPrinter
                                 word.Backspace(); // remove c (just added)
                                 char lastChar = word.Backspace(); 
                                 word.Add('-'); // replace lastChar with a hyphen
-                                FlushWordBuffer(canvas, maxWidth);
+                                FlushWordBuffer(surface, maxWidth);
                                 spaces = new Word(font, g);
                                 word = new Word(font, g);
                                 word.Add(lastChar); // move lastChar to new word
@@ -168,15 +168,15 @@ namespace Touch.HtmlPrinter
                 }
                 else if (node.Type == NodeType.TextFormat)
                 {
-                    FlushWordBuffer(canvas, maxWidth);
+                    FlushWordBuffer(surface, maxWidth);
                     fontStack.Push(font);
-                    font = ModifyFont(font, node.Tag);
+                    font = ModifyFont(surface, font, node.Tag);
                     spaces = new Word(font, g);
                     word = new Word(font, g);
                 }
                 else if (node.Type == NodeType.EndTextFormat)
                 {
-                    FlushWordBuffer(canvas, maxWidth);
+                    FlushWordBuffer(surface, maxWidth);
                     font = fontStack.Pop();
                     spaces = new Word(font, g);
                     word = new Word(font, g);
@@ -194,7 +194,7 @@ namespace Touch.HtmlPrinter
                     Debug.Assert(false);
                 }
             }
-            FlushWordBuffer(canvas, maxWidth);
+            FlushWordBuffer(surface, maxWidth);
             if (currentLine.Width > 0)
                 lines.Add(currentLine);
 
@@ -208,7 +208,7 @@ namespace Touch.HtmlPrinter
             return new MinMax(minWidth, maxWidth);
         }
 
-        private void FlushWordBuffer(Canvas canvas, float maxWidth)
+        private void FlushWordBuffer(Surface surface, float maxWidth)
         {
             if (word.Width > 0)
             {
@@ -227,59 +227,42 @@ namespace Touch.HtmlPrinter
             }
         }
 
-        private static Font ModifyFont(Font old, string tag)
+        private static Font ModifyFont(Surface surface, Font orig, string tag)
         {
-            Font newFont = new Font(old, old.Style);
             switch (tag)
             {
                 case "h1":
-                    newFont = new Font(old.FontFamily, 20, old.Style);
-                    break;
                 case "h2":
-                    newFont = new Font(old.FontFamily, 18, old.Style);
-                    break;
                 case "h3":
-                    newFont = new Font(old.FontFamily, 16, old.Style);
-                    break;
                 case "h4":
-                    newFont = new Font(old.FontFamily, 14, old.Style);
-                    break;
                 case "h5":
-                    newFont = new Font(old.FontFamily, 12, old.Style);
-                    break;
+                case "tt": // non-proportional (teletype)
+                case "code": // non-proportional
+                    return surface.Font(tag);
                 case "b": // bold
                 case "strong": // bold
                 case "th": // Table Header
-                    newFont = new Font(old, old.Style | FontStyle.Bold);
-                    break;
+                    return new Font(orig, orig.Style | FontStyle.Bold);
                 case "i": // italic
                 case "em": // italic
-                    newFont = new Font(old, old.Style | FontStyle.Italic);
-                    break;
+                    return new Font(orig, orig.Style | FontStyle.Italic);
                 case "u": // underline
-                    newFont = new Font(old, old.Style | FontStyle.Underline);
-                    break;
+                    return new Font(orig, orig.Style | FontStyle.Underline);
                 case "big": // larger font
-                    newFont = new Font(old.FontFamily, old.Size * 1.25f, old.Style);
-                    break;
+                    return new Font(orig.FontFamily, orig.Size * 1.25f, orig.Style);
                 case "small": // smaller font
-                    newFont = new Font(old.FontFamily, old.Size * 0.8f, old.Style);
-                    break;
-                case "code": // non-proportional
-                case "tt": // non-proportional (teletype)
-                    newFont = new Font("Times New Roman", old.Size, old.Style);
-                    break;
+                    return new Font(orig.FontFamily, orig.Size * 0.8f, orig.Style);
                 default:
                     Debug.Assert(false);
                     break;
             }
-            return newFont;
+            return orig;
         }
 
 
-        private static void PrintImage(Canvas canvas, float left, float width, Line line, StringAlignment alignment)
+        private static void PrintImage(Surface surface, float left, float width, Line line, StringAlignment alignment)
         {
-            Graphics g = canvas.Graphics;
+            Graphics g = surface.Graphics;
             Image image = ((ImageNode)line.Node).Image;
             float w = image.Width;
             float h = image.Height;
@@ -304,14 +287,14 @@ namespace Touch.HtmlPrinter
                 h = h * (width / w);
                 w = width;
             }
-            g.DrawImage(image, x, canvas.CurrentY, w, h);
-            canvas.CurrentY += h;
+            g.DrawImage(image, x, surface.CurrentY, w, h);
+            surface.CurrentY += h;
         }
 
 
-        private void PrintWords(Canvas canvas, float left, float width, Line line, StringAlignment alignment)
+        private void PrintWords(Surface surface, float left, float width, Line line, StringAlignment alignment)
         {
-            Graphics g = canvas.Graphics;
+            Graphics g = surface.Graphics;
             Brush brush = Brushes.Black;
 
             float x = left;
@@ -330,17 +313,17 @@ namespace Touch.HtmlPrinter
 
             foreach (Word Word in line.Words)
             {
-                float y = canvas.CurrentY + (line.Height - Word.Height) / 2;
+                float y = surface.CurrentY + (line.Height - Word.Height) / 2;
                 g.DrawString(Word.ToString(), Word.Font, brush, x, y);
                 x += Word.Width;
             }
-            canvas.CurrentY += line.Height;
+            surface.CurrentY += line.Height;
         }
 
 
-        public MinMax MinMax(Canvas canvas, float width)
+        public MinMax MinMax(Surface surface, float width)
         {
-            return BuildLines(canvas, width);
+            return BuildLines(surface, width);
         }
 
 

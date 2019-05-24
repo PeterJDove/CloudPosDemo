@@ -19,10 +19,10 @@ namespace Touch.HtmlPrinter
             cutLine = cut;
         }
 
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
-            Graphics g = canvas.Graphics;
-            Font font = canvas.BaseFont;
+            Graphics g = surface.Graphics;
+            Font font = surface.Font();
             float xHeight = g.MeasureString("X", font).Height;
 
             Pen pen = new Pen(Color.Black, 1);
@@ -32,9 +32,9 @@ namespace Touch.HtmlPrinter
                 pen = new Pen(Color.Red, 2);
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             }
-            float y = canvas.CurrentY + xHeight / 2;
+            float y = surface.CurrentY + xHeight / 2;
             g.DrawLine(pen, left, y, left + width, y);
-            canvas.CurrentY += xHeight;
+            surface.CurrentY += xHeight;
         }
 
 

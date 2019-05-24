@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Touch.Tools;
+
 
 namespace Touch.HtmlPrinter
 {
     public class Printer
     {
+        private static IniFile _iniFile;
+
+        public Surface Surface { get; private set; }
+
         public string PrinterName { get; set; }
 
-        public Printer()
-        {
-            PrinterName = string.Empty;
-        }
+        public Printer() : this(string.Empty) { }
 
         public Printer(string name)
         {
+            Surface = new Surface();
             PrinterName = name;
         }
 
@@ -30,12 +35,16 @@ namespace Touch.HtmlPrinter
         }
                 
 
-        public void Print(string html, Canvas canvas)
+        public void Print(string html, Surface surface)
         {
-            HtmlParser parser = new HtmlParser(canvas);
+            HtmlParser parser = new HtmlParser(surface);
             Document document = parser.Parse(html);
-            document.Render(canvas);
+            document.Render(surface);
         }
+
+
+
+
 
 
     }

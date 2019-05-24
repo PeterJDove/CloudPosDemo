@@ -296,6 +296,7 @@ namespace Touch.Tools
                             StartElement?.Invoke(elementName, attributes);
                             // no change to depth, because...
                             EndElement?.Invoke(elementName);
+                            token = new StringBuilder();
                             state = ParseState.InsideElement;
                         }
                         else if (cc == ' ')

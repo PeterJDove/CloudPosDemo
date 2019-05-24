@@ -11,19 +11,19 @@ namespace Touch.HtmlPrinter
     {
         public TableRowNode(string id) : base(NodeType.TableRow, id) { }
 
-        public List<MinMax> MinMaxWidths(Canvas canvas, float width)
+        public List<MinMax> MinMaxWidths(Surface surface, float width)
         {
             List<MinMax> list = new List<MinMax>();
 
             foreach(BlockNode block in childNodes)
             {
-                list.Add(block.MinMax(canvas, width));
+                list.Add(block.MinMax(surface, width));
             }
             return list;
         }
 
 
-        public override void Render(Canvas canvas, float left, float width)
+        public override void Render(Surface surface, float left, float width)
         {
             throw new NotImplementedException("Iterate through childNodes instead");
         }

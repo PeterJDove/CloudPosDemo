@@ -33,13 +33,17 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.preview = new System.Windows.Forms.WebBrowser();
+            this.picPrintPreview = new System.Windows.Forms.PictureBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtHTML = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPrintPreview)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -77,6 +81,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.tabs, 3);
             this.tabs.Controls.Add(this.tabPage1);
             this.tabs.Controls.Add(this.tabPage2);
+            this.tabs.Controls.Add(this.tabPage3);
             this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabs.Location = new System.Drawing.Point(3, 3);
             this.tabs.Multiline = true;
@@ -87,7 +92,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.preview);
+            this.tabPage1.Controls.Add(this.webBrowser);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -96,25 +101,46 @@
             this.tabPage1.Text = "Voucher";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(364, 481);
+            this.webBrowser.TabIndex = 0;
+            // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.txtHTML);
+            this.tabPage2.Controls.Add(this.picPrintPreview);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(370, 487);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "HTML";
+            this.tabPage2.Text = "Print Preview";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // preview
+            // picPrintPreview
             // 
-            this.preview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.preview.Location = new System.Drawing.Point(3, 3);
-            this.preview.MinimumSize = new System.Drawing.Size(20, 20);
-            this.preview.Name = "preview";
-            this.preview.Size = new System.Drawing.Size(364, 481);
-            this.preview.TabIndex = 0;
+            this.picPrintPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picPrintPreview.Location = new System.Drawing.Point(3, 3);
+            this.picPrintPreview.Name = "picPrintPreview";
+            this.picPrintPreview.Size = new System.Drawing.Size(364, 481);
+            this.picPrintPreview.TabIndex = 0;
+            this.picPrintPreview.TabStop = false;
+            this.picPrintPreview.Paint += new System.Windows.Forms.PaintEventHandler(this.picPrintPreview_Paint);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.txtHTML);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(370, 487);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "HTML";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // txtHTML
             // 
@@ -125,7 +151,7 @@
             this.txtHTML.ReadOnly = true;
             this.txtHTML.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtHTML.Size = new System.Drawing.Size(364, 481);
-            this.txtHTML.TabIndex = 0;
+            this.txtHTML.TabIndex = 2;
             // 
             // FormVoucherPreview
             // 
@@ -142,7 +168,9 @@
             this.tabs.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPrintPreview)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -153,8 +181,10 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.TabControl tabs;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.WebBrowser preview;
+        private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.PictureBox picPrintPreview;
+        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox txtHTML;
     }
 }
