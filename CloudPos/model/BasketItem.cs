@@ -62,13 +62,13 @@ namespace Touch.CloudPos.Model
         /// Gets the unique ID of the <see cref="BasketItem"/>.
         /// </summary>
         [DataMember(Name = "id")]
-        public long Id { get; internal set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets a flag indicating whether this <see cref="BasketItem"/> is allowed to be removed from the Basket.
         /// </summary>
         [DataMember(Name = "removable")]
-        public bool Removable { get; internal set; }
+        public bool Removable { get; set; }
     }
 
     /// <summary>
@@ -85,13 +85,13 @@ namespace Touch.CloudPos.Model
         /// Gets the Date and Time of the transaction, together with the offset from UTC.
         /// </summary>
         [DataMember(Name = "purchasedAt")]
-        public DateTimeOffset PurchasedAt { get; internal set; }
+        public DateTimeOffset PurchasedAt { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Model.Transaction"/> sub-object.
         /// </summary>
         [DataMember(Name = "transaction")]
-        public Transaction Transaction { get; internal set; }
+        public Transaction Transaction { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Model.Product"/> sub-object.
@@ -103,7 +103,7 @@ namespace Touch.CloudPos.Model
         /// Gets a List of <see cref="Model.Voucher"/>s associated with this purchase.  (Usually a list of one)
         /// </summary>
         [DataMember(Name = "vouchers")]
-        public List<Voucher> Vouchers { get; internal set; }
+        public List<Voucher> Vouchers { get; set; }
     }
 
     /// <summary>
@@ -120,25 +120,25 @@ namespace Touch.CloudPos.Model
         /// Gets the ID of the original Purchase transaction.
         /// </summary>
         [DataMember(Name = "purchaseTouchTransactionId")]
-        public string PurchaseTouchTransactionId { get; internal set; }
+        public string PurchaseTouchTransactionId { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Model.Transaction"/> sub-object.
         /// </summary>
         [DataMember(Name = "transaction")]
-        public Transaction Transaction { get; internal set; }
+        public Transaction Transaction { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Model.Product"/> sub-object.
         /// </summary>
         [DataMember(Name = "product")]
-        public Product Product { get; internal set; }
+        public Product Product { get; set; }
 
         /// <summary>
         /// Gets or sets the printable <see cref="Model.Voucher"/> associated with this return.
         /// </summary>
         [DataMember(Name = "refundVoucher")]
-        public Voucher RefundVoucher { get; internal set; }
+        public Voucher RefundVoucher { get; set; }
     }
 
     internal class BasketItemJsonConverter : JsonConverter

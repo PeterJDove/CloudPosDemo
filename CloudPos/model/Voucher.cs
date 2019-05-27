@@ -13,12 +13,12 @@ namespace Touch.CloudPos.Model
         /// Gets or sets the URL to use to fetch the voucher content.
         /// </summary>
         [DataMember(Name = "link")]
-        public string Link { get; internal set; }
+        public string Link { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the content in the voucher, e.g. "html"
         /// </summary>
         [DataMember(Name = "contentType")]
-        public string ContentType { get; internal set; }
+        public string ContentType { get; set; }
     }
 }

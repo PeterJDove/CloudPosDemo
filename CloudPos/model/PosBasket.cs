@@ -15,7 +15,7 @@ namespace Touch.CloudPos.Model
         /// <summary>
         /// Gets or sets the ID of the Basket
         /// </summary>
-        public int Id { get; internal set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets the List of BasketItems in this Basket, allowing new items to be added, and the existing items to be iterated over.
@@ -25,7 +25,7 @@ namespace Touch.CloudPos.Model
         /// <summary>
         /// Gets whether the Basket has been committed successfully.
         /// </summary>
-        public bool Committed { get; internal set; }
+        public bool Committed { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PosBasket"/> class,
