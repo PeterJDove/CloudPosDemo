@@ -55,6 +55,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 408);
             this.Controls.Add(this.webControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "EssentialForm";
             this.Text = "EssentialForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
