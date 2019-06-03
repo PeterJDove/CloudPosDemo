@@ -41,9 +41,13 @@ the POS of the results.
 in which the javascript application runs, and which is used to present the user interface to
 the POS operator.  This is distinct from the **CloudPos** DLL to allow for the possibility
 of plugging in another user interface using a different browser widget.
+* **CloudPosEO** : This Class Library provides a Windows Form containing an **Essential Objects
+WebBrowser** (a third-party product) in which the javascript application runs, and to present the
+user interface to the POS operator.  This is offered as an alternative to **CloudPosIE**, and is 
+recommended because it is based on Chrome, rather the IE, and has been shown to work more reliably.
 * **CloudPosUI** : This Class Library contains a single Interface, _ICloudPosUI_, that the _UI_
-class within **CloudPosIE** implements.  If **CloudPosIE** were to be replaced by another user
-interface module, a class within that should implement _ICloudPosUI_.
+class within **CloudPosOE** or **CloudPosIE** implements.  If another user interface module was
+implemented to replace both of these options, a class within that should implement _ICloudPosUI_.
 * **HtmlPrinter** : This Class Library is an optional component that parses a HTML voucher returned 
 via the *VoucherAvailable* event, and formats it for printing on a standard Windows printer.  It does
 not use a conventional HTML renderer (such as found in a browser engine), but works from first principles.
