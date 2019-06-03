@@ -1,6 +1,8 @@
 ﻿using RestSharp;
 using System;
+using System.Diagnostics;
 using System.Net;
+using System.Security.Authentication;
 
 namespace Touch.CloudPos
 {
@@ -62,6 +64,14 @@ namespace Touch.CloudPos
             _config = config;
             if (!string.IsNullOrEmpty(_config.AuthFileName))
                 _repo.AuthFileName = _config.AuthFileName;
+            /* 
+             * Next three lines prevent "Could not create SSL/TLS secure channel" errors (which occurred sometimes)
+             * Solution found in: 
+             * https://community.developer.authorize.net/t5/Integration-and-Testing/Could-not-create-SSL-TLS-secure-channel/td-p/63016
+             */
+            const SslProtocols _Tls12 = (SslProtocols)0x00000C00;
+            const SecurityProtocolType Tls12 = (SecurityProtocolType)_Tls12;
+            ServicePointManager.SecurityProtocol = Tls12;
         }
 
         /*
@@ -107,7 +117,7 @@ namespace Touch.CloudPos
          */ 
         private Credentials Activate()
         {
-            var activationUrl = _config.GetActivationUrl();
+            string activationUrl = _config.GetActivationUrl();
             var client = new RestClient();
 
             client.BaseUrl = new Uri(activationUrl);

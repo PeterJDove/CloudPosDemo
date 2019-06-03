@@ -35,7 +35,7 @@ namespace Touch.DummyPos
             _formMain = new FormMain();
             _options = new Options(IniFile());
 
-             Application.Run(_formMain);
+            Application.Run(_formMain);
         }
 
         /// <summary>

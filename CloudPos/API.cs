@@ -224,7 +224,16 @@ namespace Touch.CloudPos
         /// </summary>
         public API()
         {
-            InstantiateBrowser("ie", "Cloud POS"); // Internet Explorer (.NET WebBrowser) 
+            InstantiateBrowser("eo webbrowser", "Cloud POS"); // Internet Explorer 
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="API"/> class, using a specified browser.
+        /// </summary>
+        /// <param name="browser"></param>
+        public API(string browser)
+        {
+            InstantiateBrowser(browser, "Cloud POS");
         }
 
         ~API() // Destructor
@@ -825,22 +834,23 @@ namespace Touch.CloudPos
         {
             switch (type.ToLower())
             {
-                case "ie":
-                    _ui = new CloudPosIE.UI(title, false);
-                    _ui.Notify += _ui_Notify;
-                    break;
                 //case "cefsharp":
                 //    _ui = new CloudPosCef.UI(title, false);
                 //    _ui.Notify += _ui_Notify;
                 //    break;
-                //case "essentialObjects":
-                //    _ui = new CloudPosEO.UI(title, false);
-                //    _ui.Notify += _ui_Notify;
-                //    break;
+                case "eo webbrowser":
+                    _ui = new CloudPosEO.UI(title, false);
+                    _ui.Notify += _ui_Notify;
+                    break;
                 //case "awesomium":
                 //    _ui = new CloudPosAwesomium.UI(title, false);
                 //    _ui.Notify += _ui_Notify;
                 //    break;
+                case ".net webbrowser":
+                default:
+                    _ui = new CloudPosIE.UI(title, false);
+                    _ui.Notify += _ui_Notify;
+                    break;
             }
         }
 

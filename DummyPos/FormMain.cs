@@ -114,7 +114,7 @@ namespace Touch.DummyPos
             {
                 this.Cursor = Cursors.WaitCursor;
                 tabControl.SelectedIndex = 0;
-                chkCloudPos.BackColor = Color.Yellow;
+                chkCloudPos.BackColor = Color.Orange;  // Color.Yellow;
             });
 
             var config = Program.Options().CloudPosConfiguration();
@@ -135,7 +135,11 @@ namespace Touch.DummyPos
                 });
                 return false;
             }
-            UpdateGUI(() => this.Cursor = Cursors.Default);
+            UpdateGUI(() =>
+            {
+                this.Cursor = Cursors.Default;
+                chkCloudPos.BackColor = Color.Yellow;
+            });
             return true;
         }
 
@@ -235,7 +239,7 @@ namespace Touch.DummyPos
          */
         private void CloudPos_Ready(object sender, EventArgs e)
         {
-            chkCloudPos.BackColor = Color.Lime;
+            chkCloudPos.BackColor = Color.Lime; // bright green
             CloudPOS.FailOnCommit = chkFailOnCommit.Checked;
             Log("CloudPOS Ready");
         }
@@ -910,5 +914,7 @@ namespace Touch.DummyPos
                 CloudPOS.FailOnCommit = chkFailOnCommit.Checked;
         }
         #endregion
+
+
     }
 }

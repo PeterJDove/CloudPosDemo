@@ -13,8 +13,6 @@ namespace Touch.HtmlPrinter
 {
     public class Printer
     {
-        private static IniFile _iniFile;
-
         public Surface Surface { get; private set; }
 
         public string PrinterName { get; set; }

@@ -82,6 +82,10 @@
     <Compile Include="WebPos.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CloudPosEO\CloudPosEO.csproj">
+      <Project>{94c1e175-315a-4ad0-ae6c-55583e1aee8d}</Project>
+      <Name>CloudPosEO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudPosIE\CloudPosIE.csproj">
       <Project>{4216139e-f96d-402b-b9d9-f23630dc40f4}</Project>
       <Name>CloudPosIE</Name>
@@ -97,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="touch.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

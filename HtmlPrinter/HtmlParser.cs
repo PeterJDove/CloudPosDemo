@@ -133,7 +133,7 @@ namespace Touch.HtmlPrinter
                                     if (attributes.ContainsKey("class"))
                                     {
                                         if (attributes["class"] == "barcode")
-                                            ; // do nothing
+                                            block.HangingIndent = 0; // do nothing
                                         else if (attributes["class"] == "hanging-indent")
                                             block.HangingIndent = 4;
                                         else if (attributes["class"] == "hanging-indent-large")
@@ -247,7 +247,7 @@ namespace Touch.HtmlPrinter
                 else
                     Debug.Assert(string.IsNullOrWhiteSpace(value));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -22,24 +23,33 @@ namespace Touch.HtmlPrinter
             this.PrintPage += _PrintPage;
 
             _surface = new Surface();
+            _surface.Width = 300;
+
             if (!string.IsNullOrEmpty(printerName))
                 this.PrinterSettings.PrinterName = printerName;
             else
                 this.PrinterSettings.PrinterName = _surface.PrinterName;
 
-            var dps = DefaultPageSettings;
+            float x = _surface.LeftMargin;
+            float y = _surface.TopMargin;
+            try
+            {
+                var dps = DefaultPageSettings;
 
-            float x = dps.HardMarginX;
-            if (x < _surface.LeftMargin)
-                x = _surface.LeftMargin;
+                if (x < dps.HardMarginX)
+                    x = dps.HardMarginX;
 
-            float y = dps.HardMarginY;
-            if (y < _surface.TopMargin)
-                y = _surface.TopMargin;
+                if (y < dps.HardMarginY)
+                    y = dps.HardMarginY;
 
-            _surface.Width = dps.PaperSize.Width - (x * 2);
-            x = (dps.PaperSize.Width - _surface.Width) / 2;
-            dps.Margins = new Margins((int)x, (int)x, (int)y, (int)y);
+                _surface.Width = dps.PaperSize.Width - (x * 2);
+                x = (dps.PaperSize.Width - _surface.Width) / 2;
+                dps.Margins = new Margins((int)x, (int)x, (int)y, (int)y);
+            }
+            catch (Exception)
+            {
+                // stick with Surface margins
+            }
         }
 
         public void Print(string html)
