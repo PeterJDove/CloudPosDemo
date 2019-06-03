@@ -27,15 +27,16 @@ namespace Touch.HtmlPrinter
 
             if (!string.IsNullOrEmpty(printerName))
                 this.PrinterSettings.PrinterName = printerName;
-            else
+            else if (!string.IsNullOrEmpty(_surface.PrinterName))
                 this.PrinterSettings.PrinterName = _surface.PrinterName;
+        //  else 
+        //      this.PrinterSettings.PrinterName = default printer.
 
             float x = _surface.LeftMargin;
             float y = _surface.TopMargin;
+            var dps = DefaultPageSettings;
             try
             {
-                var dps = DefaultPageSettings;
-
                 if (x < dps.HardMarginX)
                     x = dps.HardMarginX;
 
@@ -44,20 +45,25 @@ namespace Touch.HtmlPrinter
 
                 _surface.Width = dps.PaperSize.Width - (x * 2);
                 x = (dps.PaperSize.Width - _surface.Width) / 2;
+            }
+            catch (Exception) { }
+            try
+            {
                 dps.Margins = new Margins((int)x, (int)x, (int)y, (int)y);
             }
-            catch (Exception)
-            {
-                // stick with Surface margins
-            }
+            catch (Exception) { }
         }
 
         public void Print(string html)
         {
             if (!string.IsNullOrEmpty(html))
             {
-                _html = html;
-                this.Print();
+                try
+                {
+                    _html = html;
+                    this.Print();
+                }
+                catch (Exception) { }
             }
         }
 
