@@ -51,6 +51,10 @@ implemented to replace both of these options, a class within that should impleme
 * **HtmlPrinter** : This Class Library is an optional component that parses a HTML voucher returned 
 via the *VoucherAvailable* event, and formats it for printing on a standard Windows printer.  It does
 not use a conventional HTML renderer (such as found in a browser engine), but works from first principles.
+* **EssentialPrinter** : This Class Library is an optional component that provides an alternative
+way to print a HTML voucher returned via the *VoucherAvailable* event.  Unlike the **HtmlVoucher**,
+does not parse the HTML in code, but instead uses the **Print()** method of an **Essential Objects
+WebBrowser** (a third-party product), as used in the **CloudPosEO** library.
 * **Touch.Tools** : This Class Library contains a couple of static classes that provide generic utility
 methods, including Extension methods for strings, and arrays.  There is also a class that
 manages old-style Windows INI files.
