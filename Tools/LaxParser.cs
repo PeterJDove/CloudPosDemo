@@ -13,7 +13,7 @@ namespace Touch.Tools
     /// While this parser is intended to parse XML files, it is a "lax" parser because it is
     /// deliberately designed to be somewhat tolerant of badly-formed XML, doing the best
     /// it can to make sense of it anyway.  As such, it is possible to use this class to 
-    /// parse older HTML, which does not conform to the XML standard.
+    /// parse (older) HTML, which does not conform to the XML standard.
     /// </summary>
     public class LaxParser
     {
@@ -45,7 +45,9 @@ namespace Touch.Tools
             ProcessingInstruction, // Found <?
         }
 
-
+        /// <summary>
+        /// Raised when the XML document is started, that is when the first "<" is encountered.
+        /// </summary>
         public event EmptyDelegate StartDocument;
         public event EmptyDelegate EndDocument;
         public event StartElementDelegate StartElement;

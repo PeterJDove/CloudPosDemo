@@ -94,6 +94,15 @@ namespace Touch.DummyPos
         /// </summary>
         public ClientRect ClientRect { get; set; }
 
+
+        public bool PrintPreview { get; set; }
+        public bool PrintHtmlPrinter { get; set; }
+        public bool PrintHtmlPrompt { get; set; }
+        public bool PrintEssentialPrinter { get; set; }
+        public bool PrintEssentialPrompt { get; set; }
+
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Options"/> class.
         /// </summary>
@@ -113,6 +122,12 @@ namespace Touch.DummyPos
             }
             ClientRect.Left = ini.GetInt("BROWSER", "left", 0);
             ClientRect.Top = ini.GetInt("BROWSER", "top", 0);
+
+            PrintPreview = ini.GetBoolean("PRINTER", "print_preview", true);
+            PrintHtmlPrinter = ini.GetBoolean("PRINTER", "html_printer", false);
+            PrintHtmlPrompt = ini.GetBoolean("PRINTER", "html_prompt", false);
+            PrintEssentialPrinter = ini.GetBoolean("PRINTER", "essential_printer", false);
+            PrintEssentialPrompt = ini.GetBoolean("PRINTER", "essential_prompt", false);
         }
 
 
@@ -167,6 +182,12 @@ namespace Touch.DummyPos
             ini.Write("BROWSER", "height", ClientRect.Height);
             ini.Write("BROWSER", "left", ClientRect.Left);
             ini.Write("BROWSER", "top", ClientRect.Top);
+
+            ini.Write("PRINTING", "print_preview", PrintPreview);
+            ini.Write("PRINTER", "html_printer", PrintHtmlPrinter);
+            ini.Write("PRINTER", "html_prompt", PrintHtmlPrompt);
+            ini.Write("PRINTER", "essential_printer", PrintEssentialPrinter);
+            ini.Write("PRINTER", "essential_prompt", PrintEssentialPrompt);
 
             if (ConnectionId == 0)
             {

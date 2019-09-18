@@ -148,6 +148,10 @@
       <Project>{f6b394e0-bc21-41d5-a3e3-742db516383c}</Project>
       <Name>CloudPos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EssentialPrinter\EssentialPrinter.csproj">
+      <Project>{840ceba3-1de2-46f5-92ab-ace28030138d}</Project>
+      <Name>EssentialPrinter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlPrinter\HtmlPrinter.csproj">
       <Project>{e699f6a3-9b4d-445d-8820-59635581eab0}</Project>
       <Name>HtmlPrinter</Name>

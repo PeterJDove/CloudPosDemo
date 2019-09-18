@@ -420,9 +420,37 @@ namespace Touch.DummyPos
         private void CloudPos_VoucherAvailable(object sender, string voucherHtml)
         {
             Log("VoucherAvailable (event)");
-            // new FormVoucherPreview().ViewHtml(voucherHtml);
-            var printer = new HtmlPrinter.Printer();
-            printer.Print(voucherHtml);
+
+            if (Program.Options().PrintPreview)
+            {
+                new FormVoucherPreview().ViewHtml(voucherHtml);
+            }
+            if (Program.Options().PrintHtmlPrinter)
+            {
+                var print = DialogResult.Yes;
+                if (Program.Options().PrintHtmlPrompt)
+                {
+                    print = MessageBox.Show("Send voucher to HtmlPrinter?", this.Text, MessageBoxButtons.YesNo);
+                }
+                if (print == DialogResult.Yes)
+                {
+                    var printer = new HtmlPrinter.Printer();
+                    printer.Print(voucherHtml);
+                }
+            }
+            if (Program.Options().PrintEssentialPrinter)
+            {
+                var print = DialogResult.Yes;
+                if (Program.Options().PrintEssentialPrompt)
+                {
+                    print = MessageBox.Show("Send voucher to EssentialPrinter?", this.Text, MessageBoxButtons.YesNo);
+                }
+                if (print == DialogResult.Yes)
+                {
+                    var printer = new EssentialPrinter.Printer();
+                    printer.Print(voucherHtml);
+                }
+            }
         }
 
         /*
@@ -757,6 +785,12 @@ namespace Touch.DummyPos
             {
                 cboClientSize.Text = options.ClientRect.Description;
             }
+
+            chkPrintPreview.Checked = options.PrintPreview;
+            chkHtmlPrinter.Checked = options.PrintHtmlPrinter;
+            chkHtmlPrompt.Checked = options.PrintHtmlPrompt;
+            chkEssentialPrinter.Checked = options.PrintEssentialPrinter;
+            chkEssentialPrompt.Checked = options.PrintEssentialPrompt;
         }
 
         private void optPOS_CheckedChanged(object sender, EventArgs e)
@@ -906,6 +940,33 @@ namespace Touch.DummyPos
         }
 
         #endregion Options Tab
+
+        #region Printing Tab
+        private void ChkPrintPreview_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Options().PrintPreview = ((CheckBox)sender).Checked;
+        }
+
+        private void ChkHtmlPrinter_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Options().PrintHtmlPrinter = ((CheckBox)sender).Checked;
+        }
+
+        private void ChkHtmlPrompt_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Options().PrintHtmlPrompt = ((CheckBox)sender).Checked;
+        }
+
+        private void ChkEssentialPrinter_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Options().PrintEssentialPrinter = ((CheckBox)sender).Checked;
+        }
+
+        private void ChkEssentialPrompt_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Options().PrintEssentialPrompt = ((CheckBox)sender).Checked;
+        }
+        #endregion
 
         #region Debug Tab
         private void chkFailOnCommit_CheckedChanged(object sender, EventArgs e)

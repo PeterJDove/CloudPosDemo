@@ -82,7 +82,7 @@ namespace Touch.DummyPos
         {
             if (e.Graphics != null)
             {
-                e.Graphics.Clear(Color.Linen);
+                e.Graphics.Clear(Color.Ivory);
                 if (txtHTML.Text.Length > 0)
                 {
                     Surface surface = new Surface()

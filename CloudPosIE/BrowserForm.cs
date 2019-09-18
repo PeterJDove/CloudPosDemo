@@ -48,8 +48,6 @@ namespace Touch.CloudPosIE
         public event EventHandler Unloaded;
 
         private bool _closeable = false;
-        //private string _url;
-        //private object[] _args;
 
         /// <summary>
         /// Creates a new BrowserForm, and sets the new form object as the "ObjectForScripting" for the WebBrowser.
@@ -77,14 +75,6 @@ namespace Touch.CloudPosIE
             //Debug.Assert(!webBrowser.IsBusy); // Ensures BrowserForm and webBrowser is loaded
             //new Thread(NavigateWorker).Start();
         }
-
-        //private void NavigateWorker()
-        //{
-        //    this.Invoke(new MethodInvoker(() =>
-        //    {
-        //        webBrowser.Navigate(_url);
-        //    }));
-        //}
 
         /// <summary>
         /// Injects a javascript command into the WebBrowser, by way of a call to

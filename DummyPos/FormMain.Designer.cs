@@ -85,6 +85,13 @@
             this.numHeight = new System.Windows.Forms.NumericUpDown();
             this.cboClientSize = new System.Windows.Forms.ComboBox();
             this.lblWindowSize = new System.Windows.Forms.Label();
+            this.tabPrinting = new System.Windows.Forms.TabPage();
+            this.chkEssentialPrompt = new System.Windows.Forms.CheckBox();
+            this.chkEssentialPrinter = new System.Windows.Forms.CheckBox();
+            this.chkHtmlPrompt = new System.Windows.Forms.CheckBox();
+            this.chkHtmlPrinter = new System.Windows.Forms.CheckBox();
+            this.chkPrintPreview = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabDebug = new System.Windows.Forms.TabPage();
             this.lblCommitFail = new System.Windows.Forms.Label();
             this.chkFailOnCommit = new System.Windows.Forms.CheckBox();
@@ -104,6 +111,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
+            this.tabPrinting.SuspendLayout();
             this.tabDebug.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,6 +136,7 @@
             this.tabControl.Controls.Add(this.tabCloudPos);
             this.tabControl.Controls.Add(this.tabLog);
             this.tabControl.Controls.Add(this.tabOptions);
+            this.tabControl.Controls.Add(this.tabPrinting);
             this.tabControl.Controls.Add(this.tabDebug);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.ItemSize = new System.Drawing.Size(80, 22);
@@ -180,6 +189,7 @@
             this.listBasket.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBasket.FullRowSelect = true;
             this.listBasket.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listBasket.HideSelection = false;
             this.listBasket.Location = new System.Drawing.Point(3, 254);
             this.listBasket.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listBasket.MultiSelect = false;
@@ -768,6 +778,87 @@
             this.lblWindowSize.TabIndex = 8;
             this.lblWindowSize.Text = "Position and Size:";
             // 
+            // tabPrinting
+            // 
+            this.tabPrinting.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tabPrinting.Controls.Add(this.chkEssentialPrompt);
+            this.tabPrinting.Controls.Add(this.chkEssentialPrinter);
+            this.tabPrinting.Controls.Add(this.chkHtmlPrompt);
+            this.tabPrinting.Controls.Add(this.chkHtmlPrinter);
+            this.tabPrinting.Controls.Add(this.chkPrintPreview);
+            this.tabPrinting.Controls.Add(this.label1);
+            this.tabPrinting.Location = new System.Drawing.Point(4, 4);
+            this.tabPrinting.Name = "tabPrinting";
+            this.tabPrinting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPrinting.Size = new System.Drawing.Size(298, 408);
+            this.tabPrinting.TabIndex = 6;
+            this.tabPrinting.Text = "Printing";
+            // 
+            // chkEssentialPrompt
+            // 
+            this.chkEssentialPrompt.AutoSize = true;
+            this.chkEssentialPrompt.Location = new System.Drawing.Point(30, 161);
+            this.chkEssentialPrompt.Name = "chkEssentialPrompt";
+            this.chkEssentialPrompt.Size = new System.Drawing.Size(97, 20);
+            this.chkEssentialPrompt.TabIndex = 7;
+            this.chkEssentialPrompt.Text = "Prompt First";
+            this.chkEssentialPrompt.UseVisualStyleBackColor = true;
+            this.chkEssentialPrompt.CheckedChanged += new System.EventHandler(this.ChkEssentialPrompt_CheckedChanged);
+            // 
+            // chkEssentialPrinter
+            // 
+            this.chkEssentialPrinter.AutoSize = true;
+            this.chkEssentialPrinter.Location = new System.Drawing.Point(8, 135);
+            this.chkEssentialPrinter.Name = "chkEssentialPrinter";
+            this.chkEssentialPrinter.Size = new System.Drawing.Size(179, 20);
+            this.chkEssentialPrinter.TabIndex = 6;
+            this.chkEssentialPrinter.Text = "Print using EssentialPrinter";
+            this.chkEssentialPrinter.UseVisualStyleBackColor = true;
+            this.chkEssentialPrinter.CheckedChanged += new System.EventHandler(this.ChkEssentialPrinter_CheckedChanged);
+            // 
+            // chkHtmlPrompt
+            // 
+            this.chkHtmlPrompt.AutoSize = true;
+            this.chkHtmlPrompt.Location = new System.Drawing.Point(30, 109);
+            this.chkHtmlPrompt.Name = "chkHtmlPrompt";
+            this.chkHtmlPrompt.Size = new System.Drawing.Size(97, 20);
+            this.chkHtmlPrompt.TabIndex = 5;
+            this.chkHtmlPrompt.Text = "Prompt First";
+            this.chkHtmlPrompt.UseVisualStyleBackColor = true;
+            this.chkHtmlPrompt.CheckedChanged += new System.EventHandler(this.ChkHtmlPrompt_CheckedChanged);
+            // 
+            // chkHtmlPrinter
+            // 
+            this.chkHtmlPrinter.AutoSize = true;
+            this.chkHtmlPrinter.Location = new System.Drawing.Point(8, 83);
+            this.chkHtmlPrinter.Name = "chkHtmlPrinter";
+            this.chkHtmlPrinter.Size = new System.Drawing.Size(155, 20);
+            this.chkHtmlPrinter.TabIndex = 4;
+            this.chkHtmlPrinter.Text = "Print using HtmlPrinter";
+            this.chkHtmlPrinter.UseVisualStyleBackColor = true;
+            this.chkHtmlPrinter.CheckedChanged += new System.EventHandler(this.ChkHtmlPrinter_CheckedChanged);
+            // 
+            // chkPrintPreview
+            // 
+            this.chkPrintPreview.AutoSize = true;
+            this.chkPrintPreview.Location = new System.Drawing.Point(8, 57);
+            this.chkPrintPreview.Name = "chkPrintPreview";
+            this.chkPrintPreview.Size = new System.Drawing.Size(196, 20);
+            this.chkPrintPreview.TabIndex = 3;
+            this.chkPrintPreview.Text = "Display Print Preview Window";
+            this.chkPrintPreview.UseVisualStyleBackColor = true;
+            this.chkPrintPreview.CheckedChanged += new System.EventHandler(this.ChkPrintPreview_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.label1.Location = new System.Drawing.Point(5, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(289, 41);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "How should this Dummy POS handle vouchers returned by way of the VoucherAvailable" +
+    " event?";
+            // 
             // tabDebug
             // 
             this.tabDebug.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -844,6 +935,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).EndInit();
+            this.tabPrinting.ResumeLayout(false);
+            this.tabPrinting.PerformLayout();
             this.tabDebug.ResumeLayout(false);
             this.tabDebug.PerformLayout();
             this.ResumeLayout(false);
@@ -910,5 +1003,12 @@
         private System.Windows.Forms.CheckBox chkFailOnCommit;
         private System.Windows.Forms.Label lblCommitFail;
         private System.Windows.Forms.Button btnScanBarcode;
+        private System.Windows.Forms.TabPage tabPrinting;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkEssentialPrinter;
+        private System.Windows.Forms.CheckBox chkHtmlPrompt;
+        private System.Windows.Forms.CheckBox chkHtmlPrinter;
+        private System.Windows.Forms.CheckBox chkPrintPreview;
+        private System.Windows.Forms.CheckBox chkEssentialPrompt;
     }
 }

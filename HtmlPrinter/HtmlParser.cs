@@ -10,6 +10,10 @@ using Touch.Tools;
 
 namespace Touch.HtmlPrinter
 {
+    /// <summary>
+    /// The HtmlParser class reads the HTML that defines an ESP voucher, and creates a hierarchy 
+    /// of custom "Nodes" representing elements with the document:
+    /// </summary>
     class HtmlParser
     {
         static List<string> HeaderTags = new List<string>(new string[] { "h1", "h2", "h3", "h4", "h5", "th" });
