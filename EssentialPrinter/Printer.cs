@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EO.WebBrowser;
 using EO.WinForm;
+using Touch.Tools;
 
 namespace Touch.EssentialPrinter
 {
@@ -16,6 +17,8 @@ namespace Touch.EssentialPrinter
         private PrinterSettings _printerSettings;
         private PageSettings _pageSettings;
         private HiddenForm _hiddenForm;
+
+        private bool _testMode = false;
 
         static Printer()
         {
@@ -26,27 +29,37 @@ namespace Touch.EssentialPrinter
         
         public Printer(string name)
         {
+            IniFile iniFile = new IniFile("EssentialPrinter.ini");
+
             _printerSettings = new PrinterSettings();
-            if (!string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
+                _printerSettings.PrinterName = iniFile.GetString("GENERAL", "printer_name", "");
+            else
                 _printerSettings.PrinterName = name;
 
-            _pageSettings = new PageSettings();
-            _pageSettings.PrinterSettings = _printerSettings;
-            _pageSettings.Margins = new Margins(0, 500, 40, 40);
+            _pageSettings = new PageSettings(_printerSettings);
+            Margins m = _pageSettings.Margins;
+            _pageSettings.Margins = new Margins(
+                iniFile.GetInt("GENERAL", "left_margin", m.Left),
+                iniFile.GetInt("GENERAL", "right_margin", m.Right),
+                iniFile.GetInt("GENERAL", "top_margin", m.Top),
+                iniFile.GetInt("GENERAL", "bottom_margin", m.Bottom));
 
+            var css = iniFile.GetString("GENERAL", "css", "EssentialPrinter.css");
             var options = new EO.WebEngine.BrowserOptions();
-            options.UserStyleSheet = File.ReadAllText("essential_printer.css");               
+            options.UserStyleSheet = File.ReadAllText(css);               
 
             _hiddenForm = new HiddenForm();
-            _hiddenForm.Show();
             _hiddenForm.webView.SetOptions(options);
             _hiddenForm.webView.LoadCompleted += LoadCompleted;
+
+            _testMode = iniFile.GetBoolean("GENERAL", "test_mode", false);
+            if (_testMode)
+                _hiddenForm.Show();
         }
 
         public void Print(string html)
         {
-
-
             Debug.Print("LoadHtmlAndWait()");
             _hiddenForm.webView.LoadHtmlAndWait(html);
         }
@@ -54,7 +67,8 @@ namespace Touch.EssentialPrinter
         private void LoadCompleted(object sender, LoadCompletedEventArgs e)
         {
             Debug.Print("Print()");
-            _hiddenForm.webView.Print(_printerSettings, _pageSettings);
+            if (!_testMode)
+                _hiddenForm.webView.Print(_printerSettings, _pageSettings);
         }
 
         private static void SetupEOBrowser()

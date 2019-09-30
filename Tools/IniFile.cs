@@ -74,7 +74,9 @@ namespace Touch.Tools
         /// <param name="path">Full path (file name) of .INI to be accessed.  An instance of IniFile will still be returned, even if the file does not exist.</param>
         public IniFile(string path)
         {
-            _path = path;
+            path = System.IO.Path.GetFullPath(path);
+            if (File.Exists(path))
+                Path = path;
         }
 
         /// <summary>
@@ -87,7 +89,21 @@ namespace Touch.Tools
             set
             {
                 if (File.Exists(value))
-                    _path = value;
+                {
+                    _path = System.IO.Path.GetFullPath(value);
+
+                    string allText = File.ReadAllText(_path);
+                    if (allText.StartsWith("["))
+                    {
+                        using (StreamWriter output = File.CreateText(_path))
+                        {
+
+                            output.WriteLine("; UTF-8 encoded");
+                            output.Write(allText);
+                            output.Close();
+                        }
+                    }
+                }
                 else
                     throw new FileNotFoundException("File not found: " + value, value);
             }
